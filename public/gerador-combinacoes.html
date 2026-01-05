@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎲 Gerador de Combinações - Sistema de Loterias</title>
+    <!-- ✅ ADICIONAR ESTA LINHA: -->
+    <script src="js/config.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 0;
+      }
+
+      /* ============= BARRA SUPERIOR ============= */
+      .top-bar {
+        background: #f5f5f5;
+        padding: 15px 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .top-bar-left {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .top-bar-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn-top {
+        padding: 8px 16px;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: opacity 0.3s;
+      }
+
+      .btn-voltar {
+        background: #667eea;
+      }
+
+      .btn-top:hover {
+        opacity: 0.9;
+      }
+
+      /* ============= CONTAINER ============= */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        color: white;
+        margin-bottom: 25px;
+        padding-top: 10px;
+      }
+
+      header h1 {
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+
+      header p {
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+
+      /* ============= SELETOR DE LOTERIA ============= */
+      .loteria-selector {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .loteria-selector h3 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .loteria-selector select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      /* ============= GRID DE DEZENAS ============= */
+      .dezenas-section {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .dezenas-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .dezenas-header h3 {
+        color: #333;
+      }
+
+      .contador {
+        font-size: 1rem;
+        color: #667eea;
+        font-weight: 600;
+      }
+
+      .acoes-dezenas {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .btn-acao {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+      }
+
+      .btn-selecionar-todas {
+        background: #4caf50;
+        color: white;
+      }
+
+      .btn-limpar {
+        background: #f44336;
+        color: white;
+      }
+
+      .btn-acao:hover {
+        opacity: 0.9;
+      }
+
+      .grid-dezenas {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 10px;
+      }
+
+      .dezena-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid #e0e0e0;
+        background: white;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .dezena-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .dezena-btn.selecionada {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+      }
+
+      .dezena-btn.fixa {
+        background: #ff9800;
+        color: white;
+        border-color: #ff9800;
+        box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+      }
+
+      /* ============= BOTÃO GERAR ============= */
+      .gerador-controles {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .btn-gerar {
+        padding: 15px 40px;
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        transition: all 0.3s;
+      }
+
+      .btn-gerar:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+      }
+
+      .btn-gerar:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      /* ============= MODAL ============= */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 15px;
+        max-width: 500px;
+        width: 90%;
+        overflow: hidden;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .modal-header h3 {
+        font-size: 1.3rem;
+        margin: 0;
+      }
+
+      .modal-body {
+        padding: 30px;
+      }
+
+      .control-group {
+        margin-bottom: 25px;
+      }
+
+      .control-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .slider-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .slider-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #667eea;
+        background: white;
+        color: #667eea;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slider-btn:hover {
+        background: #667eea;
+        color: white;
+      }
+
+      .slider-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .slider-value {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #667eea;
+        min-width: 100px;
+        text-align: center;
+      }
+
+      .custom-slider {
+        flex: 1;
+        height: 8px;
+        border-radius: 4px;
+        outline: none;
+        -webkit-appearance: none;
+        background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+      }
+
+      .custom-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid #667eea;
+        cursor: pointer;
+      }
+
+      .custom-slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid #667eea;
+        cursor: pointer;
+      }
+
+      .separator {
+        border: none;
+        border-top: 1px solid #e0e0e0;
+        margin: 20px 0;
+      }
+
+      .modal-footer {
+        padding: 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      .m3-button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+
+      .m3-button.primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .m3-button.secondary {
+        background: #f5f5f5;
+        color: #666;
+      }
+
+      .m3-button:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+
+      /* ============= JOGOS GERADOS ============= */
+      .jogos-gerados {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+      }
+
+      .jogos-gerados h3 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .lista-jogos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .jogo-card {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+      }
+
+      .jogo-dezenas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .bolinha {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: #667eea;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+
+      .jogos-acoes {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .btn-salvar-todos {
+        padding: 15px 40px;
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+      }
+
+      .btn-limpar-jogos {
+        padding: 15px 40px;
+        background: #f44336;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      /* ============= RESPONSIVO ============= */
+      @media (max-width: 768px) {
+        .grid-dezenas {
+          grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+        }
+
+        .dezena-btn {
+          width: 45px;
+          height: 45px;
+          font-size: 0.9rem;
+        }
+
+        .modal-content {
+          width: 95%;
+        }
+
+        .slider-container {
+          flex-direction: column;
+        }
+
+        .custom-slider {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Barra Superior -->
+    <div class="top-bar">
+      <div class="top-bar-left">🎲 Gerador de Combinações</div>
+      <div class="top-bar-actions">
+        <a href="index.html" class="btn-top btn-voltar">← Voltar</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <header>
+        <h1>🎲 Gerador de Combinações</h1>
+        <p>Selecione dezenas e gere combinações inteligentes</p>
+      </header>
+
+      <!-- Seletor de Loteria -->
+      <div class="loteria-selector">
+        <h3>Escolha a Loteria:</h3>
+        <select id="select-loteria">
+          <option value="">-- Selecione uma loteria --</option>
+          <option value="megasena">🍀 Mega-Sena</option>
+          <option value="lotofacil">🎯 Lotofácil</option>
+          <option value="quina">🌟 Quina</option>
+          <option value="lotomania">🎲 Lotomania</option>
+          <option value="duplasena">🎭 Dupla-Sena</option>
+          <option value="timemania">⚽ Timemania</option>
+          <option value="diadasorte">🍀 Dia de Sorte</option>
+          <option value="maismilionaria">💰 +Milionária</option>
+        </select>
+      </div>
+
+      <!-- Grid de Dezenas -->
+      <div id="dezenas-section" class="dezenas-section" style="display: none">
+        <div class="dezenas-header">
+          <h3>Selecione suas dezenas</h3>
+          <span class="contador" id="contador">0 selecionadas</span>
+        </div>
+
+        <div class="acoes-dezenas">
+          <button
+            class="btn-acao btn-selecionar-todas"
+            onclick="selecionarTodas()"
+          >
+            Selecionar Todas
+          </button>
+          <button class="btn-acao btn-limpar" onclick="limparSelecao()">
+            Limpar Seleção
+          </button>
+        </div>
+
+        <div id="grid-dezenas" class="grid-dezenas"></div>
+
+        <div class="gerador-controles">
+          <button
+            id="btn-gerar"
+            class="btn-gerar"
+            onclick="abrirModal()"
+            disabled
+          >
+            Gerar Combinações
+          </button>
+        </div>
+      </div>
+
+      <!-- Jogos Gerados -->
+      <div id="jogos-gerados" class="jogos-gerados" style="display: none">
+        <h3>Jogos Gerados: <span id="total-jogos">0</span></h3>
+        <div id="lista-jogos" class="lista-jogos"></div>
+
+        <div class="jogos-acoes">
+          <button class="btn-limpar-jogos" onclick="limparJogos()">
+            Limpar Jogos
+          </button>
+          <button class="btn-salvar-todos" onclick="salvarTodos()">
+            Salvar Todos os Jogos
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Configuração -->
+    <div id="modal-randomico" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">Configurar Geração</h3>
+        </div>
+
+        <div class="modal-body">
+          <div class="control-group">
+            <label>Dezenas por jogo:</label>
+            <div class="slider-container">
+              <button class="slider-btn minus" onclick="ajustarDezenas(-1)">
+                -
+              </button>
+              <span class="slider-value" id="dezenas-display">15</span>
+              <button class="slider-btn plus" onclick="ajustarDezenas(1)">
+                +
+              </button>
+              <input
+                type="range"
+                id="dezenas-slider"
+                class="custom-slider"
+                min="15"
+                max="18"
+                value="15"
+              />
+            </div>
+          </div>
+
+          <hr class="separator" />
+
+          <div class="control-group">
+            <label>Jogos a serem gerados:</label>
+            <div class="slider-container">
+              <button class="slider-btn minus" onclick="ajustarJogos(-1)">
+                -
+              </button>
+              <span class="slider-value" id="jogos-display">1 de 100</span>
+              <button class="slider-btn plus" onclick="ajustarJogos(1)">
+                +
+              </button>
+              <input
+                type="range"
+                id="jogos-slider"
+                class="custom-slider"
+                min="1"
+                max="100"
+                value="1"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="m3-button secondary" onclick="fecharModal()">
+            CANCELAR
+          </button>
+          <button class="m3-button primary" onclick="gerarCombinacoes()">
+            GERAR
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/gerador-combinacoes.js"></script>
+    <script src="js/auth-check.js"></script>
+  </body>
+</html>

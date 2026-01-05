@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎯 Lotofácil - Resultados</title>
+    <!-- ✅ ADICIONAR ESTA LINHA: -->
+    <script src="js/config.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #930089 0%, #6b0064 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Header */
+      header {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .icon-large {
+        font-size: 3rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #930089;
+        margin-bottom: 5px;
+      }
+
+      .subtitle {
+        color: #666;
+        font-size: 1rem;
+      }
+
+      .btn-voltar {
+        padding: 12px 24px;
+        background: #930089;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: opacity 0.3s;
+      }
+
+      .btn-voltar:hover {
+        opacity: 0.9;
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #930089;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* Filtros */
+      .filtros {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .filtros-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .filtro-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .filtro-group label {
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: 500;
+      }
+
+      .filtro-group input,
+      .filtro-group select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      .btn-filtrar {
+        padding: 12px 24px;
+        background: #930089;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: opacity 0.3s;
+      }
+
+      .btn-filtrar:hover {
+        opacity: 0.9;
+      }
+
+      /* Tabela */
+      .tabela-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: #930089;
+        color: white;
+      }
+
+      thead th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #eee;
+        transition: background 0.2s;
+      }
+
+      tbody tr:hover {
+        background: #f5f5f5;
+      }
+
+      tbody td {
+        padding: 15px;
+        color: #333;
+      }
+
+      .concurso-numero {
+        font-weight: bold;
+        color: #930089;
+        font-size: 1.1rem;
+      }
+
+      .data-concurso {
+        color: #999;
+        font-size: 0.9rem;
+      }
+
+      .dezenas-tabela {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+
+      .bola-mini {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #930089;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.8rem;
+      }
+
+      /* Paginação */
+      .paginacao {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .btn-paginacao {
+        padding: 10px 20px;
+        background: #930089;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: opacity 0.3s;
+      }
+
+      .btn-paginacao:hover:not(:disabled) {
+        opacity: 0.9;
+      }
+
+      .btn-paginacao:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .info-paginacao {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* Loading */
+      .loading {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        font-size: 1.2rem;
+      }
+
+      .loading::after {
+        content: "...";
+        animation: dots 1.5s steps(4, end) infinite;
+      }
+
+      @keyframes dots {
+        0%,
+        20% {
+          content: ".";
+        }
+        40% {
+          content: "..";
+        }
+        60%,
+        100% {
+          content: "...";
+        }
+      }
+
+      /* Responsivo */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        table {
+          font-size: 0.9rem;
+        }
+
+        .bola-mini {
+          width: 26px;
+          height: 26px;
+          font-size: 0.7rem;
+        }
+
+        .filtros-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="header-left">
+          <div class="icon-large">🎯</div>
+          <div>
+            <h1>Lotofácil</h1>
+            <div class="subtitle">Resultados e Estatísticas</div>
+          </div>
+        </div>
+        <a href="index.html" class="btn-voltar">← Voltar</a>
+      </header>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="total-concursos">-</div>
+          <div class="stat-label">Total de Concursos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="ultimo-concurso">-</div>
+          <div class="stat-label">Último Concurso</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="primeiro-concurso">-</div>
+          <div class="stat-label">Primeiro Concurso</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">15</div>
+          <div class="stat-label">Dezenas Sorteadas</div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filtros">
+        <div class="filtros-grid">
+          <div class="filtro-group">
+            <label>Concurso Específico</label>
+            <input type="number" id="filtro-concurso" placeholder="Ex: 3573" />
+          </div>
+          <div class="filtro-group">
+            <label>Buscar por Número</label>
+            <input
+              type="number"
+              id="filtro-numero"
+              placeholder="Ex: 15"
+              min="1"
+              max="25"
+            />
+          </div>
+          <div class="filtro-group">
+            <label>Quantidade de Resultados</label>
+            <select id="filtro-quantidade">
+              <option value="10" selected>10 resultados</option>
+              <option value="20">20 resultados</option>
+              <option value="50">50 resultados</option>
+              <option value="100">100 resultados</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-filtrar" onclick="aplicarFiltros()">
+          🔍 Buscar
+        </button>
+        <button
+          class="btn-filtrar"
+          onclick="limparFiltros()"
+          style="background: #666; margin-left: 10px"
+        >
+          🔄 Limpar
+        </button>
+      </div>
+
+      <!-- Tabela -->
+      <div class="tabela-container">
+        <div id="loading" class="loading">Carregando resultados</div>
+
+        <table id="tabela-resultados" style="display: none">
+          <thead>
+            <tr>
+              <th>Concurso</th>
+              <th>Dezenas Sorteadas (15 números)</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-resultados"></tbody>
+        </table>
+
+        <div class="paginacao" id="paginacao" style="display: none">
+          <button
+            class="btn-paginacao"
+            id="btn-anterior"
+            onclick="paginaAnterior()"
+          >
+            ← Anterior
+          </button>
+          <span class="info-paginacao" id="info-pagina">-</span>
+          <button
+            class="btn-paginacao"
+            id="btn-proxima"
+            onclick="proximaPagina()"
+          >
+            Próxima →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const ENDPOINT = "/lotofacil";
+
+      let paginaAtual = 1;
+      let limitePorPagina = 10;
+      let totalResultados = 0;
+
+      // ✅ Pegar token do localStorage
+      function getToken() {
+        return localStorage.getItem("token");
+      }
+
+      // ✅ Criar headers com autenticação
+      function getHeaders() {
+        const token = getToken();
+        return {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+      }
+
+      // ✅ Verificar se está autenticado
+      function verificarAutenticacao() {
+        const token = getToken();
+        if (!token) {
+          alert("Você precisa fazer login para acessar esta página!");
+          window.location.href = "login.html";
+          return false;
+        }
+        return true;
+      }
+
+      // Carregar dados iniciais
+      async function carregarDados() {
+        if (!verificarAutenticacao()) return;
+        try {
+          // ✅ Carregar estatísticas COM TOKEN
+          const statsResponse = await fetch(`${API_URL}${ENDPOINT}?limit=1`, {
+            headers: getHeaders(),
+          });
+          const statsData = await statsResponse.json();
+
+          if (statsData.success) {
+            document.getElementById("total-concursos").textContent =
+              statsData.total.toLocaleString();
+          }
+
+          // ✅ Carregar último concurso COM TOKEN
+          const ultimoResponse = await fetch(`${API_URL}${ENDPOINT}/ultimo`, {
+            headers: getHeaders(),
+          });
+          const ultimoData = await ultimoResponse.json();
+
+          if (ultimoData.success) {
+            document.getElementById("ultimo-concurso").textContent =
+              ultimoData.data.concurso;
+          }
+
+          // Carregar resultados
+          await carregarResultados();
+        } catch (error) {
+          console.error("Erro ao carregar dados:", error);
+          document.getElementById("loading").textContent =
+            "❌ Erro ao carregar dados";
+        }
+      }
+
+      async function carregarResultados() {
+        const loading = document.getElementById("loading");
+        const tabela = document.getElementById("tabela-resultados");
+        const paginacao = document.getElementById("paginacao");
+
+        loading.style.display = "block";
+        tabela.style.display = "none";
+        paginacao.style.display = "none";
+
+        try {
+          const offset = (paginaAtual - 1) * limitePorPagina;
+          // ✅ Adicionar token na requisição
+          const response = await fetch(
+            `${API_URL}${ENDPOINT}?limit=${limitePorPagina}&offset=${offset}`,
+            { headers: getHeaders() }
+          );
+          const data = await response.json();
+
+          if (data.success) {
+            totalResultados = data.total;
+            renderizarTabela(data.data);
+            atualizarPaginacao();
+
+            loading.style.display = "none";
+            tabela.style.display = "table";
+            paginacao.style.display = "flex";
+          }
+        } catch (error) {
+          console.error("Erro:", error);
+          loading.textContent = "❌ Erro ao carregar resultados";
+        }
+      }
+
+      function renderizarTabela(resultados) {
+        const tbody = document.getElementById("tbody-resultados");
+        tbody.innerHTML = "";
+
+        resultados.forEach((resultado) => {
+          const tr = document.createElement("tr");
+
+          const dezenas = resultado.dezenas || [];
+          const dezenas1 = resultado.dezenas_1 || [];
+          const dezenasParaMostrar = dezenas.length > 0 ? dezenas : dezenas1;
+
+          const dezenasHTML = dezenas
+            .map((num) => `<div class="bola-mini">${num}</div>`)
+            .join("");
+
+          tr.innerHTML = `
+                    <td>
+                        <div class="concurso-numero">#${resultado.concurso}</div>
+                    </td>
+                    <td>
+                        <div class="dezenas-tabela">
+                            ${dezenasHTML}
+                        </div>
+                    </td>
+                `;
+
+          tbody.appendChild(tr);
+        });
+      }
+
+      function atualizarPaginacao() {
+        const totalPaginas = Math.ceil(totalResultados / limitePorPagina);
+        const inicio = (paginaAtual - 1) * limitePorPagina + 1;
+        const fim = Math.min(paginaAtual * limitePorPagina, totalResultados);
+
+        document.getElementById(
+          "info-pagina"
+        ).textContent = `${inicio}-${fim} de ${totalResultados} | Página ${paginaAtual} de ${totalPaginas}`;
+
+        document.getElementById("btn-anterior").disabled = paginaAtual === 1;
+        document.getElementById("btn-proxima").disabled =
+          paginaAtual >= totalPaginas;
+      }
+
+      function proximaPagina() {
+        paginaAtual++;
+        carregarResultados();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function paginaAnterior() {
+        if (paginaAtual > 1) {
+          paginaAtual--;
+          carregarResultados();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+
+      async function aplicarFiltros() {
+        const concurso = document.getElementById("filtro-concurso").value;
+        const numero = document.getElementById("filtro-numero").value;
+        limitePorPagina = parseInt(
+          document.getElementById("filtro-quantidade").value
+        );
+
+        if (concurso) {
+          // Buscar concurso específico
+          await buscarConcurso(concurso);
+        } else if (numero) {
+          // Buscar por número
+          await buscarPorNumero(numero);
+        } else {
+          // Recarregar normal
+          paginaAtual = 1;
+          await carregarResultados();
+        }
+      }
+
+      async function buscarConcurso(concurso) {
+        const loading = document.getElementById("loading");
+        const tabela = document.getElementById("tabela-resultados");
+
+        loading.style.display = "block";
+        tabela.style.display = "none";
+        document.getElementById("paginacao").style.display = "none";
+
+        try {
+          // ✅ Adicionar token
+          const response = await fetch(`${API_URL}${ENDPOINT}/${concurso}`, {
+            headers: getHeaders(),
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            renderizarTabela([data.data]);
+            loading.style.display = "none";
+            tabela.style.display = "table";
+          } else {
+            loading.textContent = "❌ Concurso não encontrado";
+          }
+        } catch (error) {
+          loading.textContent = "❌ Erro ao buscar concurso";
+        }
+      }
+
+      async function buscarPorNumero(numero) {
+        const loading = document.getElementById("loading");
+        const tabela = document.getElementById("tabela-resultados");
+
+        loading.style.display = "block";
+        tabela.style.display = "none";
+        document.getElementById("paginacao").style.display = "none";
+
+        try {
+          // ✅ Adicionar token
+          const response = await fetch(
+            `${API_URL}${ENDPOINT}/numero/${numero}?limit=${limitePorPagina}`,
+            { headers: getHeaders() }
+          );
+          const data = await response.json();
+
+          if (data.success && data.data.length > 0) {
+            renderizarTabela(data.data);
+            loading.style.display = "none";
+            tabela.style.display = "table";
+
+            loading.textContent = `Encontrados ${data.total} concursos com o número ${numero}`;
+            loading.style.display = "block";
+            loading.style.color = "#930089";
+            loading.style.fontWeight = "bold";
+          } else {
+            loading.textContent = `❌ Nenhum concurso encontrado com o número ${numero}`;
+          }
+        } catch (error) {
+          loading.textContent = "❌ Erro ao buscar";
+        }
+      }
+
+      function limparFiltros() {
+        document.getElementById("filtro-concurso").value = "";
+        document.getElementById("filtro-numero").value = "";
+        document.getElementById("filtro-quantidade").value = "10";
+        paginaAtual = 1;
+        limitePorPagina = 10;
+        carregarResultados();
+      }
+
+      // ✅ Carregar ao iniciar (após verificar auth)
+      carregarDados();
+    </script>
+    <script src="js/auth-check.js"></script>
+  </body>
+</html>

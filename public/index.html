@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎰 Sistema de Loterias</title>
+    <!-- ✅ ADICIONAR ESTA LINHA: -->
+    <script src="js/config.js"></script>
+
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      /* ============= SIDEBAR DESKTOP ============= */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 260px;
+        background: #2c3e50;
+        color: white;
+        transition: all 0.3s;
+        z-index: 1000;
+        overflow-y: auto;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .sidebar.collapsed {
+        width: 70px;
+      }
+
+      .sidebar-header {
+        padding: 20px;
+        background: #1a252f;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar-logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s;
+      }
+
+      .sidebar.collapsed .sidebar-logo span {
+        display: none;
+      }
+
+      .toggle-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 5px;
+        transition: transform 0.3s;
+      }
+
+      .sidebar.collapsed .toggle-btn {
+        transform: rotate(180deg);
+      }
+
+      /* Menu Items */
+      .sidebar-menu {
+        padding: 20px 0;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s;
+        cursor: pointer;
+        gap: 15px;
+      }
+
+      .menu-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #667eea;
+      }
+
+      .menu-item.active {
+        background: #667eea;
+        border-left: 4px solid #ffd700;
+      }
+
+      .menu-item i {
+        font-size: 1.3rem;
+        min-width: 30px;
+        text-align: center;
+      }
+
+      .menu-item span {
+        transition: all 0.3s;
+      }
+
+      .sidebar.collapsed .menu-item span {
+        display: none;
+      }
+
+      .menu-divider {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 10px 20px;
+      }
+
+      /* Badge PRO/FREE */
+      .menu-badge {
+        margin-left: auto;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: bold;
+      }
+
+      .badge-pro {
+        background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 100%);
+        animation: shine 2s infinite;
+      }
+
+      .badge-free {
+        background: #e0e0e0;
+        color: #666;
+      }
+
+      @keyframes shine {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      /* ============= TOP BAR ============= */
+      .top-bar {
+        position: fixed;
+        top: 0;
+        left: 260px;
+        right: 0;
+        height: 60px;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        z-index: 999;
+        transition: left 0.3s;
+      }
+
+      .sidebar.collapsed + .top-bar {
+        left: 70px;
+      }
+
+      .top-bar-left h1 {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin: 0;
+      }
+
+      .top-bar-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .badge-plano {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .btn-admin {
+        padding: 8px 16px;
+        background: #2c3e50;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        display: none;
+      }
+
+      .btn-admin:hover {
+        background: #1a252f;
+        color: white;
+      }
+
+      .btn-sair {
+        padding: 8px 20px;
+        background: #f44336;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .btn-sair:hover {
+        background: #d32f2f;
+      }
+
+      /* ============= MAIN CONTENT ============= */
+      .main-content {
+        margin-left: 260px;
+        margin-top: 60px;
+        padding: 30px;
+        min-height: calc(100vh - 60px);
+        transition: margin-left 0.3s;
+      }
+
+      .sidebar.collapsed ~ .main-content {
+        margin-left: 70px;
+      }
+
+      /* ============= CARDS DE LOTERIA ============= */
+      .loterias-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+      }
+
+      .loteria-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .loteria-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .loteria-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+      }
+
+      /* Cores das loterias */
+      .loteria-card.megasena::before {
+        background: #209869;
+      }
+      .loteria-card.lotofacil::before {
+        background: #930089;
+      }
+      .loteria-card.quina::before {
+        background: #260085;
+      }
+      .loteria-card.lotomania::before {
+        background: #f78100;
+      }
+      .loteria-card.duplasena::before {
+        background: #a61324;
+      }
+      .loteria-card.timemania::before {
+        background: #00ff48;
+      }
+      .loteria-card.diadasorte::before {
+        background: #cb852b;
+      }
+      .loteria-card.maismilionaria::before {
+        background: #6bccef;
+      }
+
+      .loteria-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .loteria-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .loteria-icon {
+        font-size: 2rem;
+      }
+
+      .ultimo-concurso {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+
+      .concurso-numero {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .dezenas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .bola {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 0.9rem;
+      }
+
+      .megasena .bola {
+        background: #209869;
+      }
+      .lotofacil .bola {
+        background: #930089;
+      }
+      .quina .bola {
+        background: #260085;
+      }
+      .lotomania .bola {
+        background: #f78100;
+      }
+      .duplasena .bola {
+        background: #a61324;
+      }
+      .timemania .bola {
+        background: #00ff48;
+        color: #333;
+      }
+      .diadasorte .bola {
+        background: #cb852b;
+      }
+      .maismilionaria .bola {
+        background: #6bccef;
+      }
+
+      .trevo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 0.9rem;
+        background: #4caf50;
+      }
+
+      .mes-sorte {
+        background: #fff3e0;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 10px;
+        border-left: 3px solid #cb852b;
+        font-size: 0.85rem;
+        color: #666;
+      }
+
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+        color: #999;
+      }
+
+      .btn-ver-mais {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: opacity 0.3s;
+        margin-top: 15px;
+      }
+
+      .btn-ver-mais:hover {
+        opacity: 0.9;
+      }
+
+      .btn-ver-mais.bloqueado {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .loading {
+        text-align: center;
+        color: white;
+        padding: 40px;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ============= MOBILE STYLES ============= */
+      @media (max-width: 768px) {
+        /* Ocultar sidebar no mobile */
+        .sidebar {
+          transform: translateX(-100%);
+          width: 100%;
+          max-width: 300px;
+          z-index: 9999;
+        }
+
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        /* Backdrop escuro */
+        .mobile-backdrop {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.7);
+          z-index: 9998;
+        }
+
+        .mobile-backdrop.show {
+          display: block;
+        }
+
+        /* Top bar mobile */
+        .top-bar {
+          left: 0 !important;
+          padding: 0 15px;
+        }
+
+        .top-bar-left {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .top-bar-left h1 {
+          font-size: 1.1rem;
+        }
+
+        /* Botão hambúrguer mobile */
+        .mobile-menu-btn {
+          display: block;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          color: #2c3e50;
+          cursor: pointer;
+          padding: 5px;
+        }
+
+        .top-bar-right {
+          gap: 8px;
+        }
+
+        .user-info span {
+          display: none;
+        }
+
+        .btn-admin {
+          padding: 6px 12px;
+          font-size: 0.75rem;
+        }
+
+        .btn-sair {
+          padding: 6px 12px;
+          font-size: 0.85rem;
+        }
+
+        /* Main content mobile */
+        .main-content {
+          margin-left: 0 !important;
+          padding: 15px;
+        }
+
+        /* Cards mobile */
+        .loterias-grid {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+
+        .loteria-card {
+          padding: 20px;
+        }
+
+        .loteria-name {
+          font-size: 1.3rem;
+        }
+
+        .bola {
+          width: 35px;
+          height: 35px;
+          font-size: 0.85rem;
+        }
+
+        /* Ocultar toggle desktop no mobile */
+        .sidebar-header .toggle-btn {
+          display: none;
+        }
+      }
+
+      /* Desktop: mostrar sidebar, ocultar backdrop e botão mobile */
+      @media (min-width: 769px) {
+        .mobile-menu-btn {
+          display: none;
+        }
+
+        .mobile-backdrop {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============= BACKDROP MOBILE ============= -->
+    <div
+      class="mobile-backdrop"
+      id="mobileBackdrop"
+      onclick="closeMobileMenu()"
+    ></div>
+
+    <!-- ============= SIDEBAR ============= -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="bi bi-dice-5-fill"></i>
+          <span>Loterias</span>
+        </div>
+        <!-- Botão toggle apenas desktop -->
+        <button class="toggle-btn" onclick="toggleSidebar()">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-menu">
+        <!-- Home -->
+        <a href="index.html" class="menu-item active">
+          <i class="bi bi-house-fill"></i>
+          <span>Início</span>
+        </a>
+
+        <div class="menu-divider"></div>
+
+        <!-- Gerar Jogos -->
+        <a
+          href="#"
+          class="menu-item"
+          onclick="verificarPlanoENavegar('gerar-jogos.html', event)"
+        >
+          <i class="bi bi-dice-3-fill"></i>
+          <span>Gerar Jogos</span>
+          <span class="menu-badge badge-pro">PRO</span>
+        </a>
+
+        <!-- Meus Jogos -->
+        <a
+          href="#"
+          class="menu-item"
+          onclick="verificarPlanoENavegar('meus-jogos.html', event)"
+        >
+          <i class="bi bi-save-fill"></i>
+          <span>Meus Jogos</span>
+          <span class="menu-badge badge-pro">PRO</span>
+        </a>
+
+        <!-- Conferir Jogo -->
+        <a
+          href="#"
+          class="menu-item"
+          onclick="verificarPlanoENavegar('conferir.html', event)"
+        >
+          <i class="bi bi-check-circle-fill"></i>
+          <span>Conferir Jogo</span>
+          <span class="menu-badge badge-pro">PRO</span>
+        </a>
+
+        <div class="menu-divider"></div>
+
+        <!-- Mapa das Dezenas -->
+        <a
+          href="#"
+          class="menu-item"
+          onclick="verificarPlanoENavegar('mapa-dezenas.html', event)"
+        >
+          <i class="bi bi-bar-chart-fill"></i>
+          <span>Mapa das Dezenas</span>
+          <span class="menu-badge badge-pro">PRO</span>
+        </a>
+
+        <!-- Gerador de Combinações -->
+        <a
+          href="#"
+          class="menu-item"
+          onclick="verificarPlanoENavegar('gerador-combinacoes.html', event)"
+        >
+          <i class="bi bi-calculator-fill"></i>
+          <span>Gerador de Combinações</span>
+          <span class="menu-badge badge-pro">PRO</span>
+        </a>
+
+        <div class="menu-divider"></div>
+
+        <!-- Configurações -->
+        <a href="#" class="menu-item" onclick="alert('Em breve!')">
+          <i class="bi bi-gear-fill"></i>
+          <span>Configurações</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ============= TOP BAR ============= -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <!-- Botão hambúrguer apenas mobile -->
+        <button class="mobile-menu-btn" onclick="openMobileMenu()">
+          <i class="bi bi-list"></i>
+        </button>
+        <h1>🎰 Sistema de Loterias</h1>
+      </div>
+      <div class="top-bar-right">
+        <span id="badge-plano" class="badge-plano"></span>
+        <div class="user-info">
+          <span id="nome-usuario"></span>
+        </div>
+        <a id="btn-admin" href="admin.html" class="btn-admin">
+          <i class="bi bi-shield-fill-check"></i> Admin
+        </a>
+        <button class="btn-sair" onclick="logout()">
+          <i class="bi bi-box-arrow-right"></i> Sair
+        </button>
+      </div>
+    </div>
+
+    <!-- ============= MAIN CONTENT ============= -->
+    <div class="main-content">
+      <div id="loterias-container" class="loterias-grid">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>📊 Carregando loterias...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============= MODAL DE UPGRADE ============= -->
+    <div class="modal fade" id="modalUpgrade" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body text-center p-5">
+            <div style="font-size: 4rem; margin-bottom: 20px">🔒</div>
+            <h2>Recurso Exclusivo PRÓ</h2>
+            <p>
+              Este recurso está disponível apenas para usuários com plano PRÓ.
+            </p>
+            <button
+              class="btn btn-warning btn-lg"
+              onclick="fazerUpgrade()"
+              style="
+                background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 100%);
+                border: none;
+                font-weight: bold;
+              "
+            >
+              ⭐ Fazer Upgrade Agora
+            </button>
+            <button
+              class="btn btn-secondary btn-lg ms-2"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      const LOTERIAS = [
+        {
+          id: "megasena",
+          nome: "Mega-Sena",
+          icon: "🍀",
+          endpoint: "/megasena",
+        },
+        {
+          id: "lotofacil",
+          nome: "Lotofácil",
+          icon: "🎯",
+          endpoint: "/lotofacil",
+        },
+        { id: "quina", nome: "Quina", icon: "🌟", endpoint: "/quina" },
+        {
+          id: "lotomania",
+          nome: "Lotomania",
+          icon: "🎲",
+          endpoint: "/lotomania",
+        },
+        {
+          id: "duplasena",
+          nome: "Dupla-Sena",
+          icon: "🎭",
+          endpoint: "/duplasena",
+        },
+        {
+          id: "timemania",
+          nome: "Timemania",
+          icon: "⚽",
+          endpoint: "/timemania",
+        },
+        {
+          id: "diadasorte",
+          nome: "Dia de Sorte",
+          icon: "🍀",
+          endpoint: "/diadasorte",
+        },
+        {
+          id: "maismilionaria",
+          nome: "+Milionária",
+          icon: "💰",
+          endpoint: "/maismilionaria",
+        },
+      ];
+
+      let planoUsuario = "free";
+      let modalUpgrade;
+
+      // ========== MENU MOBILE ==========
+      function openMobileMenu() {
+        document.getElementById("sidebar").classList.add("mobile-open");
+        document.getElementById("mobileBackdrop").classList.add("show");
+        document.body.style.overflow = "hidden"; // Prevenir scroll
+      }
+
+      function closeMobileMenu() {
+        document.getElementById("sidebar").classList.remove("mobile-open");
+        document.getElementById("mobileBackdrop").classList.remove("show");
+        document.body.style.overflow = ""; // Restaurar scroll
+      }
+
+      // ========== SIDEBAR DESKTOP ==========
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("collapsed");
+      }
+
+      // ========== PLANO ==========
+      function parseJwt(token) {
+        try {
+          const base64Url = token.split(".")[1];
+          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+          const jsonPayload = decodeURIComponent(
+            window
+              .atob(base64)
+              .split("")
+              .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+              .join("")
+          );
+          return JSON.parse(jsonPayload);
+        } catch (e) {
+          return null;
+        }
+      }
+
+      async function verificarPlanoUsuario() {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(`${API_URL}/api/planos/meu-plano`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await response.json();
+          if (data.success) {
+            planoUsuario = data.data.plano;
+            localStorage.setItem("plano", planoUsuario);
+            atualizarBadgePlano(planoUsuario);
+            atualizarMenuBadges(planoUsuario);
+            return data.data;
+          }
+        } catch (error) {
+          console.error("Erro ao verificar plano:", error);
+        }
+        return { plano: "free" };
+      }
+
+      function atualizarBadgePlano(plano) {
+        const badge = document.getElementById("badge-plano");
+        if (plano === "pro") {
+          badge.textContent = "⭐ PRÓ";
+          badge.className = "badge-plano badge-pro";
+        } else {
+          badge.textContent = "FREE";
+          badge.className = "badge-plano badge-free";
+        }
+      }
+
+      function atualizarMenuBadges(plano) {
+        const badges = document.querySelectorAll(".menu-badge");
+        if (plano === "pro") {
+          badges.forEach((badge) => {
+            badge.style.display = "none";
+          });
+        }
+      }
+
+      function mostrarModalUpgrade() {
+        modalUpgrade.show();
+      }
+
+      function verificarPlanoENavegar(url, event) {
+        event.preventDefault();
+        closeMobileMenu(); // Fechar menu ao clicar
+        if (planoUsuario === "free") {
+          mostrarModalUpgrade();
+          return false;
+        }
+        window.location.href = url;
+      }
+
+      async function fazerUpgrade() {
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (!usuario) {
+          alert("❌ Erro: Usuário não encontrado. Faça login novamente.");
+          return;
+        }
+
+        const SEU_WHATSAPP = "5521988957230";
+        const VALORES_PLANOS = {
+          mensal: "R$ 9,90/mês",
+          trimestral: "R$ 24,90 (3 meses)",
+          semestral: "R$ 44,90 (6 meses)",
+          anual: "R$ 79,90/ano",
+        };
+
+        const mensagem = encodeURIComponent(
+          `🌟 *SOLICITAÇÃO DE UPGRADE - PLANO PRÓ*\n\n` +
+            `👤 *Nome:* ${usuario.nome}\n` +
+            `📧 *Email:* ${usuario.email}\n` +
+            `🆔 *ID:* ${usuario.id || "N/A"}\n\n` +
+            `💰 *Planos Disponíveis:*\n` +
+            `• Mensal: ${VALORES_PLANOS.mensal}\n` +
+            `• Trimestral: ${VALORES_PLANOS.trimestral}\n` +
+            `• Semestral: ${VALORES_PLANOS.semestral}\n` +
+            `• Anual: ${VALORES_PLANOS.anual}\n\n` +
+            `Aguardo informações sobre o pagamento! 🚀`
+        );
+
+        const urlWhatsApp = `https://wa.me/${SEU_WHATSAPP}?text=${mensagem}`;
+        window.open(urlWhatsApp, "_blank");
+        modalUpgrade.hide();
+
+        setTimeout(() => {
+          alert(
+            "✅ Solicitação enviada!\n\n" +
+              "Você será redirecionado para o WhatsApp.\n" +
+              "Envie o comprovante de pagamento e aguarde a ativação.\n\n" +
+              "⏱️ Ativação em até 24 horas."
+          );
+        }, 500);
+      }
+
+      function verDetalhes(loteriaId) {
+        if (planoUsuario === "free") {
+          mostrarModalUpgrade();
+          return false;
+        }
+        window.location.href = `${loteriaId}.html`;
+      }
+
+      function logout() {
+        localStorage.clear();
+        location.href = "login.html";
+      }
+
+      // ========== CARREGAR LOTERIAS ==========
+      async function carregarLoterias() {
+        const container = document.getElementById("loterias-container");
+        container.innerHTML = "";
+
+        const token = localStorage.getItem("token");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        for (const loteria of LOTERIAS) {
+          try {
+            const response = await fetch(
+              `${API_URL}${loteria.endpoint}/ultimo`,
+              { headers }
+            );
+            const data = await response.json();
+
+            if (data.success) {
+              const resultado = data.data;
+              const totalResponse = await fetch(
+                `${API_URL}${loteria.endpoint}?limit=1`,
+                { headers }
+              );
+              const totalData = await totalResponse.json();
+              const total = totalData.total || 0;
+
+              container.innerHTML += criarCardLoteria(
+                loteria,
+                resultado,
+                total
+              );
+            }
+          } catch (error) {
+            console.error(`Erro ao carregar ${loteria.nome}:`, error);
+          }
+        }
+      }
+
+      function criarCardLoteria(loteria, resultado, total) {
+        const dezenas = resultado.dezenas_1 || resultado.dezenas || [];
+        const dezenas2 = resultado.dezenas_2 || [];
+        const trevos = resultado.trevos || [];
+        const mesSorte = resultado.mes_sorte;
+        const timeCoracao = resultado.time_coracao;
+
+        const bolasHTML = dezenas
+          .map((num) => `<div class="bola">${num}</div>`)
+          .join("");
+
+        const bolas2HTML =
+          dezenas2.length > 0
+            ? `<div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;">
+              <div style="font-size: 0.8rem; color: #999; margin-bottom: 8px;">2º Sorteio:</div>
+              <div class="dezenas">${dezenas2
+                .map((num) => `<div class="bola">${num}</div>`)
+                .join("")}</div>
+            </div>`
+            : "";
+
+        const trevosHTML =
+          trevos.length > 0
+            ? `<div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;">
+              <div style="font-size: 0.8rem; color: #999; margin-bottom: 8px;">Trevos da Sorte:</div>
+              <div class="dezenas">${trevos
+                .map((t) => `<div class="trevo">🍀 ${t}</div>`)
+                .join("")}</div>
+            </div>`
+            : "";
+
+        const mesSorteHTML = mesSorte
+          ? `<div class="mes-sorte"><strong>Mês da Sorte:</strong> ${mesSorte}</div>`
+          : "";
+        const timeCoracaoHTML = timeCoracao
+          ? `<div class="mes-sorte"><strong>Time do Coração:</strong> ${timeCoracao}</div>`
+          : "";
+
+        const btnDetalhes =
+          planoUsuario === "pro"
+            ? `<button class="btn-ver-mais" onclick="verDetalhes('${loteria.id}')">Ver Detalhes</button>`
+            : `<button class="btn-ver-mais bloqueado" onclick="mostrarModalUpgrade()">Ver Detalhes 🔒</button>`;
+
+        return `
+          <div class="loteria-card ${loteria.id}">
+            <div class="loteria-header">
+              <div class="loteria-name">${loteria.nome}</div>
+              <div class="loteria-icon">${loteria.icon}</div>
+            </div>
+            <div class="ultimo-concurso">
+              <div class="concurso-numero">Concurso ${resultado.concurso}</div>
+              <div class="dezenas ${loteria.id}">${bolasHTML}</div>
+              ${bolas2HTML}
+              ${trevosHTML}
+              ${mesSorteHTML}
+              ${timeCoracaoHTML}
+            </div>
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-value">${total.toLocaleString()}</div>
+                <div class="stat-label">Concursos</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">${resultado.concurso}</div>
+                <div class="stat-label">Último</div>
+              </div>
+            </div>
+            ${btnDetalhes}
+          </div>
+        `;
+      }
+
+      // ========== INICIALIZAÇÃO ==========
+      window.addEventListener("DOMContentLoaded", async () => {
+        // Inicializar modal Bootstrap
+        modalUpgrade = new bootstrap.Modal(
+          document.getElementById("modalUpgrade")
+        );
+
+        const user = JSON.parse(localStorage.getItem("usuario"));
+        if (user) {
+          document.getElementById(
+            "nome-usuario"
+          ).textContent = `👤 ${user.nome}`;
+        }
+
+        const token = localStorage.getItem("token");
+        if (token) {
+          const payload = parseJwt(token);
+          if (payload && payload.role === "admin") {
+            document.getElementById("btn-admin").style.display = "inline-block";
+          }
+        }
+
+        await verificarPlanoUsuario();
+        carregarLoterias();
+        setInterval(carregarLoterias, 5 * 60 * 1000);
+      });
+    </script>
+    <script src="js/auth-check.js"></script>
+  </body>
+</html>

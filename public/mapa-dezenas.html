@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📊 Mapa das Dezenas - Sistema de Loterias</title>
+    <!-- ✅ ADICIONAR ESTA LINHA: -->
+    <script src="js/config.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      /* Header */
+      header {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: var(--cor-loteria, #667eea);
+        margin: 0;
+      }
+
+      .btn-voltar {
+        padding: 12px 24px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: opacity 0.3s;
+      }
+
+      .btn-voltar:hover {
+        opacity: 0.9;
+      }
+
+      /* Controles */
+      .controles-container {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .controles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        align-items: end;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-group label {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-group select {
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .form-group select:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .btn-atualizar {
+        padding: 12px 30px;
+        background: var(--cor-loteria, #667eea);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: opacity 0.3s;
+      }
+
+      .btn-atualizar:hover {
+        opacity: 0.9;
+      }
+
+      /* Tabela */
+      .tabela-container {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+      }
+
+      .info-scroll {
+        text-align: center;
+        padding: 10px;
+        color: #666;
+        font-size: 0.9rem;
+        background: #f0f4ff;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1000px;
+      }
+
+      thead {
+        background: var(--cor-loteria, #667eea);
+        color: white;
+      }
+
+      thead th {
+        padding: 12px 8px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      tbody tr {
+        transition: background 0.2s;
+      }
+
+      tbody tr:hover {
+        background: #f8f9fa;
+      }
+
+      tbody td {
+        padding: 10px 8px;
+        text-align: center;
+        border: 1px solid #eee;
+        font-size: 0.85rem;
+      }
+
+      tbody td:first-child {
+        font-weight: 600;
+        color: var(--cor-loteria, #667eea);
+      }
+
+      .numero-cell {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: bold;
+        margin: 0 auto;
+      }
+
+      .numero-cell.sorteado {
+        background: var(--cor-loteria, #667eea);
+        color: white;
+      }
+
+      .numero-cell.nao-sorteado {
+        background: #f0f0f0;
+        color: #999;
+      }
+
+      /* Destaque para Dupla-Sena */
+      .sorteio-label {
+        font-size: 0.75rem;
+        color: #999;
+        margin-left: 5px;
+      }
+
+      /* Loading */
+      .loading {
+        text-align: center;
+        padding: 60px 20px;
+        color: #667eea;
+        font-size: 1.3rem;
+      }
+
+      .loading::after {
+        content: "...";
+        animation: dots 1.5s steps(4, end) infinite;
+      }
+
+      @keyframes dots {
+        0%,
+        20% {
+          content: ".";
+        }
+        40% {
+          content: "..";
+        }
+        60%,
+        100% {
+          content: "...";
+        }
+      }
+
+      /* Responsivo */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        .controles-container {
+          padding: 15px;
+        }
+
+        .controles-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .tabela-container {
+          padding: 10px;
+        }
+
+        thead th {
+          padding: 10px 5px;
+          font-size: 0.8rem;
+        }
+
+        tbody td {
+          padding: 8px 5px;
+          font-size: 0.75rem;
+        }
+
+        .numero-cell {
+          width: 35px;
+          height: 35px;
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="header-content">
+          <h1 id="titulo-loteria">📊 Mapa das Dezenas</h1>
+          <a href="index.html" class="btn-voltar">← Voltar</a>
+        </div>
+      </header>
+
+      <!-- Controles -->
+      <div class="controles-container">
+        <div class="controles-grid">
+          <div class="form-group">
+            <label for="loteria-select">Loteria:</label>
+            <select id="loteria-select" onchange="mudarLoteria()">
+              <option value="">-- Selecione uma loteria --</option>
+              <option value="megasena">🍀 Mega-Sena</option>
+              <option value="lotofacil">🎯 Lotofácil</option>
+              <option value="quina">🌟 Quina</option>
+              <option value="lotomania">🎲 Lotomania</option>
+              <option value="duplasena">🎭 Dupla-Sena</option>
+              <option value="timemania">⚽ Timemania</option>
+              <option value="diadasorte">🍀 Dia de Sorte</option>
+              <option value="maismilionaria">💰 +Milionária</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="qtd-concursos">Exibir:</label>
+            <select id="qtd-concursos">
+              <option value="10" selected>10 concursos</option>
+              <option value="20">20 concursos</option>
+              <option value="50">50 concursos</option>
+              <option value="100">100 concursos</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <button
+              class="btn-atualizar"
+              onclick="carregarTabela()"
+              id="btn-atualizar"
+              disabled
+            >
+              🔄 Atualizar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabela -->
+      <div class="tabela-container" id="tabela-container" style="display: none">
+        <div class="info-scroll">
+          👉 Role para o lado para ver todas as dezenas
+        </div>
+
+        <div id="loading" class="loading">Carregando dados</div>
+
+        <table id="tabela-mapa" style="display: none">
+          <thead id="thead-mapa"></thead>
+          <tbody id="tbody-mapa"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      const LOTERIAS_CONFIG = {
+        megasena: {
+          nome: "Mega-Sena",
+          min: 1,
+          max: 60,
+          endpoint: "/megasena",
+          cor: "#209869",
+        },
+        lotofacil: {
+          nome: "Lotofácil",
+          min: 1,
+          max: 25,
+          endpoint: "/lotofacil",
+          cor: "#930089",
+        },
+        quina: {
+          nome: "Quina",
+          min: 1,
+          max: 80,
+          endpoint: "/quina",
+          cor: "#260085",
+        },
+        lotomania: {
+          nome: "Lotomania",
+          min: 0,
+          max: 99,
+          endpoint: "/lotomania",
+          cor: "#F78100",
+        },
+        duplasena: {
+          nome: "Dupla-Sena",
+          min: 1,
+          max: 50,
+          endpoint: "/duplasena",
+          cor: "#A61324",
+          doisSorteios: true, // ⭐ FLAG ESPECIAL
+        },
+        timemania: {
+          nome: "Timemania",
+          min: 1,
+          max: 80,
+          endpoint: "/timemania",
+          cor: "#00FF48",
+        },
+        diadasorte: {
+          nome: "Dia de Sorte",
+          min: 1,
+          max: 31,
+          endpoint: "/diadasorte",
+          cor: "#CB852B",
+        },
+        maismilionaria: {
+          nome: "+Milionária",
+          min: 1,
+          max: 50,
+          endpoint: "/maismilionaria",
+          cor: "#6BCCEF",
+        },
+      };
+
+      let loteriaAtual = null;
+
+      // ✅ Pegar token do localStorage
+      function getToken() {
+        return localStorage.getItem("token");
+      }
+
+      // ✅ Criar headers com autenticação
+      function getHeaders() {
+        const token = getToken();
+        return {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+      }
+
+      // ✅ Verificar se está autenticado
+      function verificarAutenticacao() {
+        const token = getToken();
+        if (!token) {
+          alert("Você precisa fazer login para acessar esta página!");
+          window.location.href = "login.html";
+          return false;
+        }
+        return true;
+      }
+
+      function mudarLoteria() {
+        const select = document.getElementById("loteria-select");
+        const loteriaId = select.value;
+
+        if (!loteriaId) {
+          document.getElementById("btn-atualizar").disabled = true;
+          document.getElementById("tabela-container").style.display = "none";
+          return;
+        }
+
+        loteriaAtual = LOTERIAS_CONFIG[loteriaId];
+        document.documentElement.style.setProperty(
+          "--cor-loteria",
+          loteriaAtual.cor
+        );
+        document.getElementById(
+          "titulo-loteria"
+        ).textContent = `📊 Mapa das Dezenas - ${loteriaAtual.nome}`;
+        document.getElementById("btn-atualizar").disabled = false;
+      }
+
+      async function carregarTabela() {
+        // ✅ Verificar autenticação
+        if (!verificarAutenticacao()) return;
+
+        const tabelaContainer = document.getElementById("tabela-container");
+        const loading = document.getElementById("loading");
+        const tabela = document.getElementById("tabela-mapa");
+        const qtdConcursos = parseInt(
+          document.getElementById("qtd-concursos").value
+        );
+
+        tabelaContainer.style.display = "block";
+        loading.style.display = "block";
+        tabela.style.display = "none";
+
+        try {
+          // ✅ Adicionar token na requisição
+          const response = await fetch(
+            `${API_URL}${loteriaAtual.endpoint}?limit=${qtdConcursos}`,
+            { headers: getHeaders() }
+          );
+
+          // ✅ Verificar status
+          if (!response.ok) {
+            if (response.status === 401) {
+              alert("Sessão expirada. Faça login novamente.");
+              window.location.href = "login.html";
+              return;
+            } else if (response.status === 403) {
+              alert("Este recurso está disponível apenas para usuários PRÓ.");
+              window.location.href = "index.html";
+              return;
+            }
+            throw new Error(`Erro ${response.status}: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+
+          if (!data.success) {
+            throw new Error("Erro ao buscar dados");
+          }
+
+          criarTabelaMapa(data.data);
+
+          loading.style.display = "none";
+          tabela.style.display = "table";
+        } catch (error) {
+          console.error("Erro:", error);
+          loading.textContent = "❌ Erro ao carregar dados";
+        }
+      }
+
+      function criarTabelaMapa(concursos) {
+        const thead = document.getElementById("thead-mapa");
+        const tbody = document.getElementById("tbody-mapa");
+
+        // Limpar
+        thead.innerHTML = "";
+        tbody.innerHTML = "";
+
+        // INVERTER A ORDEM - do menor para o maior (mais antigo em cima)
+        concursos = concursos.reverse();
+
+        // Criar cabeçalho
+        const trHead = document.createElement("tr");
+        trHead.innerHTML = "<th>Concurso</th>";
+
+        // Adicionar colunas para cada dezena
+        for (let i = loteriaAtual.min; i <= loteriaAtual.max; i++) {
+          const th = document.createElement("th");
+          th.textContent =
+            loteriaAtual.min === 0 ? i.toString().padStart(2, "0") : i;
+          trHead.appendChild(th);
+        }
+
+        thead.appendChild(trHead);
+
+        // Criar linhas de dados
+        concursos.forEach((concurso) => {
+          // ⭐ DUPLA-SENA: Criar 2 linhas (1º e 2º sorteio)
+          if (loteriaAtual.doisSorteios) {
+            // Primeiro sorteio
+            criarLinhaConcurso(
+              concurso,
+              concurso.dezenas_1 || [],
+              `#${concurso.concurso} (1º)`
+            );
+
+            // Segundo sorteio
+            criarLinhaConcurso(
+              concurso,
+              concurso.dezenas_2 || [],
+              `#${concurso.concurso} (2º)`
+            );
+          } else {
+            // Outras loterias: 1 linha normal
+            const dezenasSorteadas = concurso.dezenas || [];
+            criarLinhaConcurso(
+              concurso,
+              dezenasSorteadas,
+              `#${concurso.concurso}`
+            );
+          }
+        });
+      }
+
+      function criarLinhaConcurso(concurso, dezenasSorteadas, labelConcurso) {
+        const tbody = document.getElementById("tbody-mapa");
+        const tr = document.createElement("tr");
+
+        // Concurso
+        const tdConcurso = document.createElement("td");
+        tdConcurso.textContent = labelConcurso;
+        tr.appendChild(tdConcurso);
+
+        // Dezenas
+        for (let i = loteriaAtual.min; i <= loteriaAtual.max; i++) {
+          const td = document.createElement("td");
+          const div = document.createElement("div");
+          div.className = "numero-cell";
+
+          const foiSorteado = dezenasSorteadas.includes(i);
+
+          if (foiSorteado) {
+            div.classList.add("sorteado");
+            div.textContent =
+              loteriaAtual.min === 0 ? i.toString().padStart(2, "0") : i;
+          } else {
+            div.classList.add("nao-sorteado");
+            div.textContent =
+              loteriaAtual.min === 0 ? i.toString().padStart(2, "0") : i;
+          }
+
+          td.appendChild(div);
+          tr.appendChild(td);
+        }
+
+        tbody.appendChild(tr);
+      }
+
+      // ✅ Verificar autenticação ao carregar página
+      window.addEventListener("DOMContentLoaded", () => {
+        verificarAutenticacao();
+      });
+    </script>
+    <script src="js/auth-check.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🔐 Painel Admin - Sistema de Loterias</title>
+    <!-- ✅ ADICIONAR ESTA LINHA: -->
+    <script src="js/config.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f5f5;
+        min-height: 100vh;
+      }
+
+      /* ============= BARRA SUPERIOR ============= */
+      .top-bar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .top-bar h1 {
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .top-bar-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .btn-voltar {
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s;
+      }
+
+      .btn-voltar:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      /* ============= CONTAINER ============= */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 30px 20px;
+      }
+
+      /* ============= TABS ============= */
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      .tab {
+        padding: 12px 24px;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #666;
+        transition: all 0.3s;
+      }
+
+      .tab.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+      }
+
+      .tab:hover {
+        color: #667eea;
+      }
+
+      /* ============= DASHBOARD ============= */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-card h3 {
+        font-size: 0.9rem;
+        color: #999;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+      }
+
+      .stat-card .value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .stat-card.pro .value {
+        color: #4caf50;
+      }
+
+      .stat-card.receita .value {
+        color: #667eea;
+      }
+
+      .stat-card.alerta .value {
+        color: #ff9800;
+      }
+
+      /* ============= TABELA ============= */
+      .table-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .table-header {
+        padding: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .table-header h2 {
+        font-size: 1.3rem;
+        color: #333;
+      }
+
+      .search-box {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        width: 300px;
+      }
+
+      .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .filter-select {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: #f9f9f9;
+      }
+
+      th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #666;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+      }
+
+      td {
+        padding: 15px;
+        border-top: 1px solid #f0f0f0;
+      }
+
+      tr:hover {
+        background: #f9f9f9;
+      }
+
+      /* ============= BADGES ============= */
+      .badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .badge-free {
+        background: #e0e0e0;
+        color: #666;
+      }
+
+      .badge-pro {
+        background: #4caf50;
+        color: white;
+      }
+
+      .badge-expirado {
+        background: #ff9800;
+        color: white;
+      }
+
+      /* ============= BOTÕES ============= */
+      .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: opacity 0.3s;
+      }
+
+      .btn:hover {
+        opacity: 0.8;
+      }
+
+      .btn-primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-success {
+        background: #4caf50;
+        color: white;
+      }
+
+      .btn-danger {
+        background: #f44336;
+        color: white;
+      }
+
+      .btn-secondary {
+        background: #757575;
+        color: white;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 5px;
+      }
+
+      /* ============= MODAL ============= */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #999;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      /* ============= LOADING ============= */
+      .loading {
+        text-align: center;
+        padding: 40px;
+        color: #999;
+      }
+
+      .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 15px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ============= CONTENT SECTIONS ============= */
+      .content-section {
+        display: none;
+      }
+
+      .content-section.active {
+        display: block;
+      }
+
+      /* ============= RESPONSIVE ============= */
+      @media (max-width: 768px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .table-header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search-box {
+          width: 100%;
+        }
+
+        table {
+          font-size: 0.85rem;
+        }
+
+        td,
+        th {
+          padding: 10px;
+        }
+
+        .btn-group {
+          flex-direction: column;
+        }
+      }
+
+      /* ============= ALERTAS ============= */
+      .alert {
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .alert-warning {
+        background: #fff3e0;
+        border-left: 4px solid #ff9800;
+        color: #e65100;
+      }
+
+      .alert-info {
+        background: #e3f2fd;
+        border-left: 4px solid #2196f3;
+        color: #0d47a1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Barra Superior -->
+    <div class="top-bar">
+      <h1>🔐 Painel Administrativo</h1>
+      <div class="top-bar-right">
+        <span id="admin-nome"></span>
+        <a href="index.html" class="btn-voltar">← Voltar ao Sistema</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="mudarTab('dashboard')">
+          📊 Dashboard
+        </button>
+        <button class="tab" onclick="mudarTab('usuarios')">👥 Usuários</button>
+        <button class="tab" onclick="mudarTab('historico')">
+          📜 Histórico
+        </button>
+        <button class="tab" onclick="mudarTab('alertas')">🔔 Alertas</button>
+      </div>
+
+      <!-- ========== DASHBOARD ========== -->
+      <div id="dashboard-section" class="content-section active">
+        <div class="dashboard-grid" id="dashboard-stats"></div>
+      </div>
+
+      <!-- ========== USUÁRIOS ========== -->
+      <div id="usuarios-section" class="content-section">
+        <div class="table-container">
+          <div class="table-header">
+            <h2>Gerenciar Usuários</h2>
+            <div class="filters">
+              <input
+                type="text"
+                class="search-box"
+                id="search-usuarios"
+                placeholder="🔍 Buscar por nome ou email..."
+              />
+              <select class="filter-select" id="filter-plano">
+                <option value="">Todos os Planos</option>
+                <option value="free">FREE</option>
+                <option value="pro">PRO</option>
+              </select>
+              <select class="filter-select" id="filter-status">
+                <option value="">Todos os Status</option>
+                <option value="ativo">PRO Ativo</option>
+                <option value="expirado">PRO Expirado</option>
+                <option value="free">FREE</option>
+              </select>
+            </div>
+          </div>
+          <div id="usuarios-lista"></div>
+        </div>
+      </div>
+
+      <!-- ========== HISTÓRICO ========== -->
+      <div id="historico-section" class="content-section">
+        <div class="table-container">
+          <div class="table-header">
+            <h2>Histórico de Upgrades</h2>
+          </div>
+          <div id="historico-lista"></div>
+        </div>
+      </div>
+
+      <!-- ========== ALERTAS ========== -->
+      <div id="alertas-section" class="content-section">
+        <div class="table-container">
+          <div class="table-header">
+            <h2>Planos Expirando (Próximos 7 Dias)</h2>
+          </div>
+          <div id="alertas-lista"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Ativar PRO -->
+    <div id="modal-ativar" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>⭐ Ativar Plano PRO</h2>
+          <button class="modal-close" onclick="fecharModal('modal-ativar')">
+            ×
+          </button>
+        </div>
+        <form id="form-ativar">
+          <input type="hidden" id="ativar-usuario-id" />
+
+          <div class="form-group">
+            <label>Usuário:</label>
+            <input type="text" id="ativar-usuario-nome" disabled />
+          </div>
+
+          <div class="form-group">
+            <label>Duração:*</label>
+            <select id="ativar-dias" required>
+              <option value="7">7 dias (R$ 4,90)</option>
+              <option value="15">15 dias (R$ 7,90)</option>
+              <option value="30" selected>30 dias (R$ 9,90)</option>
+              <option value="90">90 dias (R$ 24,90)</option>
+              <option value="180">180 dias (R$ 44,90)</option>
+              <option value="365">365 dias (R$ 79,90)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Valor Pago (R$):*</label>
+            <input
+              type="number"
+              step="0.01"
+              id="ativar-valor"
+              value="9.90"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Método de Pagamento:*</label>
+            <select id="ativar-metodo" required>
+              <option value="WhatsApp - PIX">WhatsApp - PIX</option>
+              <option value="WhatsApp - Transferência">
+                WhatsApp - Transferência
+              </option>
+              <option value="Mercado Pago">Mercado Pago</option>
+              <option value="Cortesia">Cortesia</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Observações:</label>
+            <textarea
+              id="ativar-obs"
+              placeholder="Informações adicionais (opcional)..."
+            ></textarea>
+          </div>
+
+          <div class="btn-group">
+            <button type="submit" class="btn btn-success">✅ Ativar PRO</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="fecharModal('modal-ativar')"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Desativar PRO -->
+    <div id="modal-desativar" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>⚠️ Desativar Plano PRO</h2>
+          <button class="modal-close" onclick="fecharModal('modal-desativar')">
+            ×
+          </button>
+        </div>
+        <form id="form-desativar">
+          <input type="hidden" id="desativar-usuario-id" />
+
+          <div class="alert alert-warning">
+            ⚠️ <strong>Atenção:</strong> Esta ação irá desativar o plano PRO do
+            usuário e mudar para FREE imediatamente.
+          </div>
+
+          <div class="form-group">
+            <label>Usuário:</label>
+            <input type="text" id="desativar-usuario-nome" disabled />
+          </div>
+
+          <div class="form-group">
+            <label>Motivo:*</label>
+            <textarea
+              id="desativar-obs"
+              placeholder="Descreva o motivo da desativação..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="btn-group">
+            <button type="submit" class="btn btn-danger">
+              🚫 Desativar PRO
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="fecharModal('modal-desativar')"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let currentTab = "dashboard";
+
+      // ========== AUTENTICAÇÃO ==========
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "login.html";
+      }
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      // ========== INICIALIZAÇÃO ==========
+      window.addEventListener("DOMContentLoaded", async () => {
+        const user = JSON.parse(localStorage.getItem("usuario"));
+        if (user) {
+          document.getElementById("admin-nome").textContent = user.nome;
+        }
+
+        await carregarDashboard();
+      });
+
+      // ========== MUDAR TAB ==========
+      function mudarTab(tab) {
+        currentTab = tab;
+
+        // Atualizar tabs
+        document.querySelectorAll(".tab").forEach((t) => {
+          t.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        // Atualizar conteúdo
+        document.querySelectorAll(".content-section").forEach((s) => {
+          s.classList.remove("active");
+        });
+        document.getElementById(`${tab}-section`).classList.add("active");
+
+        // Carregar dados
+        if (tab === "dashboard") carregarDashboard();
+        else if (tab === "usuarios") carregarUsuarios();
+        else if (tab === "historico") carregarHistorico();
+        else if (tab === "alertas") carregarAlertas();
+      }
+
+      // ========== DASHBOARD ==========
+      async function carregarDashboard() {
+        const container = document.getElementById("dashboard-stats");
+        container.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Carregando...</div>';
+
+        try {
+          const response = await fetch(`${API_URL}/api/admin/dashboard`, {
+            headers,
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            const d = data.data;
+            container.innerHTML = `
+              <div class="stat-card">
+                <h3>Total de Usuários</h3>
+                <div class="value">${d.total_usuarios || 0}</div>
+              </div>
+              <div class="stat-card pro">
+                <h3>PRO Ativos</h3>
+                <div class="value">${d.total_pro_ativos || 0}</div>
+              </div>
+              <div class="stat-card">
+                <h3>FREE</h3>
+                <div class="value">${d.total_free || 0}</div>
+              </div>
+              <div class="stat-card receita">
+                <h3>Receita Hoje</h3>
+                <div class="value">R$ ${parseFloat(d.receita_hoje || 0).toFixed(
+                  2
+                )}</div>
+              </div>
+              <div class="stat-card receita">
+                <h3>Receita Mês</h3>
+                <div class="value">R$ ${parseFloat(d.receita_mes || 0).toFixed(
+                  2
+                )}</div>
+              </div>
+              <div class="stat-card">
+                <h3>Upgrades Hoje</h3>
+                <div class="value">${d.upgrades_hoje || 0}</div>
+              </div>
+              <div class="stat-card">
+                <h3>Upgrades Mês</h3>
+                <div class="value">${d.upgrades_mes || 0}</div>
+              </div>
+              <div class="stat-card alerta">
+                <h3>Expiram em 7 dias</h3>
+                <div class="value">${d.expiram_7_dias || 0}</div>
+              </div>
+            `;
+          }
+        } catch (error) {
+          console.error("Erro:", error);
+          container.innerHTML =
+            '<div class="loading">❌ Erro ao carregar dashboard</div>';
+        }
+      }
+
+      // ========== USUÁRIOS ==========
+      let usuariosCache = [];
+
+      async function carregarUsuarios() {
+        const container = document.getElementById("usuarios-lista");
+        container.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Carregando usuários...</div>';
+
+        try {
+          const busca = document.getElementById("search-usuarios")?.value || "";
+          const plano = document.getElementById("filter-plano")?.value || "";
+          const status = document.getElementById("filter-status")?.value || "";
+
+          const params = new URLSearchParams({
+            busca,
+            plano,
+            status,
+            limit: 100,
+          });
+
+          const response = await fetch(
+            `${API_URL}/api/admin/usuarios?${params}`,
+            { headers }
+          );
+          const data = await response.json();
+
+          if (data.success) {
+            usuariosCache = data.data;
+            renderUsuarios(data.data);
+          }
+        } catch (error) {
+          console.error("Erro:", error);
+          container.innerHTML =
+            '<div class="loading">❌ Erro ao carregar usuários</div>';
+        }
+      }
+
+      function renderUsuarios(usuarios) {
+        const container = document.getElementById("usuarios-lista");
+
+        if (usuarios.length === 0) {
+          container.innerHTML =
+            '<div class="loading">Nenhum usuário encontrado</div>';
+          return;
+        }
+
+        let html = `
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Expira em</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        usuarios.forEach((u) => {
+          const statusBadge =
+            u.status === "PRO ATIVO"
+              ? "badge-pro"
+              : u.status === "PRO EXPIRADO"
+              ? "badge-expirado"
+              : "badge-free";
+
+          const expiraEm = u.plano_expira_em
+            ? new Date(u.plano_expira_em).toLocaleDateString("pt-BR")
+            : "-";
+
+          const diasRestantes =
+            u.dias_restantes > 0 ? `(${u.dias_restantes}d)` : "";
+
+          html += `
+            <tr>
+              <td>${u.id}</td>
+              <td>${u.nome}</td>
+              <td>${u.email}</td>
+              <td><span class="badge ${statusBadge}">${u.status}</span></td>
+              <td>${expiraEm} ${diasRestantes}</td>
+              <td>
+                <div class="btn-group">
+                  ${
+                    u.status !== "PRO ATIVO"
+                      ? `<button class="btn btn-success" onclick="abrirModalAtivar(${u.id}, '${u.nome}')">⭐ Ativar PRO</button>`
+                      : `<button class="btn btn-danger" onclick="abrirModalDesativar(${u.id}, '${u.nome}')">🚫 Desativar</button>`
+                  }
+                </div>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += "</tbody></table>";
+        container.innerHTML = html;
+      }
+
+      // Filtros
+      document.addEventListener("DOMContentLoaded", () => {
+        ["search-usuarios", "filter-plano", "filter-status"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.addEventListener("input", carregarUsuarios);
+            el.addEventListener("change", carregarUsuarios);
+          }
+        });
+      });
+
+      // ========== HISTÓRICO ==========
+      async function carregarHistorico() {
+        const container = document.getElementById("historico-lista");
+        container.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Carregando histórico...</div>';
+
+        try {
+          const response = await fetch(`${API_URL}/api/admin/historico`, {
+            headers,
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            if (data.data.length === 0) {
+              container.innerHTML =
+                '<div class="loading">Nenhum histórico encontrado</div>';
+              return;
+            }
+
+            let html = `
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Usuário</th>
+                    <th>Mudança</th>
+                    <th>Duração</th>
+                    <th>Valor</th>
+                    <th>Método</th>
+                    <th>Admin</th>
+                  </tr>
+                </thead>
+                <tbody>
+            `;
+
+            data.data.forEach((h) => {
+              const data_formatted = new Date(h.created_at).toLocaleString(
+                "pt-BR"
+              );
+              const mudanca = `${h.plano_anterior} → ${h.plano_novo}`;
+
+              html += `
+                <tr>
+                  <td>${data_formatted}</td>
+                  <td>${h.usuario_nome}<br><small>${
+                h.usuario_email
+              }</small></td>
+                  <td>${mudanca}</td>
+                  <td>${h.dias_adicionados} dias</td>
+                  <td>R$ ${parseFloat(h.valor_pago || 0).toFixed(2)}</td>
+                  <td>${h.metodo_pagamento}</td>
+                  <td>${h.ativado_por}</td>
+                </tr>
+              `;
+            });
+
+            html += "</tbody></table>";
+            container.innerHTML = html;
+          }
+        } catch (error) {
+          console.error("Erro:", error);
+          container.innerHTML =
+            '<div class="loading">❌ Erro ao carregar histórico</div>';
+        }
+      }
+
+      // ========== ALERTAS ==========
+      async function carregarAlertas() {
+        const container = document.getElementById("alertas-lista");
+        container.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Carregando alertas...</div>';
+
+        try {
+          const response = await fetch(`${API_URL}/api/admin/alertas`, {
+            headers,
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            if (data.data.length === 0) {
+              container.innerHTML =
+                '<div class="alert alert-info">✅ Nenhum plano expirando nos próximos 7 dias!</div>';
+              return;
+            }
+
+            let html = `
+              <table>
+                <thead>
+                  <tr>
+                    <th>Usuário</th>
+                    <th>Email</th>
+                    <th>Expira em</th>
+                    <th>Dias Restantes</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+            `;
+
+            data.data.forEach((u) => {
+              const expiraEm = new Date(u.plano_expira_em).toLocaleDateString(
+                "pt-BR"
+              );
+
+              html += `
+                <tr>
+                  <td>${u.nome}</td>
+                  <td>${u.email}</td>
+                  <td>${expiraEm}</td>
+                  <td><span class="badge badge-expirado">${u.dias_restantes} dias</span></td>
+                  <td>
+                    <button class="btn btn-primary" onclick="notificarUsuario(${u.id})">
+                      📧 Notificar
+                    </button>
+                  </td>
+                </tr>
+              `;
+            });
+
+            html += "</tbody></table>";
+            container.innerHTML = html;
+          }
+        } catch (error) {
+          console.error("Erro:", error);
+          container.innerHTML =
+            '<div class="loading">❌ Erro ao carregar alertas</div>';
+        }
+      }
+
+      function notificarUsuario(id) {
+        alert(
+          "Funcionalidade de notificação por email será implementada em breve!"
+        );
+      }
+
+      // ========== MODAIS ==========
+      function abrirModalAtivar(id, nome) {
+        document.getElementById("ativar-usuario-id").value = id;
+        document.getElementById("ativar-usuario-nome").value = nome;
+        document.getElementById("modal-ativar").style.display = "flex";
+      }
+
+      function abrirModalDesativar(id, nome) {
+        document.getElementById("desativar-usuario-id").value = id;
+        document.getElementById("desativar-usuario-nome").value = nome;
+        document.getElementById("modal-desativar").style.display = "flex";
+      }
+
+      function fecharModal(id) {
+        document.getElementById(id).style.display = "none";
+      }
+
+      // Atualizar valor ao mudar duração
+      document
+        .getElementById("ativar-dias")
+        ?.addEventListener("change", (e) => {
+          const valores = {
+            7: 4.9,
+            15: 7.9,
+            30: 9.9,
+            90: 24.9,
+            180: 44.9,
+            365: 79.9,
+          };
+          document.getElementById("ativar-valor").value =
+            valores[e.target.value] || 0;
+        });
+
+      // ========== ATIVAR PRO ==========
+      document
+        .getElementById("form-ativar")
+        ?.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const id = document.getElementById("ativar-usuario-id").value;
+          const dias = document.getElementById("ativar-dias").value;
+          const valor = document.getElementById("ativar-valor").value;
+          const metodo = document.getElementById("ativar-metodo").value;
+          const observacoes = document.getElementById("ativar-obs").value;
+
+          try {
+            const response = await fetch(
+              `${API_URL}/api/admin/usuarios/${id}/ativar`,
+              {
+                method: "POST",
+                headers,
+                body: JSON.stringify({ dias, valor, metodo, observacoes }),
+              }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+              alert("✅ Plano PRO ativado com sucesso!");
+              fecharModal("modal-ativar");
+              carregarUsuarios();
+              carregarDashboard();
+            } else {
+              alert("❌ Erro: " + data.message);
+            }
+          } catch (error) {
+            console.error("Erro:", error);
+            alert("❌ Erro ao ativar plano PRO");
+          }
+        });
+
+      // ========== DESATIVAR PRO ==========
+      document
+        .getElementById("form-desativar")
+        ?.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const id = document.getElementById("desativar-usuario-id").value;
+          const observacoes = document.getElementById("desativar-obs").value;
+
+          if (
+            !confirm(
+              "Tem certeza que deseja desativar o plano PRO deste usuário?"
+            )
+          ) {
+            return;
+          }
+
+          try {
+            const response = await fetch(
+              `${API_URL}/api/admin/usuarios/${id}/desativar`,
+              {
+                method: "POST",
+                headers,
+                body: JSON.stringify({ observacoes }),
+              }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+              alert("✅ Plano PRO desativado com sucesso!");
+              fecharModal("modal-desativar");
+              carregarUsuarios();
+              carregarDashboard();
+            } else {
+              alert("❌ Erro: " + data.message);
+            }
+          } catch (error) {
+            console.error("Erro:", error);
+            alert("❌ Erro ao desativar plano PRO");
+          }
+        });
+
+      // Fechar modal ao clicar fora
+      document.querySelectorAll(".modal-overlay").forEach((modal) => {
+        modal.onclick = function (e) {
+          if (e.target === modal) {
+            modal.style.display = "none";
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
