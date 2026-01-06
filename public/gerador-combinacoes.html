@@ -405,11 +405,11 @@
       }
 
       /* ============= JOGOS GERADOS ============= */
-.jogos-gerados {
-  height: calc(100vh - 120px);
-  overflow-y: auto;
-  padding-bottom: 120px; /* espaço para os botões fixos */
-}
+      .jogos-gerados {
+        height: calc(100vh - 120px);
+        overflow-y: auto;
+        padding-bottom: 120px; /* espaço para os botões fixos */
+      }
 
       .jogos-gerados h3 {
         margin-bottom: 15px;
@@ -449,20 +449,20 @@
         font-size: 0.9rem;
       }
 
-/* BOTÕES FIXOS NO RODAPÉ */
-.jogos-acoes {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #ffffff;
-  padding: 12px 14px;
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 999;
-}
+      /* BOTÕES FIXOS NO RODAPÉ */
+      .jogos-acoes {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        padding: 12px 14px;
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 999;
+      }
 
       .btn-salvar-todos {
         background: #4caf50;
@@ -485,15 +485,15 @@
       }
 
       /* Ajuste mobile */
-@media (max-width: 600px) {
-  .jogos-acoes {
-    flex-direction: row;
-  }
+      @media (max-width: 600px) {
+        .jogos-acoes {
+          flex-direction: row;
+        }
 
-  .jogos-acoes button {
-    width: 100%;
-  }
-}
+        .jogos-acoes button {
+          width: 100%;
+        }
+      }
 
       /* ============= RESPONSIVO ============= */
       @media (max-width: 768px) {
@@ -588,7 +588,7 @@
         </div>
       </div>
       <!-- Jogos Gerados -->
-      <div id="jogos-gerados" class="jogos-gerados" style="display:none">
+      <div id="jogos-gerados" class="jogos-gerados" style="display: none">
         <h3>
           Jogos Gerados:
           <span id="total-jogos">0</span>
@@ -598,11 +598,19 @@
 
         <!-- Ações fixas -->
         <div class="jogos-acoes">
-          <button class="btn-voltar" onclick="voltarParaSelecao()">← Editar Dezenas</button>
-          <button class="btn-limpar-jogos" onclick="limparJogos()">Limpar Jogos</button>
-          <button class="btn-salvar-todos" onclick="salvarTodos()">Salvar Todos os Jogos</button>
+          <button class="btn-voltar" onclick="voltarParaSelecao()">
+            ← Editar Dezenas
+          </button>
+          <button class="btn-limpar-jogos" onclick="limparJogos()">
+            Limpar Jogos
+          </button>
+          <button class="btn-salvar-todos" onclick="salvarTodos()">
+            Salvar Todos os Jogos
+          </button>
         </div>
       </div>
+    </div>
+    <!-- FECHAMENTO DO .container -->
 
     <!-- Modal de Configuração -->
     <div id="modal-randomico" class="modal-overlay">
