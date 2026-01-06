@@ -953,40 +953,48 @@
         location.href = "login.html";
       }
 
-      // ========== CARREGAR LOTERIAS ==========
-      async function carregarLoterias() {
+      // ========== CARREGAR RESULTADOS (OTIMIZADO) ==========
+      async function carregarResultados() {
+        console.log("⚡ Carregando resultados otimizado...");
+        const inicio = performance.now();
+
         const container = document.getElementById("loterias-container");
         container.innerHTML = "";
 
-        const token = localStorage.getItem("token");
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        try {
+          // 🚀 UMA ÚNICA REQUISIÇÃO
+          const response = await fetch(
+            `${API_URL}/api/resultados/ultimos-todos`
+          );
+          const data = await response.json();
 
-        for (const loteria of LOTERIAS) {
-          try {
-            const response = await fetch(
-              `${API_URL}${loteria.endpoint}/ultimo`,
-              { headers }
-            );
-            const data = await response.json();
-
-            if (data.success) {
-              const resultado = data.data;
-              const totalResponse = await fetch(
-                `${API_URL}${loteria.endpoint}?limit=1`,
-                { headers }
-              );
-              const totalData = await totalResponse.json();
-              const total = totalData.total || 0;
-
-              container.innerHTML += criarCardLoteria(
-                loteria,
-                resultado,
-                total
-              );
-            }
-          } catch (error) {
-            console.error(`Erro ao carregar ${loteria.nome}:`, error);
+          if (!data.success) {
+            throw new Error("Erro ao buscar resultados");
           }
+
+          const tempo = performance.now() - inicio;
+          console.log(`✅ Carregado em ${tempo.toFixed(0)}ms`);
+          console.log(`📦 Cache: ${data.cached ? "SIM ⚡" : "NÃO"}`);
+
+          const resultados = data.data;
+
+          // Renderizar cards usando os dados já prontos
+          for (const loteria of LOTERIAS) {
+            const resultado = resultados[loteria.id];
+            if (!resultado) continue;
+
+            // total = concurso atual (já vem no payload)
+            const total = resultado.concurso;
+
+            container.innerHTML += criarCardLoteria(loteria, resultado, total);
+          }
+        } catch (error) {
+          console.error("❌ Erro ao carregar resultados:", error);
+          container.innerHTML = `
+      <div class="loading">
+        ❌ Erro ao carregar resultados
+      </div>
+    `;
         }
       }
 
@@ -1085,8 +1093,8 @@
         }
 
         await verificarPlanoUsuario();
-        carregarLoterias();
-        setInterval(carregarLoterias, 5 * 60 * 1000);
+        carregarResultados();
+        setInterval(carregarResultados, 5 * 60 * 1000);
       });
     </script>
     <script src="js/auth-check.js"></script>
