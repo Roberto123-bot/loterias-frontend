@@ -600,11 +600,6 @@
     </button>
 
     <div class="container">
-      <header>
-        <h1>💾 Meus Jogos Salvos</h1>
-        <p>Acertos atualizados automaticamente com o último concurso</p>
-      </header>
-
       <!-- Filtros Simplificados -->
       <div class="filtros-simples">
         <select id="filtro-loteria" onchange="aplicarFiltros()">
@@ -680,7 +675,6 @@
       function atualizarContador() {
         const contador = document.getElementById("contador-jogos");
 
-        // ✅ CORREÇÃO: Verificar se elemento existe
         if (!contador) {
           console.warn("⚠️ Elemento contador-jogos não encontrado no HTML");
           return;
@@ -728,10 +722,18 @@
       }
 
       function selecionarTodos() {
-        jogos.forEach((j) => jogosSelecionados.add(j.id));
+        // Seleciona apenas os jogos VISÍVEIS
+        const cardsVisiveis = document.querySelectorAll(
+          ".jogo-card:not([style*='display: none'])"
+        );
 
-        document.querySelectorAll(".checkbox-jogo").forEach((cb) => {
-          cb.checked = true;
+        cardsVisiveis.forEach((card) => {
+          const checkbox = card.querySelector(".checkbox-jogo");
+          if (checkbox) {
+            checkbox.checked = true;
+            const jogoId = Number(checkbox.dataset.id);
+            jogosSelecionados.add(jogoId);
+          }
         });
 
         atualizarBotaoExcluir();
@@ -929,11 +931,20 @@
 
           // Verificar se data.success existe
           if (data.success) {
-            jogos = data.data;
+            console.log(
+              "📦 Dados recebidos (brutos):",
+              data.data.length,
+              "itens"
+            );
 
-            console.log("✅ [5/5] Total de jogos carregados:", jogos.length);
-            console.log("📊 Total no servidor:", data.total || jogos.length);
-            console.log("📋 Primeiro jogo:", jogos[0]);
+            // ✅ APLICA A DEDUPLICAÇÃO AQUI
+            jogos = removerDuplicatas(data.data);
+
+            console.log(
+              "✅ Dados após deduplicação:",
+              jogos.length,
+              "jogos únicos"
+            );
 
             // Ordenar por acertos
             jogos.sort((a, b) => {
@@ -1235,6 +1246,35 @@
         } else {
           contador.textContent = `${jogosFiltrados.length} jogos`;
         }
+      }
+
+      // ============================================
+      // 🔧 REMOVER DUPLICATAS (Solução para Dupla-Sena)
+      // ============================================
+      function removerDuplicatas(listaJogos) {
+        const jogosUnicosMap = new Map();
+
+        listaJogos.forEach((jogo) => {
+          const id = jogo.id;
+
+          if (!jogosUnicosMap.has(id)) {
+            // Se é a primeira vez que vê esse ID, salva
+            jogosUnicosMap.set(id, jogo);
+          } else {
+            // Se é duplicado (ex: Dupla-Sena), compara os acertos
+            const jogoExistente = jogosUnicosMap.get(id);
+            const acertosExistentes = jogoExistente.acertos || 0;
+            const novosAcertos = jogo.acertos || 0;
+
+            // Mantém o que tem MAIS acertos
+            if (novosAcertos > acertosExistentes) {
+              jogosUnicosMap.set(id, jogo);
+            }
+          }
+        });
+
+        // Converte o Map de volta para Array
+        return Array.from(jogosUnicosMap.values());
       }
 
       // Verificar autenticação e carregar jogos

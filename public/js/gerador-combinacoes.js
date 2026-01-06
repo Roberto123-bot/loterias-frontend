@@ -67,6 +67,8 @@ let loteriaSelecionada = null;
 let dezenasSelecionadas = new Set();
 let dezenasFixas = new Set();
 let jogosGerados = [];
+let renderIndex = 0;
+const BATCH_SIZE = 30;
 
 const LIMITE_JOGOS = 1000;
 
@@ -414,39 +416,49 @@ function gerarCombinacoesAleatorias(elementos, tamanho, quantidade) {
 // ============================================
 
 function exibirJogos() {
-  const container = document.getElementById("jogos-gerados");
+  document.getElementById("dezenas-section").style.display = "none";
+  document.getElementById("jogos-gerados").style.display = "block";
+
+  document.getElementById("lista-jogos").innerHTML = "";
+  document.getElementById("total-jogos").textContent = jogosGerados.length;
+
+  renderIndex = 0;
+  renderizarJogosIncremental();
+}
+
+function renderizarJogosIncremental() {
   const lista = document.getElementById("lista-jogos");
-  const total = document.getElementById("total-jogos");
 
-  lista.innerHTML = "";
-  total.textContent = jogosGerados.length;
+  const fim = Math.min(renderIndex + BATCH_SIZE, jogosGerados.length);
 
-  jogosGerados.forEach((jogo, index) => {
-    const card = document.createElement("div");
-    card.className = "jogo-card";
+  for (let i = renderIndex; i < fim; i++) {
+    lista.appendChild(criarCardJogo(jogosGerados[i]));
+  }
 
-    const dezenas = document.createElement("div");
-    dezenas.className = "jogo-dezenas";
+  renderIndex = fim;
+}
 
-    jogo.forEach((dezena) => {
-      const bolinha = document.createElement("div");
-      bolinha.className = "bolinha";
-      bolinha.textContent = dezena;
+function criarCardJogo(jogo) {
+  const card = document.createElement("div");
+  card.className = "jogo-card";
 
-      // Destaca dezenas fixas
-      if (dezenasFixas.has(dezena)) {
-        bolinha.style.background = "#ff9800";
-      }
+  const dezenas = document.createElement("div");
+  dezenas.className = "jogo-dezenas";
 
-      dezenas.appendChild(bolinha);
-    });
+  jogo.forEach((dezena) => {
+    const bolinha = document.createElement("div");
+    bolinha.className = "bolinha";
+    bolinha.textContent = dezena;
 
-    card.appendChild(dezenas);
-    lista.appendChild(card);
+    if (dezenasFixas.has(dezena)) {
+      bolinha.classList.add("fixa");
+    }
+
+    dezenas.appendChild(bolinha);
   });
 
-  container.style.display = "block";
-  container.scrollIntoView({ behavior: "smooth" });
+  card.appendChild(dezenas);
+  return card;
 }
 
 // ============================================
@@ -508,4 +520,34 @@ function limparJogos() {
   jogosGerados = [];
   document.getElementById("jogos-gerados").style.display = "none";
   document.getElementById("lista-jogos").innerHTML = "";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("jogos-gerados");
+
+  container.addEventListener("scroll", () => {
+    if (
+      container.scrollTop + container.clientHeight >=
+      container.scrollHeight - 100
+    ) {
+      if (renderIndex < jogosGerados.length) {
+        renderizarJogosIncremental();
+      }
+    }
+  });
+});
+
+function voltarParaSelecao() {
+  renderIndex = 0;
+  document.getElementById("jogos-gerados").style.display = "none";
+  document.getElementById("dezenas-section").style.display = "block";
+}
+
+function limparJogos() {
+  jogosGerados = [];
+  renderIndex = 0;
+
+  document.getElementById("lista-jogos").innerHTML = "";
+  document.getElementById("jogos-gerados").style.display = "none";
+  document.getElementById("dezenas-section").style.display = "block";
 }

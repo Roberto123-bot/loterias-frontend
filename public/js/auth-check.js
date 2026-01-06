@@ -159,3 +159,56 @@ window.addEventListener("DOMContentLoaded", () => {
     console.log("📄 Página pública - sem verificação de autenticação");
   }
 });
+
+// ============================================
+// LOGIN (APENAS PARA login.html)
+// ============================================
+async function realizarLogin(email, senha) {
+  const API_URL = getApiUrl();
+
+  const response = await fetch(`${API_URL}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, senha }),
+  });
+
+  return response.json();
+}
+
+// Capturar submit do formulário de login
+window.addEventListener("DOMContentLoaded", () => {
+  const paginaAtual = window.location.pathname.split("/").pop();
+
+  // Executar SOMENTE na página de login
+  if (paginaAtual !== "login.html") return;
+
+  const loginForm = document.getElementById("loginForm");
+  if (!loginForm) return;
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    try {
+      const data = await realizarLogin(email, senha);
+
+      if (data.success) {
+        console.log("✅ Login realizado com sucesso");
+
+        // 🔐 SALVAR TOKEN E USUÁRIO
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.data.usuario));
+
+        // 🚀 REDIRECIONAR
+        window.location.href = "index.html";
+      } else {
+        alert(data.message || "Erro ao fazer login");
+      }
+    } catch (err) {
+      console.error("❌ Erro no login:", err);
+      alert("Erro de conexão com o servidor");
+    }
+  });
+});
