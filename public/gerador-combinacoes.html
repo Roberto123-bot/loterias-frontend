@@ -113,6 +113,10 @@
         border-radius: 12px;
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden; /* impede vazamento */
+        box-sizing: border-box;
       }
 
       .dezenas-header {
@@ -163,9 +167,12 @@
       }
 
       .grid-dezenas {
+        width: 100%;
+        max-width: 100%;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-        gap: 10px;
+        box-sizing: border-box;
+        justify-content: center; /* centraliza o grid */
+        margin: auto;
       }
 
       .dezena-btn {
@@ -527,7 +534,7 @@
 
       /* 🍀 Classes específicas por LOTOFACIL*/
       #grid-dezenas.lotofacil {
-        grid-template-columns: repeat(5, 1fr) !important;
+        grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
       }
 
       /* Selecionada */
@@ -538,19 +545,21 @@
 
       @media (max-width: 480px) {
         #grid-dezenas.lotofacil {
-          gap: 5px;
+          grid-template-columns: repeat(5, minmax(26px, 1fr)) !important;
+          gap: 3px;
         }
 
         #grid-dezenas.lotofacil .dezena-btn {
           width: 60px;
           height: 60px;
           font-size: 1rem;
+          margin: auto;
         }
       }
 
       /* 🍀 Classes específicas por MEGASENA*/
       #grid-dezenas.megasena {
-        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
       }
 
       /* Selecionada */
@@ -568,13 +577,14 @@
           width: 35px;
           height: 35px;
           font-size: 1rem;
+          margin: auto;
         }
       }
 
       /* 🍀 Classes específicas por QUINA E TIMEMANIA*/
       #grid-dezenas.quina,
       #grid-dezenas.timemania {
-        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
       }
 
       /* Selecionada */
@@ -604,7 +614,7 @@
 
       /* 🍀 Classes específicas por LOTOMANIA*/
       #grid-dezenas.lotomania {
-        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
         gap: 8px;
       }
 
@@ -627,7 +637,7 @@
 
       /* 🍀 Classes específicas por DUPLASENA*/
       #grid-dezenas.duplasena {
-        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
       }
 
       #grid-dezenas.duplasena .dezena-btn.selecionada {
@@ -649,7 +659,7 @@
 
       /* 🍀 Classes específicas por DIA DE SORTE*/
       #grid-dezenas.diadasorte {
-        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
       }
 
       #grid-dezenas.diadasorte .dezena-btn.selecionada {
@@ -671,7 +681,7 @@
 
       /* 🍀 Classes específicas por MAIS MILIONÁRIA*/
       #grid-dezenas.maismilionaria {
-        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
       }
 
       #grid-dezenas.maismilionaria .dezena-btn.selecionada {
