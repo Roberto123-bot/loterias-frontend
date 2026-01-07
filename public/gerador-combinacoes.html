@@ -175,7 +175,7 @@
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        border: 2px solid #e0e0e0;
+        border: 1px solid #e0e0e0;
         background: white;
         cursor: pointer;
         font-weight: bold;
@@ -193,15 +193,14 @@
       .dezena-btn.selecionada {
         background: #667eea;
         color: white;
-        border-color: #667eea;
       }
 
-      .dezena-btn.fixa {
+      /* .dezena-btn.fixa {
         background: #ff9800;
         color: white;
         border-color: #ff9800;
         box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
-      }
+      } */
 
       /* ============= BOTÃO GERAR ============= */
       .gerador-controles {
@@ -527,6 +526,188 @@
         .loteria-selector input {
           width: 100%;
         }
+      }
+
+      /* 🍀 Classes específicas por LOTOFACIL*/
+      #grid-dezenas.lotofacil {
+        grid-template-columns: repeat(5, 1fr) !important;
+      }
+
+      /* Selecionada */
+      #grid-dezenas.lotofacil .dezena-btn.selecionada {
+        background: linear-gradient(145deg, #a94bb8, #7a2f8f);
+        color: #fff;
+      }
+
+      @media (max-width: 480px) {
+        #grid-dezenas.lotofacil {
+          gap: 5px;
+        }
+
+        #grid-dezenas.lotofacil .dezena-btn {
+          width: 60px;
+          height: 60px;
+          font-size: 1rem;
+        }
+      }
+
+      /* 🍀 Classes específicas por MEGASENA*/
+      #grid-dezenas.megasena {
+        grid-template-columns: repeat(10, 1fr) !important;
+      }
+
+      /* Selecionada */
+      #grid-dezenas.megasena .dezena-btn.selecionada {
+        background: linear-gradient(145deg, #4bb85a, #0d921f);
+        color: #fff;
+      }
+
+      @media (max-width: 480px) {
+        #grid-dezenas.megasena {
+          gap: 1px;
+        }
+
+        #grid-dezenas.megasena .dezena-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+      }
+
+      /* 🍀 Classes específicas por QUINA E TIMEMANIA*/
+      #grid-dezenas.quina,
+      #grid-dezenas.timemania {
+        grid-template-columns: repeat(10, 1fr) !important;
+      }
+
+      /* Selecionada */
+      #grid-dezenas.quina .dezena-btn.selecionada {
+        background: linear-gradient(145deg, #2e34c7, #252bc7);
+        color: #fff;
+      }
+
+      #grid-dezenas.timemania .dezena-btn.selecionada {
+        background: linear-gradient(145deg, #fbff00, #d3d600);
+        color: #fff;
+      }
+
+      @media (max-width: 480px) {
+        #grid-dezenas.quina,
+        #grid-dezenas.timemania {
+          gap: 1px;
+        }
+
+        #grid-dezenas.quina .dezena-btn,
+        #grid-dezenas.timemania .dezena-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+      }
+
+      /* 🍀 Classes específicas por LOTOMANIA*/
+      #grid-dezenas.lotomania {
+        grid-template-columns: repeat(10, 1fr) !important;
+        gap: 8px;
+      }
+
+      #grid-dezenas.lotomania .dezena-btn.selecionada {
+        background: linear-gradient(145deg, #ffa10a, #ff9d00);
+        color: #fff;
+      }
+
+      @media (max-width: 480px) {
+        #grid-dezenas.lotomania {
+          gap: 1px;
+        }
+
+        #grid-dezenas.lotomania .dezena-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+      }
+
+      /* 🍀 Classes específicas por DUPLASENA*/
+      #grid-dezenas.duplasena {
+        grid-template-columns: repeat(10, 1fr) !important;
+      }
+
+      #grid-dezenas.duplasena .dezena-btn.selecionada {
+        background: linear-gradient(145deg, #ff1515, #ff0000);
+        color: #fff;
+      }
+
+      @media (max-width: 480px) {
+        #grid-dezenas.duplasena {
+          gap: 1px;
+        }
+
+        #grid-dezenas.duplasena .dezena-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+      }
+
+      /* 🍀 Classes específicas por DIA DE SORTE*/
+      #grid-dezenas.diadasorte {
+        grid-template-columns: repeat(10, 1fr) !important;
+      }
+
+      #grid-dezenas.diadasorte .dezena-btn.selecionada {
+        background: linear-gradient(145deg, #ffd20a, #ffd000);
+        color: #fff;
+      }
+
+      @media (max-width: 480px) {
+        #grid-dezenas.diadasorte {
+          gap: 1px;
+        }
+
+        #grid-dezenas.diadasorte .dezena-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+      }
+
+      /* 🍀 Classes específicas por MAIS MILIONÁRIA*/
+      #grid-dezenas.maismilionaria {
+        grid-template-columns: repeat(10, 1fr) !important;
+      }
+
+      #grid-dezenas.maismilionaria .dezena-btn.selecionada {
+        background: linear-gradient(145deg, #0a9dff, #0099ff);
+        color: #fff;
+      }
+
+      @media (max-width: 480px) {
+        #grid-dezenas.maismilionaria {
+          gap: 1px;
+        }
+
+        #grid-dezenas.maismilionaria .dezena-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+      }
+
+      /* ============================================
+      DEZENA FIXA - COR GLOBAL (ABSOLUTA)
+      ============================================ */
+
+      #grid-dezenas .dezena-btn.fixa,
+      #grid-dezenas.maismilionaria .dezena-btn.fixa,
+      #grid-dezenas.lotofacil .dezena-btn.fixa,
+      #grid-dezenas.megasena .dezena-btn.fixa,
+      #grid-dezenas.quina .dezena-btn.fixa,
+      #grid-dezenas.lotomania .dezena-btn.fixa,
+      #grid-dezenas.timemania .dezena-btn.fixa,
+      #grid-dezenas.diadasorte .dezena-btn.fixa {
+        background: linear-gradient(145deg, #0a7c76, #007c76) !important;
+        color: #fff !important;
       }
     </style>
   </head>

@@ -99,6 +99,20 @@ function inicializarGrid(loteria) {
   const grid = document.getElementById("grid-dezenas");
   const section = document.getElementById("dezenas-section");
 
+  // 🔥 ADICIONAR ESTAS 3 LINHAS AQUI (no topo da função):
+  grid.classList.remove(
+    "lotofacil",
+    "megasena",
+    "quina",
+    "lotomania",
+    "duplasena",
+    "timemania",
+    "diadasorte",
+    "maismilionaria"
+  );
+  grid.classList.add(loteria);
+  console.log(`✅ Grid ${loteria}: ${config.totalDezenas} números`);
+
   // Limpa seleções anteriores
   dezenasSelecionadas.clear();
   dezenasFixas.clear();
