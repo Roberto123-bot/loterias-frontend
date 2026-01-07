@@ -31,6 +31,20 @@
         gap: 10px;
       }
 
+      /* 🔥 AQUI ESTÁ A CORREÇÃO */
+      .header-content {
+        width: 100%; /* ⬅️ ESSENCIAL */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      #titulo-loteria {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #667eea;
+      }
+
       .top-bar-left {
         font-size: 1.2rem;
         font-weight: bold;
@@ -61,23 +75,6 @@
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
-      }
-
-      header {
-        text-align: center;
-        color: white;
-        margin-bottom: 25px;
-        padding-top: 10px;
-      }
-
-      header h1 {
-        font-size: 2rem;
-        margin-bottom: 8px;
-      }
-
-      header p {
-        font-size: 1rem;
-        opacity: 0.9;
       }
 
       /* ============= SELETOR DE LOTERIA ============= */
@@ -588,7 +585,7 @@
 
       #grid-dezenas.timemania .dezena-btn.selecionada {
         background: linear-gradient(145deg, #fbff00, #d3d600);
-        color: #fff;
+        color: #000000;
       }
 
       @media (max-width: 480px) {
@@ -657,7 +654,7 @@
 
       #grid-dezenas.diadasorte .dezena-btn.selecionada {
         background: linear-gradient(145deg, #ffd20a, #ffd000);
-        color: #fff;
+        color: #000000;
       }
 
       @media (max-width: 480px) {
@@ -712,10 +709,9 @@
     </style>
   </head>
   <body>
-    <!-- Barra Superior -->
     <div class="top-bar">
-      <div class="top-bar-left">🎲 Gerador de Combinações</div>
-      <div class="top-bar-actions">
+      <div class="header-content">
+        <h1 id="titulo-loteria">🎲 Gerar Jogos</h1>
         <a href="index.html" class="btn-voltar">← Voltar</a>
       </div>
     </div>
@@ -723,7 +719,7 @@
     <div class="container">
       <!-- Seletor de Loteria -->
       <div class="loteria-selector">
-        <select id="select-loteria">
+        <select id="select-loteria" onchange="mudarLoteria()">
           <option value="">-- Selecione uma loteria --</option>
           <option value="megasena">🍀 Mega-Sena</option>
           <option value="lotofacil">🎯 Lotofácil</option>
@@ -856,6 +852,38 @@
         </div>
       </div>
     </div>
+
+    <script>
+      let loteriaAtual = null;
+
+      function mudarLoteria() {
+        const select = document.getElementById("select-loteria");
+        const loteriaId = select.value;
+
+        // Caso padrão (nenhuma loteria selecionada)
+        if (!loteriaId || !LOTERIAS_CONFIG[loteriaId]) {
+          loteriaAtual = null;
+          document.getElementById("titulo-loteria").textContent =
+            "🎲 Gerar Jogos";
+          document.getElementById("dezenas-section").style.display = "none";
+          return;
+        }
+
+        // Loteria válida
+        loteriaAtual = LOTERIAS_CONFIG[loteriaId];
+
+        // Atualiza título
+        document.getElementById(
+          "titulo-loteria"
+        ).textContent = `🎲 Gerar Jogos - ${loteriaAtual.nome}`;
+
+        // Exibe a seção de dezenas
+        document.getElementById("dezenas-section").style.display = "block";
+
+        // Inicializa o grid corretamente
+        inicializarGrid(loteriaId);
+      }
+    </script>
 
     <script src="js/gerador-combinacoes.js"></script>
     <script src="js/auth-check.js"></script>

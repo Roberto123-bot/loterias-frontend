@@ -15,49 +15,49 @@ const LOTERIAS_CONFIG = {
     nome: "Lotofácil",
     totalDezenas: 25,
     minDezenas: 15,
-    maxDezenas: 18,
+    maxDezenas: 25,
     dezenasObrigatorias: 15,
   },
   quina: {
     nome: "Quina",
     totalDezenas: 80,
     minDezenas: 5,
-    maxDezenas: 15,
+    maxDezenas: 80,
     dezenasObrigatorias: 5,
   },
   lotomania: {
     nome: "Lotomania",
     totalDezenas: 100,
     minDezenas: 50,
-    maxDezenas: 50,
+    maxDezenas: 100,
     dezenasObrigatorias: 50,
   },
   duplasena: {
     nome: "Dupla-Sena",
     totalDezenas: 50,
     minDezenas: 6,
-    maxDezenas: 15,
+    maxDezenas: 50,
     dezenasObrigatorias: 6,
   },
   timemania: {
     nome: "Timemania",
     totalDezenas: 80,
     minDezenas: 10,
-    maxDezenas: 10,
+    maxDezenas: 80,
     dezenasObrigatorias: 10,
   },
   diadasorte: {
     nome: "Dia de Sorte",
     totalDezenas: 31,
     minDezenas: 7,
-    maxDezenas: 15,
+    maxDezenas: 31,
     dezenasObrigatorias: 7,
   },
   maismilionaria: {
     nome: "+Milionária",
     totalDezenas: 50,
     minDezenas: 6,
-    maxDezenas: 12,
+    maxDezenas: 50,
     dezenasObrigatorias: 6,
   },
 };
@@ -118,7 +118,7 @@ function inicializarGrid(loteria) {
   dezenasFixas.clear();
   grid.innerHTML = "";
 
-  // Cria botões
+  // 🔥 CRIA DEZENAS CORRETAMENTE
   for (let i = 1; i <= config.totalDezenas; i++) {
     const btn = document.createElement("div");
     btn.className = "dezena-btn";
@@ -131,6 +131,8 @@ function inicializarGrid(loteria) {
   section.style.display = "block";
   atualizarContador();
   atualizarBotaoGerar();
+
+  console.log(`✅ Grid ${config.nome} carregado (${config.totalDezenas})`);
 }
 
 // ============================================
