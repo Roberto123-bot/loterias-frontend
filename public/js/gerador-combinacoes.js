@@ -8,7 +8,7 @@ const LOTERIAS_CONFIG = {
     nome: "Mega-Sena",
     totalDezenas: 60,
     minDezenas: 6,
-    maxDezenas: 15,
+    maxDezenas: 60,
     dezenasObrigatorias: 6,
   },
   lotofacil: {
@@ -42,9 +42,9 @@ const LOTERIAS_CONFIG = {
   timemania: {
     nome: "Timemania",
     totalDezenas: 80,
-    minDezenas: 10,
+    minDezenas: 7,
     maxDezenas: 80,
-    dezenasObrigatorias: 10,
+    dezenasObrigatorias: 7,
   },
   diadasorte: {
     nome: "Dia de Sorte",
