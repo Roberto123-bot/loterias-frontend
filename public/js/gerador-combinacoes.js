@@ -432,6 +432,7 @@ function gerarCombinacoesAleatorias(elementos, tamanho, quantidade) {
 // ============================================
 
 function exibirJogos() {
+  document.getElementById("loteria-section").style.display = "none";
   document.getElementById("dezenas-section").style.display = "none";
   document.getElementById("jogos-gerados").style.display = "block";
 
@@ -532,11 +533,11 @@ async function salvarTodos() {
   }
 }
 
-function limparJogos() {
-  jogosGerados = [];
-  document.getElementById("jogos-gerados").style.display = "none";
-  document.getElementById("lista-jogos").innerHTML = "";
-}
+// function limparJogos() {
+//   jogosGerados = [];
+//   document.getElementById("jogos-gerados").style.display = "none";
+//   document.getElementById("lista-jogos").innerHTML = "";
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("jogos-gerados");
@@ -556,6 +557,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function voltarParaSelecao() {
   renderIndex = 0;
   document.getElementById("jogos-gerados").style.display = "none";
+  document.getElementById("loteria-section").style.display = "block";
   document.getElementById("dezenas-section").style.display = "block";
 }
 
@@ -565,5 +567,6 @@ function limparJogos() {
 
   document.getElementById("lista-jogos").innerHTML = "";
   document.getElementById("jogos-gerados").style.display = "none";
+  document.getElementById("loteria-section").style.display = "block";
   document.getElementById("dezenas-section").style.display = "block";
 }
