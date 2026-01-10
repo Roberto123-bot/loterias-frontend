@@ -161,6 +161,7 @@ function toggleDezena(btn) {
 
   atualizarContador();
   atualizarBotaoGerar();
+  atualizarSlidersInteligentes();
 }
 
 // ============================================
@@ -225,11 +226,84 @@ function atualizarBotaoGerar() {
   btnGerar.disabled = dezenasSelecionadas.size < min;
 }
 
+// ✅ FUNÇÃO FINAL: SLIDER INTELIGENTE (USANDO SEU CÁLCULO)
+
+function atualizarSlidersInteligentes() {
+  if (!loteriaSelecionada) return;
+
+  const config = LOTERIAS_CONFIG[loteriaSelecionada];
+
+  const fixas = dezenasFixas.size;
+  const totalSelecionadas = dezenasSelecionadas.size;
+
+  const dezenasSlider = document.getElementById("dezenas-slider");
+  const jogosSlider = document.getElementById("jogos-slider");
+  const dezenasDisplay = document.getElementById("dezenas-display");
+  const jogosDisplay = document.getElementById("jogos-display");
+
+  // ===============================
+  // SLIDER DE DEZENAS (k)
+  // ===============================
+
+  const minK = Math.max(
+    config.minDezenas, // regra da loteria
+    fixas + 1 // regra matemática
+  );
+
+  const maxK = Math.min(config.maxDezenas, totalSelecionadas);
+
+  dezenasSlider.min = minK;
+  dezenasSlider.max = maxK;
+
+  let k = parseInt(dezenasSlider.value);
+
+  if (isNaN(k) || k < minK) k = minK;
+  if (k > maxK) k = maxK;
+
+  dezenasSlider.value = k;
+  dezenasDisplay.textContent = k;
+
+  // ===============================
+  // CÁLCULO COMBINATÓRIO
+  // ===============================
+
+  const variaveis = totalSelecionadas - fixas;
+  const kVariavel = k - fixas;
+
+  let totalJogosPossiveis =
+    kVariavel >= 0 && kVariavel <= variaveis
+      ? combinacao(variaveis, kVariavel)
+      : 1;
+
+  if (!Number.isFinite(totalJogosPossiveis) || totalJogosPossiveis < 1) {
+    totalJogosPossiveis = 1;
+  }
+
+  // ===============================
+  // SLIDER DE JOGOS (COM LIMITE)
+  // ===============================
+
+  const limiteVisivel = Math.min(totalJogosPossiveis, LIMITE_JOGOS);
+
+  jogosSlider.min = 1;
+  jogosSlider.max = limiteVisivel;
+
+  let jogos = parseInt(jogosSlider.value);
+  if (isNaN(jogos) || jogos < 1) jogos = 1;
+  if (jogos > limiteVisivel) jogos = limiteVisivel;
+
+  jogosSlider.value = jogos;
+
+  // 👉 AQUI ESTÁ A CORREÇÃO DE UX
+  jogosDisplay.textContent = `${jogos} de ${limiteVisivel}`;
+}
+
 // ============================================
 // MODAL
 // ============================================
 
 function abrirModal() {
+  if (!loteriaSelecionada) return;
   const config = LOTERIAS_CONFIG[loteriaSelecionada];
   const modal = document.getElementById("modal-randomico");
   const title = document.getElementById("modal-title");
@@ -247,8 +321,7 @@ function abrirModal() {
   dezenasSlider.max = Math.min(config.maxDezenas, total);
   dezenasSlider.value = config.dezenasObrigatorias;
 
-  atualizarDisplayDezenas();
-  atualizarMaxJogos();
+  atualizarSlidersInteligentes();
 
   modal.classList.add("active");
 }
@@ -264,63 +337,14 @@ function fecharModal() {
 
 function ajustarDezenas(delta) {
   const slider = document.getElementById("dezenas-slider");
-  let valor = parseInt(slider.value) + delta;
-
-  valor = Math.max(parseInt(slider.min), Math.min(parseInt(slider.max), valor));
-  slider.value = valor;
-
-  atualizarDisplayDezenas();
-  atualizarMaxJogos();
+  slider.value = parseInt(slider.value) + delta;
+  atualizarSlidersInteligentes();
 }
 
 function ajustarJogos(delta) {
   const slider = document.getElementById("jogos-slider");
-  let valor = parseInt(slider.value) + delta;
-
-  valor = Math.max(1, Math.min(parseInt(slider.max), valor));
-  slider.value = valor;
-
-  atualizarDisplayJogos();
-}
-
-function atualizarDisplayDezenas() {
-  const slider = document.getElementById("dezenas-slider");
-  const display = document.getElementById("dezenas-display");
-  display.textContent = slider.value;
-}
-
-function atualizarDisplayJogos() {
-  const slider = document.getElementById("jogos-slider");
-  const display = document.getElementById("jogos-display");
-  display.textContent = `${slider.value} de ${slider.max}`;
-}
-
-function atualizarMaxJogos() {
-  const k = parseInt(document.getElementById("dezenas-slider").value);
-  const fixas = dezenasFixas.size;
-  const variaveis = Array.from(dezenasSelecionadas).filter(
-    (d) => !dezenasFixas.has(d)
-  );
-
-  const kVariavel = k - fixas;
-
-  if (kVariavel < 0 || kVariavel > variaveis.length) {
-    document.getElementById("jogos-slider").max = 1;
-    atualizarDisplayJogos();
-    return;
-  }
-
-  const totalComb = combinacao(variaveis.length, kVariavel);
-  const maxJogos = Math.min(totalComb, LIMITE_JOGOS);
-
-  const slider = document.getElementById("jogos-slider");
-  slider.max = maxJogos;
-
-  if (parseInt(slider.value) > maxJogos) {
-    slider.value = maxJogos;
-  }
-
-  atualizarDisplayJogos();
+  slider.value = parseInt(slider.value) + delta;
+  atualizarSlidersInteligentes();
 }
 
 // Event listeners dos sliders
@@ -329,14 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const jogosSlider = document.getElementById("jogos-slider");
 
   if (dezenasSlider) {
-    dezenasSlider.addEventListener("input", () => {
-      atualizarDisplayDezenas();
-      atualizarMaxJogos();
-    });
-  }
-
-  if (jogosSlider) {
-    jogosSlider.addEventListener("input", atualizarDisplayJogos);
+    dezenasSlider.addEventListener("input", () => {});
   }
 });
 
@@ -374,6 +391,9 @@ function gerarCombinacoes() {
   const k = parseInt(document.getElementById("dezenas-slider").value);
   const numJogos = parseInt(document.getElementById("jogos-slider").value);
 
+  const totalSelecionadasNoGrid = dezenasSelecionadas.size;
+  const totalFixas = dezenasFixas.size;
+
   const fixasArray = Array.from(dezenasFixas).sort();
   const variaveisArray = Array.from(dezenasSelecionadas)
     .filter((d) => !dezenasFixas.has(d))
@@ -395,9 +415,16 @@ function gerarCombinacoes() {
 
   // Monta jogos finais (fixas + variáveis)
   jogosGerados = combinacoesVariaveis.map((combVariavel) => {
-    return [...fixasArray, ...combVariavel].sort((a, b) => {
-      return parseInt(a) - parseInt(b);
-    });
+    const dezenas = [...fixasArray, ...combVariavel].sort(
+      (a, b) => parseInt(a) - parseInt(b)
+    );
+
+    return {
+      tipo: "Random",
+      totalDezenas: totalSelecionadasNoGrid, // <-- AQUI está o segredo
+      totalFixas: totalFixas, // 👈 NOVO
+      dezenas,
+    };
   });
 
   exibirJogos();
@@ -449,20 +476,33 @@ function renderizarJogosIncremental() {
   const fim = Math.min(renderIndex + BATCH_SIZE, jogosGerados.length);
 
   for (let i = renderIndex; i < fim; i++) {
-    lista.appendChild(criarCardJogo(jogosGerados[i]));
+    lista.appendChild(criarCardJogo(jogosGerados[i], i));
   }
 
   renderIndex = fim;
 }
 
-function criarCardJogo(jogo) {
+function criarCardJogo(jogoObj, index) {
   const card = document.createElement("div");
   card.className = "jogo-card";
 
-  const dezenas = document.createElement("div");
-  dezenas.className = "jogo-dezenas";
+  const descricao = document.createElement("div");
+  descricao.className = "jogo-descricao";
 
-  jogo.forEach((dezena) => {
+  let html = `${jogoObj.tipo}: ${jogoObj.totalDezenas} dezenas`;
+
+  if (jogoObj.totalFixas > 0) {
+    html += ` (<span class="fixas">${jogoObj.totalFixas} fixas</span>)`;
+  }
+
+  html += ` · Jogo ${index + 1}`;
+
+  descricao.innerHTML = html;
+
+  const dezenasDiv = document.createElement("div");
+  dezenasDiv.className = "jogo-dezenas";
+
+  jogoObj.dezenas.forEach((dezena) => {
     const bolinha = document.createElement("div");
     bolinha.className = "bolinha";
     bolinha.textContent = dezena;
@@ -471,10 +511,12 @@ function criarCardJogo(jogo) {
       bolinha.classList.add("fixa");
     }
 
-    dezenas.appendChild(bolinha);
+    dezenasDiv.appendChild(bolinha);
   });
 
-  card.appendChild(dezenas);
+  card.appendChild(descricao);
+  card.appendChild(dezenasDiv);
+
   return card;
 }
 
@@ -540,18 +582,13 @@ async function salvarTodos() {
 // }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("jogos-gerados");
+  document
+    .getElementById("dezenas-slider")
+    .addEventListener("input", atualizarSlidersInteligentes);
 
-  container.addEventListener("scroll", () => {
-    if (
-      container.scrollTop + container.clientHeight >=
-      container.scrollHeight - 100
-    ) {
-      if (renderIndex < jogosGerados.length) {
-        renderizarJogosIncremental();
-      }
-    }
-  });
+  document
+    .getElementById("jogos-slider")
+    .addEventListener("input", atualizarSlidersInteligentes);
 });
 
 function voltarParaSelecao() {
