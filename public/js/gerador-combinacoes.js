@@ -544,7 +544,7 @@ async function salvarTodos() {
 
   try {
     // Converte jogos para formato string
-    const jogosString = jogosGerados.map((jogo) => jogo.join(" "));
+    const jogosString = jogosGerados.map((jogo) => jogo.dezenas.join(" "));
 
     const response = await fetch(`${API_URL}/api/jogos/salvar-lote`, {
       method: "POST",

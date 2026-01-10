@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>💾 Meus Jogos - Sistema de Loterias</title>
-    <!-- ✅ ADICIONAR ESTA LINHA: -->
     <script src="js/config.js"></script>
     <link
       rel="stylesheet"
@@ -89,7 +88,7 @@
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 20px;
+        padding: 10px;
       }
 
       header {
@@ -138,7 +137,7 @@
         border-color: #667eea;
       }
 
-      /* ============= LISTA DE JOGOS ============= */
+      /* ============= LISTA DE JOGOS - LAYOUT APP ============= */
       .jogos-lista {
         display: flex;
         flex-direction: column;
@@ -148,7 +147,7 @@
       .jogo-card {
         background: white;
         border-radius: 12px;
-        padding: 20px;
+        padding: 15px;
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s, box-shadow 0.2s;
         position: relative;
@@ -195,12 +194,12 @@
         background: #6bccef;
       }
 
-      /* Cabeçalho do Card */
+      /* ============= CABEÇALHO DO CARD - ESTILO APP ============= */
       .jogo-header-row {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
 
       .jogo-info-left {
@@ -208,18 +207,19 @@
       }
 
       .jogo-nome {
-        font-size: 1.1rem;
-        font-weight: bold;
+        font-size: 1rem;
+        font-weight: 600;
         color: #333;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
       }
 
       .jogo-meta {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         color: #666;
         display: flex;
-        gap: 12px;
+        gap: 10px;
         flex-wrap: wrap;
+        align-items: center;
       }
 
       .jogo-meta span {
@@ -228,86 +228,148 @@
         gap: 4px;
       }
 
-      /* Acertos em Destaque */
+      /* ============= ACERTOS - ESTILO APP ============= */
       .jogo-acertos-destaque {
-        text-align: right;
-        min-width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 60px;
+        margin-left: 15px;
       }
 
       .acertos-numero {
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: bold;
-        color: #667eea;
+        color: #333;
         line-height: 1;
-        margin-bottom: 4px;
       }
 
       .acertos-numero.premiado {
         color: #4caf50;
       }
 
-      .acertos-label {
-        font-size: 0.75rem;
-        color: #999;
-        text-transform: uppercase;
-      }
-
-      .badge-premiado {
-        display: inline-block;
-        background: linear-gradient(135deg, #ffd700 0%, #ff9800 100%);
-        color: white;
-        padding: 4px 12px;
-        border-radius: 12px;
-        font-size: 0.7rem;
-        font-weight: bold;
-        margin-top: 4px;
-      }
-
-      /* Grid de Dezenas */
+      /* ============= GRID DE DEZENAS - ESTILO APP ============= */
       .jogo-dezenas-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 6px;
+        width: 100%;
       }
 
       .bola-numero {
-        width: 42px;
-        height: 42px;
+        aspect-ratio: 1;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: bold;
-        font-size: 0.95rem;
+        font-size: 0.75rem;
+        transition: transform 0.2s;
+      }
+
+      /* ============================================
+   🎨 CORES POR LOTERIA - BOLAS ACERTADAS
+   ============================================ */
+
+      /* Mega-Sena - VERDE ✅ */
+      .megasena .bola-numero.acertou {
+        background: #209869;
         color: white;
       }
 
-      /* Cores por loteria */
-      .megasena .bola-numero {
-        background: #209869;
-      }
-      .lotofacil .bola-numero {
+      /* Lotofácil - ROXO ✅ */
+      .lotofacil .bola-numero.acertou {
         background: #930089;
+        color: white;
       }
-      .quina .bola-numero {
+
+      /* Quina - AZUL ESCURO ✅ */
+      .quina .bola-numero.acertou {
         background: #260085;
+        color: white;
       }
-      .lotomania .bola-numero {
+
+      /* Lotomania - LARANJA ✅ */
+      .lotomania .bola-numero.acertou {
         background: #f78100;
+        color: white;
       }
-      .duplasena .bola-numero {
+
+      /* Dupla-Sena - VERMELHO ✅ */
+      .duplasena .bola-numero.acertou {
         background: #a61324;
+        color: white;
       }
-      .timemania .bola-numero {
+
+      /* Timemania - VERDE CLARO ✅ */
+      .timemania .bola-numero.acertou {
         background: #00ff48;
         color: #333;
       }
-      .diadasorte .bola-numero {
+
+      /* Dia de Sorte - MARROM ✅ */
+      .diadasorte .bola-numero.acertou {
         background: #cb852b;
+        color: white;
       }
-      .maismilionaria .bola-numero {
+
+      /* +Milionária - AZUL CLARO ✅ */
+      .maismilionaria .bola-numero.acertou {
         background: #6bccef;
+        color: white;
+      }
+
+      /* ============================================
+   ⚪ BOLAS NÃO ACERTADAS (Todas as loterias)
+   ============================================ */
+
+      .bola-numero.nao-acertou {
+        background: #e0e0e0;
+        color: #666;
+      }
+
+      /* ============================================
+   🎯 FALLBACK: Se não foi conferido
+   ============================================ */
+
+      .megasena .bola-numero:not(.acertou):not(.nao-acertou) {
+        background: #209869;
+        color: white;
+      }
+
+      .lotofacil .bola-numero:not(.acertou):not(.nao-acertou) {
+        background: #930089;
+        color: white;
+      }
+
+      .quina .bola-numero:not(.acertou):not(.nao-acertou) {
+        background: #260085;
+        color: white;
+      }
+
+      .lotomania .bola-numero:not(.acertou):not(.nao-acertou) {
+        background: #f78100;
+        color: white;
+      }
+
+      .duplasena .bola-numero:not(.acertou):not(.nao-acertou) {
+        background: #a61324;
+        color: white;
+      }
+
+      .timemania .bola-numero:not(.acertou):not(.nao-acertou) {
+        background: #00ff48;
+        color: #333;
+      }
+
+      .diadasorte .bola-numero:not(.acertou):not(.nao-acertou) {
+        background: #cb852b;
+        color: white;
+      }
+
+      .maismilionaria .bola-numero:not(.acertou):not(.nao-acertou) {
+        background: #6bccef;
+        color: white;
       }
 
       /* Checkbox de seleção */
@@ -501,94 +563,134 @@
 
       /* ============= RESPONSIVO ============= */
       @media (max-width: 768px) {
-        header h1 {
-          font-size: 1.5rem;
-        }
-
-        .jogo-header-row {
-          flex-direction: column;
-          gap: 15px;
-        }
-
-        .jogo-acertos-destaque {
-          text-align: left;
-        }
-
-        .acertos-numero {
-          font-size: 2rem;
+        .jogo-dezenas-grid {
+          gap: 4px;
         }
 
         .bola-numero {
-          width: 38px;
-          height: 38px;
-          font-size: 0.85rem;
+          font-size: 0.7rem;
         }
 
-        .filtros-simples {
-          flex-direction: column;
+        .acertos-numero {
+          font-size: 2.5rem;
         }
 
-        .filtros-simples select,
-        .filtros-simples input {
-          width: 100%;
+        .jogo-nome {
+          font-size: 0.95rem;
         }
 
-        .checkbox-jogo {
-          top: 10px;
-          right: 10px;
+        .jogo-meta {
+          font-size: 0.75rem;
         }
+      }
 
-        #btn-excluir-selecionados {
-          bottom: 15px;
-          right: 15px;
-          min-width: 50px;
-          height: 50px;
-          font-size: 16px;
-        }
+      /* ================= HEADER APP ================= */
+      .app-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: white;
+        color: #667eea;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      }
+
+      .header-center {
+        text-align: center;
+        flex: 1;
+      }
+
+      .header-center h1 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .header-center span {
+        font-size: 0.75rem;
+        opacity: 0.9;
+      }
+
+      /* Botões de ícone */
+      .icon-btn {
+        background: transparent;
+        border: none;
+        color: #667eea;
+        font-size: 1.4rem;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background 0.2s;
+      }
+
+      .icon-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .fab-novo {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #4caf50;
+        color: white;
+        font-size: 2rem;
+        border: none;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
     <!-- Barra Superior -->
-    <div class="top-bar">
-      <div class="top-bar-left">
-        <div class="top-bar-title">💾 Meus Jogos</div>
-        <div class="contador-jogos" id="contador-jogos">0 jogos</div>
+    <header class="app-header">
+      <button class="icon-btn" onclick="location.href='index.html'">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+
+      <button
+        class="fab-novo"
+        onclick="location.href='gerador-combinacoes.html'"
+        title="Novo jogo"
+      >
+        <i class="bi bi-plus"></i>
+      </button>
+
+      <div class="header-center">
+        <h1>Meus Jogos</h1>
+        <span id="contador-jogos">0 jogos</span>
       </div>
-      <div class="top-bar-actions">
-        <a href="index.html" class="btn-top btn-voltar"
-          ><i class="bi bi-arrow-left"></i
-        ></a>
-        <button
-          class="btn-top btn-novo"
-          onclick="location.href='gerador-combinacoes.html'"
-        >
-          <i class="bi bi-plus-circle"></i>
+
+      <button class="icon-btn" onclick="toggleMenuAcoes(event)">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+
+      <!-- Menu dropdown -->
+      <div class="menu-dropdown" id="menuDropdown">
+        <button onclick="conferirManualmente()">
+          <i class="bi bi-arrow-repeat"></i> Conferir jogos
         </button>
-
-        <div class="menu-acoes">
-          <button class="btn-menu" onclick="toggleMenuAcoes(event)">
-            <i class="bi bi-three-dots-vertical"></i>
-          </button>
-
-          <div class="menu-dropdown" id="menuDropdown">
-            <button onclick="selecionarTodos()">
-              <i class="bi bi-check-square"></i> Selecionar todos
-            </button>
-            <button onclick="limparSelecao()">
-              <i class="bi bi-square"></i> Limpar seleção
-            </button>
-            <button
-              id="btn-copiar"
-              onclick="copiarJogosSelecionados()"
-              style="display: none"
-            >
-              <i class="bi bi-clipboard"></i> Copiar jogos
-            </button>
-          </div>
-        </div>
+        <button onclick="selecionarTodos()">
+          <i class="bi bi-check-square"></i> Selecionar todos
+        </button>
+        <button onclick="limparSelecao()">
+          <i class="bi bi-square"></i> Limpar seleção
+        </button>
+        <button
+          id="btn-copiar"
+          onclick="copiarJogosSelecionados()"
+          style="display: none"
+        >
+          <i class="bi bi-clipboard"></i> Copiar jogos
+        </button>
       </div>
-    </div>
+    </header>
 
     <!-- Botão flutuante de excluir -->
     <button
@@ -641,6 +743,7 @@
     <script>
       let jogos = [];
       let jogosSelecionados = new Set();
+      let resultadosCache = {}; // Cache para resultados dos concursos
 
       const LOTERIAS_NOMES = {
         megasena: "Mega-Sena",
@@ -660,9 +763,7 @@
         const toast = document.createElement("div");
         toast.className = `toast toast-${tipo}`;
         toast.textContent = mensagem;
-
         document.body.appendChild(toast);
-
         setTimeout(() => {
           toast.style.animation = "slideOut 0.3s ease-in";
           setTimeout(() => toast.remove(), 300);
@@ -674,21 +775,11 @@
       // ============================================
       function atualizarContador() {
         const contador = document.getElementById("contador-jogos");
-
-        if (!contador) {
-          console.warn("⚠️ Elemento contador-jogos não encontrado no HTML");
-          return;
-        }
+        if (!contador) return;
 
         const total = jogos.length;
-
-        if (total === 0) {
-          contador.textContent = "0 jogos";
-        } else if (total === 1) {
-          contador.textContent = "1 jogo";
-        } else {
-          contador.textContent = `${total} jogos`;
-        }
+        contador.textContent =
+          total === 0 ? "0 jogos" : total === 1 ? "1 jogo" : `${total} jogos`;
       }
 
       // ============================================
@@ -700,7 +791,6 @@
         } else {
           jogosSelecionados.delete(id);
         }
-
         atualizarBotaoExcluir();
         atualizarDropdownAcoes();
       }
@@ -722,38 +812,28 @@
       }
 
       function selecionarTodos() {
-        // Seleciona apenas os jogos VISÍVEIS
         const cardsVisiveis = document.querySelectorAll(
           ".jogo-card:not([style*='display: none'])"
         );
-
         cardsVisiveis.forEach((card) => {
           const checkbox = card.querySelector(".checkbox-jogo");
           if (checkbox) {
             checkbox.checked = true;
-            const jogoId = Number(checkbox.dataset.id);
-            jogosSelecionados.add(jogoId);
+            jogosSelecionados.add(Number(checkbox.dataset.id));
           }
         });
-
         atualizarBotaoExcluir();
         atualizarDropdownAcoes();
-
-        // Fechar menu
         document.getElementById("menuDropdown").style.display = "none";
       }
 
       function limparSelecao() {
         jogosSelecionados.clear();
-
         document.querySelectorAll(".checkbox-jogo").forEach((cb) => {
           cb.checked = false;
         });
-
         atualizarBotaoExcluir();
         atualizarDropdownAcoes();
-
-        // Fechar menu
         document.getElementById("menuDropdown").style.display = "none";
       }
 
@@ -798,17 +878,13 @@
 
         try {
           const token = localStorage.getItem("token");
-
-          // 🔧 CORREÇÃO: Usar endpoint de exclusão em lote
           const response = await fetch(`${API_URL}/api/jogos/excluir-lote`, {
             method: "DELETE",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-              ids: Array.from(jogosSelecionados),
-            }),
+            body: JSON.stringify({ ids: Array.from(jogosSelecionados) }),
           });
 
           const data = await response.json();
@@ -818,11 +894,9 @@
               `✅ ${data.data.excluidos} jogo(s) excluído(s)!`,
               "success"
             );
-
             jogosSelecionados.clear();
             atualizarBotaoExcluir();
             atualizarDropdownAcoes();
-
             await carregarJogos();
           } else {
             mostrarToast("❌ " + data.message, "error");
@@ -842,316 +916,108 @@
         menu.style.display = menu.style.display === "flex" ? "none" : "flex";
       }
 
-      // Fechar menu ao clicar fora
       document.addEventListener("click", () => {
         const menu = document.getElementById("menuDropdown");
         if (menu) menu.style.display = "none";
       });
 
       // ============================================
-      // FUNÇÃO carregarJogos() COM DEBUG COMPLETO
+      // BUSCAR RESULTADO DO CONCURSO
       // ============================================
+      async function buscarResultadoConcurso(loteria, concurso) {
+        const cacheKey = `${loteria}-${concurso}`;
 
-      async function carregarJogos() {
-        console.log("🚀 [1/5] Iniciando carregamento de jogos...");
-
-        document.getElementById("loading").style.display = "block";
-        document.getElementById("jogos-lista").innerHTML = "";
-        document.getElementById("estado-vazio").style.display = "none";
+        // Verifica cache
+        if (resultadosCache[cacheKey]) {
+          return resultadosCache[cacheKey];
+        }
 
         try {
           const token = localStorage.getItem("token");
-          console.log(
-            "🔑 [2/5] Token obtido:",
-            token ? "✅ OK" : "❌ FALTANDO"
-          );
-
-          if (!token) {
-            throw new Error("Token não encontrado. Faça login novamente.");
-          }
-
-          // PASSO 1: Conferir todos os jogos
-          console.log("🔄 [3/5] Conferindo todos os jogos...");
-
-          try {
-            const conferirResponse = await fetch(
-              `${API_URL}/api/jogos/conferir-todos-simples`,
-              {
-                method: "POST",
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            );
-
-            console.log("📡 Status conferir:", conferirResponse.status);
-
-            if (!conferirResponse.ok) {
-              console.error(
-                "❌ Erro ao conferir jogos:",
-                conferirResponse.statusText
-              );
-              // Continua mesmo assim
-            } else {
-              const conferirData = await conferirResponse.json();
-              console.log("✅ Conferidos:", conferirData);
-            }
-          } catch (conferirError) {
-            console.error("❌ Erro ao conferir (ignorando):", conferirError);
-            // Continua mesmo assim
-          }
-
-          // PASSO 2: Carregar jogos
-          console.log("📡 [4/5] Carregando jogos do servidor...");
-
-          const url = `${API_URL}/api/jogos/meus-jogos?limit=10000`;
-          console.log("📍 URL:", url);
-
-          const response = await fetch(url, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
-          console.log("📡 Status:", response.status);
-          console.log("📡 Status Text:", response.statusText);
-
-          // Verificar se a resposta é OK
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error("❌ Resposta não OK:", errorText);
-            throw new Error(`Erro ${response.status}: ${response.statusText}`);
-          }
-
-          // Tentar parsear JSON
-          let data;
-          try {
-            data = await response.json();
-            console.log("📦 Dados recebidos:", data);
-          } catch (jsonError) {
-            console.error("❌ Erro ao parsear JSON:", jsonError);
-            throw new Error("Resposta inválida do servidor");
-          }
-
-          // Verificar se data.success existe
-          if (data.success) {
-            console.log(
-              "📦 Dados recebidos (brutos):",
-              data.data.length,
-              "itens"
-            );
-
-            // ✅ APLICA A DEDUPLICAÇÃO AQUI
-            jogos = removerDuplicatas(data.data);
-
-            console.log(
-              "✅ Dados após deduplicação:",
-              jogos.length,
-              "jogos únicos"
-            );
-
-            // Ordenar por acertos
-            jogos.sort((a, b) => {
-              const acertosA = a.acertos || 0;
-              const acertosB = b.acertos || 0;
-              return acertosB - acertosA;
-            });
-
-            document.getElementById("loading").style.display = "none";
-
-            if (jogos.length === 0) {
-              console.log("⚠️ Nenhum jogo encontrado");
-              document.getElementById("estado-vazio").style.display = "block";
-            } else {
-              console.log("🎨 Renderizando", jogos.length, "jogos...");
-              renderizarJogos(jogos);
-            }
-
-            atualizarContador();
-
-            console.log("✅ Carregamento concluído com sucesso!");
-          } else {
-            console.error("❌ data.success = false:", data.message);
-            throw new Error(data.message || "Erro desconhecido");
-          }
-        } catch (error) {
-          console.error("❌ ========================================");
-          console.error("❌ ERRO CAPTURADO NA LINHA 888:");
-          console.error("❌ Tipo:", error.name);
-          console.error("❌ Mensagem:", error.message);
-          console.error("❌ Stack:", error.stack);
-          console.error("❌ ========================================");
-
-          document.getElementById("loading").style.display = "none";
-          mostrarToast("❌ Erro ao carregar jogos: " + error.message, "error");
-
-          // Mostrar erro na tela também
-          document.getElementById("jogos-lista").innerHTML = `
-      <div class="estado-vazio">
-        <div class="estado-vazio-icon">⚠️</div>
-        <h2>Erro ao Carregar Jogos</h2>
-        <p style="color: #f44336; font-family: monospace;">
-          ${error.message}
-        </p>
-        <p>Verifique o console (F12) para mais detalhes.</p>
-        <button class="btn-top btn-atualizar" onclick="carregarJogos()">
-          🔄 Tentar Novamente
-        </button>
-      </div>
-    `;
-        }
-      }
-
-      // ============================================
-      // VERSÃO ALTERNATIVA: TENTAR LIMIT MENOR SE FALHAR
-      // ============================================
-
-      async function carregarJogosComFallback() {
-        const limits = [10000, 5000, 1000, 500, 100];
-
-        for (const limit of limits) {
-          try {
-            console.log(`🔄 Tentando carregar com limit=${limit}...`);
-
-            const token = localStorage.getItem("token");
-            const response = await fetch(
-              `${API_URL}/api/jogos/meus-jogos?limit=${limit}`,
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            );
-
-            if (response.ok) {
-              const data = await response.json();
-
-              if (data.success) {
-                jogos = data.data;
-                console.log(
-                  `✅ Sucesso com limit=${limit}! Total: ${jogos.length}`
-                );
-
-                // Avisa se há mais jogos
-                if (data.total && data.total > jogos.length) {
-                  console.warn(
-                    `⚠️ Atenção: Há ${data.total} jogos, mas só carregou ${jogos.length}`
-                  );
-                  mostrarToast(
-                    `⚠️ Carregados ${jogos.length} de ${data.total} jogos`,
-                    "warning"
-                  );
-                }
-
-                renderizarJogos(jogos);
-                atualizarContador();
-                return; // SUCESSO!
-              }
-            }
-          } catch (error) {
-            console.error(`❌ Falhou com limit=${limit}:`, error);
-            continue; // Tenta próximo limit
-          }
-        }
-
-        // Se chegou aqui, falhou com todos os limits
-        console.error("❌ Falhou com TODOS os limits!");
-        mostrarToast("❌ Não foi possível carregar os jogos", "error");
-      }
-
-      // ============================================
-      // TESTE DE CONEXÃO
-      // ============================================
-
-      async function testarConexaoBackend() {
-        console.log("🔍 Testando conexão com backend...");
-
-        const token = localStorage.getItem("token");
-
-        // Teste 1: Backend está online?
-        try {
-          console.log("📡 Teste 1: Verificando se backend responde...");
           const response = await fetch(
-            `${API_URL}/api/jogos/meus-jogos?limit=1`,
+            `${API_URL}/api/loterias/${loteria}/resultado/${concurso}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
           );
 
-          console.log("✅ Backend respondeu! Status:", response.status);
-
           if (response.ok) {
             const data = await response.json();
-            console.log("✅ JSON válido:", data);
-
-            if (data.success) {
-              console.log(
-                "✅ Endpoint funcionando! Total de jogos:",
-                data.total
-              );
-              return true;
-            } else {
-              console.error(
-                "❌ Endpoint retornou success=false:",
-                data.message
-              );
-              return false;
+            if (data.success && data.data) {
+              resultadosCache[cacheKey] = data.data.dezenasSorteadas || [];
+              return resultadosCache[cacheKey];
             }
-          } else {
-            console.error(
-              "❌ Status não OK:",
-              response.status,
-              response.statusText
-            );
-            return false;
           }
         } catch (error) {
-          console.error("❌ Erro de conexão:", error);
-          return false;
+          console.warn(
+            `Erro ao buscar resultado ${loteria} ${concurso}:`,
+            error
+          );
         }
+
+        return [];
       }
 
-      async function conferirTodos() {
-        const btnAtualizar = document.querySelector(".btn-atualizar");
-        btnAtualizar.textContent = "⏳ Atualizando...";
-        btnAtualizar.disabled = true;
-
-        try {
-          await carregarJogos();
-          btnAtualizar.textContent = "✅ Atualizado!";
-          setTimeout(() => {
-            btnAtualizar.textContent = "🔄 Atualizar";
-            btnAtualizar.disabled = false;
-          }, 2000);
-        } catch (error) {
-          btnAtualizar.textContent = "❌ Erro";
-          setTimeout(() => {
-            btnAtualizar.textContent = "🔄 Atualizar";
-            btnAtualizar.disabled = false;
-          }, 2000);
-        }
-      }
-
-      function renderizarJogos(jogosParaRenderizar) {
+      // ============================================
+      // RENDERIZAR JOGOS COM DESTAQUE DE ACERTOS
+      // ============================================
+      async function renderizarJogos(jogosParaRenderizar) {
         const lista = document.getElementById("jogos-lista");
 
         if (jogosParaRenderizar.length === 0) {
           lista.innerHTML =
-            '<div class="estado-vazio"><p>Nenhum jogo encontrado com os filtros aplicados.</p></div>';
+            '<div class="estado-vazio"><p>Nenhum jogo encontrado.</p></div>';
           return;
         }
 
+        // Buscar resultados de todos os concursos únicos
+        const concursosUnicos = [
+          ...new Set(
+            jogosParaRenderizar
+              .filter((j) => j.concurso_conferido)
+              .map((j) => `${j.loteria}-${j.concurso_conferido}`)
+          ),
+        ];
+
+        // Pré-carregar todos os resultados
+        await Promise.all(
+          concursosUnicos.map(async (key) => {
+            const [loteria, concurso] = key.split("-");
+            await buscarResultadoConcurso(loteria, concurso);
+          })
+        );
+
+        // Renderizar cards
         lista.innerHTML = jogosParaRenderizar
           .map((jogo) => {
-            const dezenas = jogo.dezenas
-              .map(
-                (d) =>
-                  `<div class="bola-numero">${d
-                    .toString()
-                    .padStart(2, "0")}</div>`
-              )
-              .join("");
-
             const data = new Date(jogo.created_at).toLocaleDateString("pt-BR");
             const loteriaNome = LOTERIAS_NOMES[jogo.loteria] || jogo.loteria;
+
+            // Buscar resultado do concurso (já está em cache)
+            const cacheKey = `${jogo.loteria}-${jogo.concurso_conferido}`;
+            const dezenasResultado = resultadosCache[cacheKey] || [];
+
+            // Criar grid de dezenas com destaque
+            const dezenas = jogo.dezenas
+              .map((d) => {
+                const numFormatado = d.toString().padStart(2, "0");
+
+                // Se foi conferido e temos o resultado, marcar acertos
+                if (jogo.conferido && dezenasResultado.length > 0) {
+                  const acertou = dezenasResultado.includes(d);
+                  const classe = acertou ? "acertou" : "nao-acertou";
+                  return `<div class="bola-numero ${classe}">${numFormatado}</div>`;
+                }
+
+                // Se não foi conferido, usar cor padrão
+                return `<div class="bola-numero">${numFormatado}</div>`;
+              })
+              .join("");
 
             // Acertos
             const temAcertos = jogo.conferido && jogo.acertos !== null;
             const acertos = temAcertos ? jogo.acertos : "-";
+
             const regrasPremiacao = {
               megasena: 4,
               lotofacil: 11,
@@ -1164,7 +1030,6 @@
             };
 
             let premiado = false;
-
             if (temAcertos) {
               if (jogo.loteria === "lotomania") {
                 premiado = jogo.acertos === 0 || jogo.acertos >= 15;
@@ -1174,110 +1039,194 @@
             }
 
             return `
-          <div class="jogo-card ${jogo.loteria}">
-            <input
-              type="checkbox"
-              class="checkbox-jogo"
-              data-id="${jogo.id}"
-              onchange="toggleSelecao(${jogo.id}, this.checked)"
-            />
-            
-            <div class="jogo-header-row">
-              <div class="jogo-info-left">
-                <div class="jogo-nome">
-                  ${jogo.label || jogo.nome_jogo || "Sem nome"}
+              <div class="jogo-card ${jogo.loteria}">
+                <input
+                  type="checkbox"
+                  class="checkbox-jogo"
+                  data-id="${jogo.id}"
+                  onchange="toggleSelecao(${jogo.id}, this.checked)"
+                />
+                
+                <div class="jogo-header-row">
+                  <div class="jogo-info-left">
+                    <div class="jogo-nome">
+                      ${jogo.label || jogo.nome_jogo || "Sem nome"}
+                    </div>
+                    <div class="jogo-meta">
+                      <span>🎰 ${loteriaNome}</span>
+                      <span>📅 ${data}</span>
+                      ${
+                        jogo.concurso_conferido
+                          ? `<span>🎯 Concurso ${jogo.concurso_conferido}</span>`
+                          : ""
+                      }
+                    </div>
+                  </div>
+
+                  <div class="jogo-acertos-destaque">
+                    <div class="acertos-numero ${
+                      premiado ? "premiado" : ""
+                    }">${acertos}</div>
+                  </div>
                 </div>
 
-                <div class="jogo-meta">
-                  <span>🎰 ${loteriaNome}</span>
-                  <span>📅 ${data}</span>
-                  ${
-                    jogo.concurso_conferido
-                      ? `<span>🎯 Concurso ${jogo.concurso_conferido}</span>`
-                      : ""
-                  }
+                <div class="jogo-dezenas-grid ${jogo.loteria}">
+                  ${dezenas}
                 </div>
               </div>
-
-              <div class="jogo-acertos-destaque">
-                <div class="acertos-numero ${
-                  premiado ? "premiado" : ""
-                }">${acertos}</div>
-                <div class="acertos-label">acertos</div>
-                ${
-                  premiado
-                    ? '<div class="badge-premiado">🏆 PREMIADO</div>'
-                    : ""
-                }
-              </div>
-            </div>
-
-            <div class="jogo-dezenas-grid ${jogo.loteria}">
-              ${dezenas}
-            </div>
-          </div>
-        `;
+            `;
           })
           .join("");
       }
 
+      // ============================================
+      // CARREGAR JOGOS
+      // ============================================
+      async function carregarJogos() {
+        console.log("🚀 Iniciando carregamento...");
+
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("jogos-lista").innerHTML = "";
+        document.getElementById("estado-vazio").style.display = "none";
+
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            throw new Error("Token não encontrado");
+          }
+
+          // Conferir todos os jogos
+          // try {
+          //   await fetch(`${API_URL}/api/jogos/conferir-todos-simples`, {
+          //     method: "POST",
+          //     headers: { Authorization: `Bearer ${token}` },
+          //   });
+          // } catch (e) {
+          //   console.warn("Erro ao conferir (ignorando):", e);
+          // }
+
+          // Carregar jogos
+          const response = await fetch(
+            `${API_URL}/api/jogos/meus-jogos?limit=10000`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`Erro ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          if (data.success) {
+            jogos = removerDuplicatas(data.data);
+
+            // Ordenar por acertos (maiores primeiro)
+            jogos.sort((a, b) => (b.acertos || 0) - (a.acertos || 0));
+
+            document.getElementById("loading").style.display = "none";
+
+            if (jogos.length === 0) {
+              document.getElementById("estado-vazio").style.display = "block";
+            } else {
+              await renderizarJogos(jogos);
+            }
+
+            atualizarContador();
+          } else {
+            throw new Error(data.message || "Erro desconhecido");
+          }
+        } catch (error) {
+          console.error("❌ Erro:", error);
+          document.getElementById("loading").style.display = "none";
+          mostrarToast("❌ Erro ao carregar jogos", "error");
+        }
+      }
+
+      // ============================================
+      // FILTROS
+      // ============================================
       function aplicarFiltros() {
         const loteria = document.getElementById("filtro-loteria").value;
-
         let jogosFiltrados = [...jogos];
 
         if (loteria) {
           jogosFiltrados = jogosFiltrados.filter((j) => j.loteria === loteria);
         }
 
-        // Sempre ordenar por acertos
-        jogosFiltrados.sort((a, b) => {
-          const acertosA = a.acertos || 0;
-          const acertosB = b.acertos || 0;
-          return acertosB - acertosA;
-        });
-
+        jogosFiltrados.sort((a, b) => (b.acertos || 0) - (a.acertos || 0));
         renderizarJogos(jogosFiltrados);
 
-        // Atualizar contador com jogos filtrados
         const contador = document.getElementById("contador-jogos");
-        if (jogosFiltrados.length === 1) {
-          contador.textContent = "1 jogo";
-        } else {
-          contador.textContent = `${jogosFiltrados.length} jogos`;
-        }
+        contador.textContent =
+          jogosFiltrados.length === 1
+            ? "1 jogo"
+            : `${jogosFiltrados.length} jogos`;
       }
 
       // ============================================
-      // 🔧 REMOVER DUPLICATAS (Solução para Dupla-Sena)
+      // REMOVER DUPLICATAS
       // ============================================
       function removerDuplicatas(listaJogos) {
         const jogosUnicosMap = new Map();
 
         listaJogos.forEach((jogo) => {
-          const id = jogo.id;
-
-          if (!jogosUnicosMap.has(id)) {
-            // Se é a primeira vez que vê esse ID, salva
-            jogosUnicosMap.set(id, jogo);
+          if (!jogosUnicosMap.has(jogo.id)) {
+            jogosUnicosMap.set(jogo.id, jogo);
           } else {
-            // Se é duplicado (ex: Dupla-Sena), compara os acertos
-            const jogoExistente = jogosUnicosMap.get(id);
-            const acertosExistentes = jogoExistente.acertos || 0;
-            const novosAcertos = jogo.acertos || 0;
-
-            // Mantém o que tem MAIS acertos
-            if (novosAcertos > acertosExistentes) {
-              jogosUnicosMap.set(id, jogo);
+            const jogoExistente = jogosUnicosMap.get(jogo.id);
+            if ((jogo.acertos || 0) > (jogoExistente.acertos || 0)) {
+              jogosUnicosMap.set(jogo.id, jogo);
             }
           }
         });
 
-        // Converte o Map de volta para Array
         return Array.from(jogosUnicosMap.values());
       }
 
-      // Verificar autenticação e carregar jogos
+      // Conferir resultados manualmente
+      async function conferirManualmente() {
+        const btn = event.target;
+        const textoOriginal = btn.innerHTML;
+
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Conferindo...";
+
+        try {
+          const token = localStorage.getItem("token");
+
+          const response = await fetch(
+            `${API_URL}/api/jogos/conferir-todos-simples`,
+            {
+              method: "POST",
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.success) {
+            mostrarToast(
+              `✅ ${data.data.conferidos} jogos conferidos!`,
+              "success"
+            );
+            await carregarJogos();
+          } else {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          console.error("Erro:", error);
+          mostrarToast("❌ Erro ao conferir jogos", "error");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = textoOriginal;
+        }
+      }
+
+      // ============================================
+      // INICIALIZAÇÃO
+      // ============================================
       window.addEventListener("DOMContentLoaded", () => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -1285,7 +1234,6 @@
           window.location.href = "login.html";
           return;
         }
-
         carregarJogos();
       });
     </script>
