@@ -729,7 +729,7 @@
     <div class="modal fade" id="modalUpgrade" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-body text-center p-5">
+          <div class="modal-body text-center p-5" id="modalUpgradeBody">
             <div style="font-size: 4rem; margin-bottom: 20px">🔒</div>
             <h2>Recurso Exclusivo PRÓ</h2>
             <p>
@@ -901,46 +901,79 @@
         window.location.href = url;
       }
 
-      async function fazerUpgrade() {
+      function fazerUpgrade() {
         const usuario = JSON.parse(localStorage.getItem("usuario"));
+
         if (!usuario) {
           alert("❌ Erro: Usuário não encontrado. Faça login novamente.");
           return;
         }
 
-        const SEU_WHATSAPP = "5521988957230";
-        const VALORES_PLANOS = {
-          mensal: "R$ 9,90/mês",
-          trimestral: "R$ 29,90 (3 meses)",
-          semestral: "R$ 49,90 (6 meses)",
-          anual: "R$ 89,90/ano",
-        };
+        const body = document.getElementById("modalUpgradeBody");
 
-        const mensagem = encodeURIComponent(
-          `🌟 *SOLICITAÇÃO DE UPGRADE - PLANO PRÓ*\n\n` +
-            `👤 *Nome:* ${usuario.nome}\n` +
-            `📧 *Email:* ${usuario.email}\n` +
-            `🆔 *ID:* ${usuario.id || "N/A"}\n\n` +
-            `💰 *Planos Disponíveis:*\n` +
-            `• Mensal: ${VALORES_PLANOS.mensal}\n` +
-            `• Trimestral: ${VALORES_PLANOS.trimestral}\n` +
-            `• Semestral: ${VALORES_PLANOS.semestral}\n` +
-            `• Anual: ${VALORES_PLANOS.anual}\n\n` +
-            `Aguardo informações sobre o pagamento! 🚀`
+        body.innerHTML = `
+          <div style="font-size:3rem">💎</div>
+          <h2 class="mt-2">Planos Disponíveis</h2>
+          <p>Libere todos os recursos <strong>PRÓ</strong></p>
+
+          <div class="mt-4 text-start">
+            <div class="alert alert-light">⭐ <strong>Mensal</strong> — R$ 9,90</div>
+            <div class="alert alert-light">⭐ <strong>Trimestral</strong> — R$ 29,90</div>
+            <div class="alert alert-light">⭐ <strong>Semestral</strong> — R$ 49,90</div>
+            <div class="alert alert-light">⭐ <strong>Anual</strong> — R$ 89,90</div>
+          </div>
+
+          <div class="mt-3 text-muted">
+            <p><strong>Como funciona:</strong></p>
+            <p>
+              1️⃣ Realize o pagamento do plano desejado<br>
+              2️⃣ Envie o comprovante<br>
+              3️⃣ Seu plano será ativado em até <strong>24 horas</strong>
+            </p>
+          </div>
+
+          <div class="mt-4">
+            <p class="fw-bold mb-2">💠 Pagamento via PIX</p>
+
+            <div class="d-flex justify-content-center gap-2">
+              <input
+                type="text"
+                id="pixKey"
+                class="form-control text-center"
+                style="max-width: 260px"
+                value="21981092008"
+                readonly
+              />
+
+              <button
+                class="btn btn-success"
+                onclick="copiarPix()"
+              >
+                📋 Copiar
+              </button>
+            </div>
+
+            <small class="text-muted d-block mt-2">
+              Chave PIX (Celular)
+            </small>
+          </div>
+
+          <button class="btn btn-secondary btn-lg mt-3" data-bs-dismiss="modal">
+            Fechar
+          </button>
+        `;
+      }
+
+      function copiarPix() {
+        const pixInput = document.getElementById("pixKey");
+        pixInput.select();
+        pixInput.setSelectionRange(0, 99999); // mobile
+
+        navigator.clipboard.writeText(pixInput.value);
+
+        alert(
+          "✅ Chave PIX copiada!\n\nAgora cole no app do seu banco para realizar o pagamento."
         );
-
-        const urlWhatsApp = `https://wa.me/${SEU_WHATSAPP}?text=${mensagem}`;
-        window.open(urlWhatsApp, "_blank");
-        modalUpgrade.hide();
-
-        setTimeout(() => {
-          alert(
-            "✅ Solicitação enviada!\n\n" +
-              "Você será redirecionado para o WhatsApp.\n" +
-              "Envie o comprovante de pagamento e aguarde a ativação.\n\n" +
-              "⏱️ Ativação em até 24 horas."
-          );
-        }, 500);
       }
 
       function verDetalhes(loteriaId) {
