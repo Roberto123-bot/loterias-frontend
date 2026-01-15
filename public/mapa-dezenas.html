@@ -269,6 +269,22 @@
           font-size: 0.8rem;
         }
       }
+
+      /* ===== Seleção de coluna ===== */
+      th.coluna-ativa {
+        background: #fff3b0 !important;
+        color: var(--cor-loteria) !important;
+        cursor: pointer;
+      }
+
+      td.coluna-ativa {
+        background: #fff3b0 !important;
+      }
+
+      th {
+        cursor: pointer;
+        user-select: none;
+      }
     </style>
   </head>
   <body>
@@ -499,6 +515,8 @@
       }
 
       function criarTabelaMapa(concursos) {
+        colunasSelecionadas.clear();
+
         const thead = document.getElementById("thead-mapa");
         const tbody = document.getElementById("tbody-mapa");
 
@@ -585,6 +603,44 @@
 
         tbody.appendChild(tr);
       }
+
+      let colunasSelecionadas = new Set();
+
+      document
+        .getElementById("thead-mapa")
+        .addEventListener("click", function (e) {
+          const th = e.target.closest("th");
+          if (!th) return;
+
+          const ths = Array.from(th.parentElement.children);
+          const colunaIndex = ths.indexOf(th);
+
+          // Ignorar a coluna "Concurso"
+          if (colunaIndex === 0) return;
+
+          const tabela = document.getElementById("tabela-mapa");
+          const linhas = tabela.querySelectorAll("tbody tr");
+
+          const ativa = colunasSelecionadas.has(colunaIndex);
+
+          // Alternar estado
+          if (ativa) {
+            colunasSelecionadas.delete(colunaIndex);
+          } else {
+            colunasSelecionadas.add(colunaIndex);
+          }
+
+          // Atualizar header
+          th.classList.toggle("coluna-ativa", !ativa);
+
+          // Atualizar células
+          linhas.forEach((tr) => {
+            const td = tr.children[colunaIndex];
+            if (td) {
+              td.classList.toggle("coluna-ativa", !ativa);
+            }
+          });
+        });
 
       // ✅ Verificar autenticação ao carregar página
       window.addEventListener("DOMContentLoaded", () => {
