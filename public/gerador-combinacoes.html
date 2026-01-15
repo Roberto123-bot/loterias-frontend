@@ -39,10 +39,15 @@
         justify-content: space-between;
       }
 
+      :root {
+        --cor-loteria: #667eea;
+      }
+
       #titulo-loteria {
         font-size: 1.2rem;
         font-weight: bold;
-        color: #667eea;
+        color: var(--cor-loteria);
+        transition: color 0.3s ease;
       }
 
       .top-bar-left {
@@ -81,7 +86,7 @@
       .loteria-selector {
         background: white;
         padding: 15px;
-        border-radius: 12px;
+        border-radius: 5px;
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
         display: flex;
@@ -110,7 +115,7 @@
       .dezenas-section {
         background: white;
         padding: 20px;
-        border-radius: 12px;
+        border-radius: 5px;
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
         width: 100%;
@@ -128,6 +133,7 @@
 
       .dezenas-header h3 {
         color: #333;
+        font-size: 1rem;
       }
 
       .contador {
@@ -766,6 +772,42 @@
         background: linear-gradient(145deg, #0a7c76, #007c76) !important;
         color: #fff !important;
       }
+
+      /* ===============================
+ESTATÍSTICAS DAS DEZENAS
+=============================== */
+
+      .estatisticas-dezenas {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: linear-gradient(135deg, #7b3fa1, #9b59b6);
+        border-radius: 8px;
+        margin: 10px 0 15px;
+        overflow: hidden;
+      }
+
+      .estatistica {
+        text-align: center;
+        padding: 8px 4px;
+        border-right: 1px solid rgba(255, 255, 255, 0.25);
+      }
+
+      .estatistica:last-child {
+        border-right: none;
+      }
+
+      .estatistica .label {
+        display: block;
+        font-size: 0.85rem;
+        color: #f0e6f6;
+        font-weight: 500;
+      }
+
+      .estatistica .valor {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #ffffff;
+      }
     </style>
   </head>
   <body>
@@ -797,6 +839,25 @@
         <div class="dezenas-header">
           <h3>Selecione suas dezenas</h3>
           <span class="contador" id="contador">0 selecionadas</span>
+        </div>
+
+        <div class="estatisticas-dezenas" id="estatisticas-dezenas">
+          <div class="estatistica">
+            <span class="label">Par</span>
+            <span class="valor" id="stat-par">0</span>
+          </div>
+          <div class="estatistica">
+            <span class="label">Ímpar</span>
+            <span class="valor" id="stat-impar">0</span>
+          </div>
+          <div class="estatistica">
+            <span class="label">Primo</span>
+            <span class="valor" id="stat-primo">0</span>
+          </div>
+          <div class="estatistica">
+            <span class="label">Soma</span>
+            <span class="valor" id="stat-soma">0</span>
+          </div>
         </div>
 
         <div class="acoes-dezenas">
@@ -903,23 +964,27 @@
       function mudarLoteria() {
         const select = document.getElementById("select-loteria");
         const loteriaId = select.value;
+        const titulo = document.getElementById("titulo-loteria");
 
         if (!loteriaId || !LOTERIAS_CONFIG[loteriaId]) {
           loteriaSelecionada = null;
-          document.getElementById("titulo-loteria").textContent =
-            "🎲 Gerar Jogos";
+          titulo.textContent = "🎲 Gerar Jogos";
+          document.documentElement.style.setProperty(
+            "--cor-loteria",
+            "#667eea"
+          );
           document.getElementById("dezenas-section").style.display = "none";
           return;
         }
 
         // 🔥 FONTE ÚNICA DE VERDADE
         loteriaSelecionada = loteriaId;
-
         const config = LOTERIAS_CONFIG[loteriaId];
 
-        document.getElementById(
-          "titulo-loteria"
-        ).textContent = `🎲 Gerar Jogos - ${config.nome}`;
+        titulo.textContent = `🎲 Gerar Jogos - ${config.nome}`;
+
+        // 🎨 COR DA LOTERIA
+        document.documentElement.style.setProperty("--cor-loteria", config.cor);
 
         inicializarGrid(loteriaId);
       }

@@ -6,6 +6,7 @@
 const LOTERIAS_CONFIG = {
   megasena: {
     nome: "Mega-Sena",
+    cor: "#209869",
     totalDezenas: 60,
     minDezenas: 6,
     maxDezenas: 60,
@@ -13,6 +14,7 @@ const LOTERIAS_CONFIG = {
   },
   lotofacil: {
     nome: "Lotofácil",
+    cor: "#930089",
     totalDezenas: 25,
     minDezenas: 15,
     maxDezenas: 25,
@@ -20,6 +22,7 @@ const LOTERIAS_CONFIG = {
   },
   quina: {
     nome: "Quina",
+    cor: "#260085",
     totalDezenas: 80,
     minDezenas: 5,
     maxDezenas: 80,
@@ -27,6 +30,7 @@ const LOTERIAS_CONFIG = {
   },
   lotomania: {
     nome: "Lotomania",
+    cor: "#F78100",
     totalDezenas: 100,
     minDezenas: 50,
     maxDezenas: 100,
@@ -34,6 +38,7 @@ const LOTERIAS_CONFIG = {
   },
   duplasena: {
     nome: "Dupla-Sena",
+    cor: "#A61324",
     totalDezenas: 50,
     minDezenas: 6,
     maxDezenas: 50,
@@ -41,6 +46,7 @@ const LOTERIAS_CONFIG = {
   },
   timemania: {
     nome: "Timemania",
+    cor: "#00FF48",
     totalDezenas: 80,
     minDezenas: 7,
     maxDezenas: 80,
@@ -48,6 +54,7 @@ const LOTERIAS_CONFIG = {
   },
   diadasorte: {
     nome: "Dia de Sorte",
+    cor: "#CB852B",
     totalDezenas: 31,
     minDezenas: 7,
     maxDezenas: 31,
@@ -55,6 +62,7 @@ const LOTERIAS_CONFIG = {
   },
   maismilionaria: {
     nome: "+Milionária",
+    cor: "#6BCCEF",
     totalDezenas: 50,
     minDezenas: 6,
     maxDezenas: 50,
@@ -130,6 +138,7 @@ function inicializarGrid(loteria) {
 
   section.style.display = "block";
   atualizarContador();
+  atualizarEstatisticas();
   atualizarBotaoGerar();
 
   console.log(`✅ Grid ${config.nome} carregado (${config.totalDezenas})`);
@@ -160,6 +169,7 @@ function toggleDezena(btn) {
   }
 
   atualizarContador();
+  atualizarEstatisticas();
   atualizarBotaoGerar();
   atualizarSlidersInteligentes();
 }
@@ -188,6 +198,7 @@ function selecionarTodas() {
   });
 
   atualizarContador();
+  atualizarEstatisticas();
   atualizarBotaoGerar();
 }
 
@@ -200,6 +211,7 @@ function limparSelecao() {
   });
 
   atualizarContador();
+  atualizarEstatisticas();
   atualizarBotaoGerar();
 }
 
@@ -381,6 +393,36 @@ function combinacao(n, k) {
     res = (res * (n - i + 1)) / i;
   }
   return Math.round(res);
+}
+
+function isPrimo(n) {
+  if (n < 2) return false;
+  for (let i = 2; i <= Math.sqrt(n); i++) {
+    if (n % i === 0) return false;
+  }
+  return true;
+}
+
+function atualizarEstatisticas() {
+  let par = 0;
+  let impar = 0;
+  let primo = 0;
+  let soma = 0;
+
+  dezenasSelecionadas.forEach((dezena) => {
+    const n = parseInt(dezena, 10);
+    soma += n;
+
+    if (n % 2 === 0) par++;
+    else impar++;
+
+    if (isPrimo(n)) primo++;
+  });
+
+  document.getElementById("stat-par").textContent = par;
+  document.getElementById("stat-impar").textContent = impar;
+  document.getElementById("stat-primo").textContent = primo;
+  document.getElementById("stat-soma").textContent = soma;
 }
 
 // ============================================
