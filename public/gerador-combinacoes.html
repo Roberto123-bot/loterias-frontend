@@ -588,9 +588,16 @@
         }
       }
 
+      #grid-dezenas {
+        justify-items: center; /* 🔥 ESSENCIAL */
+      }
+
       /* 🍀 Classes específicas por LOTOFACIL*/
       #grid-dezenas.lotofacil {
         grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
+        gap: 4px;
+        max-width: 340px;
+        margin: auto;
       }
 
       /* Selecionada */
@@ -601,8 +608,21 @@
 
       @media (max-width: 480px) {
         #grid-dezenas.lotofacil {
-          grid-template-columns: repeat(5, minmax(26px, 1fr)) !important;
-          gap: 3px;
+          grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
+        }
+
+        #grid-dezenas.lotofacil .dezena-btn {
+          width: 60px;
+          height: 60px;
+          font-size: 1rem;
+          margin: 0;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        #grid-dezenas.lotofacil {
+          grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
+          max-width: 360px;
         }
 
         #grid-dezenas.lotofacil .dezena-btn {
@@ -613,8 +633,28 @@
         }
       }
 
-      /* 🍀 Classes específicas por MEGASENA*/
-      #grid-dezenas.megasena {
+      @media (min-width: 768px) {
+        #grid-dezenas.lotofacil {
+          grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
+          max-width: 360px;
+        }
+
+        #grid-dezenas.lotofacil .dezena-btn {
+          width: 60px;
+          height: 60px;
+          font-size: 1rem;
+          margin: auto;
+        }
+      }
+
+      /* 🍀 LOTERIAS COM 10 COLUNAS */
+      #grid-dezenas.megasena,
+      #grid-dezenas.quina,
+      #grid-dezenas.lotomania,
+      #grid-dezenas.duplasena,
+      #grid-dezenas.timemania,
+      #grid-dezenas.diadasorte,
+      #grid-dezenas.maismilionaria {
         grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
       }
 
@@ -624,26 +664,6 @@
         color: #fff;
       }
 
-      @media (max-width: 480px) {
-        #grid-dezenas.megasena {
-          gap: 1px;
-        }
-
-        #grid-dezenas.megasena .dezena-btn {
-          width: 35px;
-          height: 35px;
-          font-size: 1rem;
-          margin: auto;
-        }
-      }
-
-      /* 🍀 Classes específicas por QUINA E TIMEMANIA*/
-      #grid-dezenas.quina,
-      #grid-dezenas.timemania {
-        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
-      }
-
-      /* Selecionada */
       #grid-dezenas.quina .dezena-btn.selecionada {
         background: linear-gradient(145deg, #2e34c7, #252bc7);
         color: #fff;
@@ -654,46 +674,9 @@
         color: #000000;
       }
 
-      @media (max-width: 480px) {
-        #grid-dezenas.quina,
-        #grid-dezenas.timemania {
-          gap: 1px;
-        }
-
-        #grid-dezenas.quina .dezena-btn,
-        #grid-dezenas.timemania .dezena-btn {
-          width: 35px;
-          height: 35px;
-          font-size: 1rem;
-        }
-      }
-
-      /* 🍀 Classes específicas por LOTOMANIA*/
-      #grid-dezenas.lotomania {
-        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
-        gap: 8px;
-      }
-
       #grid-dezenas.lotomania .dezena-btn.selecionada {
         background: linear-gradient(145deg, #ffa10a, #ff9d00);
         color: #fff;
-      }
-
-      @media (max-width: 480px) {
-        #grid-dezenas.lotomania {
-          gap: 1px;
-        }
-
-        #grid-dezenas.lotomania .dezena-btn {
-          width: 35px;
-          height: 35px;
-          font-size: 1rem;
-        }
-      }
-
-      /* 🍀 Classes específicas por DUPLASENA*/
-      #grid-dezenas.duplasena {
-        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
       }
 
       #grid-dezenas.duplasena .dezena-btn.selecionada {
@@ -701,43 +684,9 @@
         color: #fff;
       }
 
-      @media (max-width: 480px) {
-        #grid-dezenas.duplasena {
-          gap: 1px;
-        }
-
-        #grid-dezenas.duplasena .dezena-btn {
-          width: 35px;
-          height: 35px;
-          font-size: 1rem;
-        }
-      }
-
-      /* 🍀 Classes específicas por DIA DE SORTE*/
-      #grid-dezenas.diadasorte {
-        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
-      }
-
       #grid-dezenas.diadasorte .dezena-btn.selecionada {
         background: linear-gradient(145deg, #ffd20a, #ffd000);
         color: #000000;
-      }
-
-      @media (max-width: 480px) {
-        #grid-dezenas.diadasorte {
-          gap: 1px;
-        }
-
-        #grid-dezenas.diadasorte .dezena-btn {
-          width: 35px;
-          height: 35px;
-          font-size: 1rem;
-        }
-      }
-
-      /* 🍀 Classes específicas por MAIS MILIONÁRIA*/
-      #grid-dezenas.maismilionaria {
-        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
       }
 
       #grid-dezenas.maismilionaria .dezena-btn.selecionada {
@@ -745,15 +694,56 @@
         color: #fff;
       }
 
+      /* 📱 MOBILE */
       @media (max-width: 480px) {
+        #grid-dezenas.megasena,
+        #grid-dezenas.quina,
+        #grid-dezenas.lotomania,
+        #grid-dezenas.duplasena,
+        #grid-dezenas.timemania,
+        #grid-dezenas.diadasorte,
         #grid-dezenas.maismilionaria {
-          gap: 1px;
+          grid-template-columns: repeat(10, minmax(26px, 1fr)) !important;
+          gap: 3px;
         }
 
+        #grid-dezenas.megasena .dezena-btn,
+        #grid-dezenas.quina .dezena-btn,
+        #grid-dezenas.lotomania .dezena-btn,
+        #grid-dezenas.duplasena .dezena-btn,
+        #grid-dezenas.timemania .dezena-btn,
+        #grid-dezenas.diadasorte .dezena-btn,
         #grid-dezenas.maismilionaria .dezena-btn {
           width: 35px;
           height: 35px;
-          font-size: 1rem;
+          font-size: 0.8rem;
+          margin: auto;
+        }
+      }
+
+      /* 🖥 TABLET */
+      @media (min-width: 768px) {
+        #grid-dezenas.megasena,
+        #grid-dezenas.quina,
+        #grid-dezenas.lotomania,
+        #grid-dezenas.duplasena,
+        #grid-dezenas.timemania,
+        #grid-dezenas.diadasorte,
+        #grid-dezenas.maismilionaria {
+          max-width: 520px;
+        }
+      }
+
+      /* 🖥 DESKTOP */
+      @media (min-width: 1024px) {
+        #grid-dezenas.megasena,
+        #grid-dezenas.quina,
+        #grid-dezenas.lotomania,
+        #grid-dezenas.duplasena,
+        #grid-dezenas.timemania,
+        #grid-dezenas.diadasorte,
+        #grid-dezenas.maismilionaria {
+          max-width: 560px;
         }
       }
 
@@ -761,21 +751,14 @@
       DEZENA FIXA - COR GLOBAL (ABSOLUTA)
       ============================================ */
 
-      #grid-dezenas .dezena-btn.fixa,
-      #grid-dezenas.maismilionaria .dezena-btn.fixa,
-      #grid-dezenas.lotofacil .dezena-btn.fixa,
-      #grid-dezenas.megasena .dezena-btn.fixa,
-      #grid-dezenas.quina .dezena-btn.fixa,
-      #grid-dezenas.lotomania .dezena-btn.fixa,
-      #grid-dezenas.timemania .dezena-btn.fixa,
-      #grid-dezenas.diadasorte .dezena-btn.fixa {
+      #grid-dezenas .dezena-btn.fixa {
         background: linear-gradient(145deg, #0a7c76, #007c76) !important;
         color: #fff !important;
       }
 
       /* ===============================
-ESTATÍSTICAS DAS DEZENAS
-=============================== */
+          ESTATÍSTICAS DAS DEZENAS
+      =============================== */
 
       .estatisticas-dezenas {
         display: grid;

@@ -240,18 +240,28 @@
 
       .volante-grid.cols-10 {
         grid-template-columns: repeat(10, 1fr);
+        max-width: 340px;
+        gap: 2px;
+        margin: 0 auto;
+        justify-content: center;
       }
 
       .volante-grid.cols-5 {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 2px; /* ⬅️ diminui espaço entre células */
+        padding: 0; /* remove respiro interno */
+        max-width: 340px; /* ⬅️ trava largura total */
+        margin: 0 auto;
       }
 
       .numero-btn {
         aspect-ratio: 1;
+        width: 48px; /* ⬅️ CONTROLE REAL DO TAMANHO */
+        max-width: 100%; /* não estoura a célula */
         border: 2px solid #ddd;
         background: white;
         border-radius: 50%;
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: bold;
         color: #333;
         cursor: pointer;
@@ -259,8 +269,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 40px;
-        padding: 0;
+        margin: auto; /* ⬅️ centraliza dentro da célula */
       }
 
       .numero-btn:hover:not(.selecionado) {
@@ -337,14 +346,30 @@
         }
 
         .volante-grid.cols-10 {
-          grid-template-columns: repeat(8, 1fr);
-          gap: 6px;
+          max-width: 340px;
+          gap: 2px;
+          margin: 0 auto; /* 🔥 ISSO resolve o centro */
+          justify-content: center; /* segurança extra */
+        }
+
+        .volante-grid.cols-10 .numero-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 0.7rem;
           padding: 0;
         }
 
         .volante-grid.cols-5 {
           grid-template-columns: repeat(5, 1fr);
           gap: 6px;
+          padding: 0;
+        }
+
+        .volante-grid.cols-5 .numero-btn {
+          width: 40px;
+          height: 40px;
+          font-size: 0.78rem;
+          margin: auto;
           padding: 0;
         }
 
@@ -359,6 +384,7 @@
         }
 
         .numero-btn {
+          width: 46px;
           font-size: 0.85rem;
           min-height: 35px;
           border-width: 1.5px;
@@ -387,6 +413,38 @@
       }
 
       @media (max-width: 480px) {
+        .volante-grid.cols-10 {
+          grid-template-columns: repeat(10, 1fr);
+        }
+
+        .volante-grid.cols-10 {
+          max-width: 340px;
+          gap: 3px;
+          margin: auto;
+          justify-content: center;
+        }
+
+        .volante-grid.cols-10 .numero-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 0.8rem;
+          padding: 0;
+        }
+
+        .volante-grid.cols-5 {
+          max-width: 340px;
+          gap: 6px;
+          margin: auto;
+          justify-content: center;
+        }
+
+        .volante-grid.cols-5 .numero-btn {
+          width: 60px;
+          height: 60px;
+          font-size: 1rem;
+          padding: 0;
+        }
+
         .container {
           padding: 10px;
         }
@@ -397,11 +455,6 @@
 
         .form-container {
           padding: 15px 10px;
-        }
-
-        .volante-grid.cols-10 {
-          grid-template-columns: repeat(10, 1fr);
-          gap: 1px;
         }
 
         .trevos-grid {
@@ -416,7 +469,8 @@
         }
 
         .numero-btn {
-          font-size: 0.8rem;
+          width: 42px;
+          font-size: 0.85rem;
           min-height: 32px;
         }
 
@@ -449,13 +503,38 @@
 
       @media (max-width: 360px) {
         .volante-grid.cols-10 {
-          grid-template-columns: repeat(6, 1fr);
-          gap: 4px;
+          grid-template-columns: repeat(10, 1fr);
+          gap: 2px;
+          max-width: 360px;
+          margin: 0 auto;
         }
 
         .volante-grid.cols-5 {
-          grid-template-columns: repeat(5, 1fr);
-          gap: 4px;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 4px; /* ⬅️ diminui espaço entre células */
+          padding: 0; /* remove respiro interno */
+          max-width: 340px; /* ⬅️ trava largura total */
+          margin: 0 auto;
+        }
+
+        .volante-grid.cols-10 .numero-btn {
+          width: 40px;
+          height: 40px;
+          font-size: 0.78rem;
+          margin: auto;
+          padding: 0;
+        }
+
+        .volante-container .volante-grid.cols-5 {
+          padding: 0 !important;
+        }
+
+        .volante-grid.cols-5 .numero-btn {
+          width: 40px;
+          height: 40px;
+          font-size: 0.78rem;
+          margin: auto;
+          padding: 0;
         }
 
         .numero-btn {
