@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -270,7 +270,9 @@
         border-radius: 15px;
         padding: 25px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s, box-shadow 0.3s;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
         position: relative;
         overflow: hidden;
       }
@@ -676,7 +678,11 @@
         </a>
 
         <!-- Estatísticas -->
-        <a href="#" class="menu-item" onclick="alert('Em breve!')">
+        <a
+          href="#"
+          class="menu-item"
+          onclick="verificarPlanoENavegar('estatisticas.html', event)"
+        >
           <i class="bi bi-calculator-fill"></i>
           <span>Estatíticas</span>
           <span class="menu-badge badge-pro">PRO</span>
@@ -840,7 +846,7 @@
               .atob(base64)
               .split("")
               .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-              .join("")
+              .join(""),
           );
           return JSON.parse(jsonPayload);
         } catch (e) {
@@ -1010,7 +1016,7 @@
         navigator.clipboard.writeText(pixInput.value);
 
         alert(
-          "✅ Chave PIX copiada!\n\nAgora cole no app do seu banco para realizar o pagamento."
+          "✅ Chave PIX copiada!\n\nAgora cole no app do seu banco para realizar o pagamento.",
         );
       }
 
@@ -1038,7 +1044,7 @@
         try {
           // 🚀 UMA ÚNICA REQUISIÇÃO
           const response = await fetch(
-            `${API_URL}/api/resultados/ultimos-todos`
+            `${API_URL}/api/resultados/ultimos-todos`,
           );
           const data = await response.json();
 
@@ -1148,14 +1154,13 @@
       window.addEventListener("DOMContentLoaded", async () => {
         // Inicializar modal Bootstrap
         modalUpgrade = new bootstrap.Modal(
-          document.getElementById("modalUpgrade")
+          document.getElementById("modalUpgrade"),
         );
 
         const user = JSON.parse(localStorage.getItem("usuario"));
         if (user) {
-          document.getElementById(
-            "nome-usuario"
-          ).textContent = `👤 ${user.nome}`;
+          document.getElementById("nome-usuario").textContent =
+            `👤 ${user.nome}`;
         }
 
         const token = localStorage.getItem("token");

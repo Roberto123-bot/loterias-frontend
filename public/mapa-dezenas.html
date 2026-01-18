@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -285,6 +285,33 @@
         cursor: pointer;
         user-select: none;
       }
+
+      /* ===== Temperatura ===== */
+      .temp-Q {
+        background: #ffb3c7;
+        font-weight: bold;
+      }
+
+      .temp-M {
+        background: #ffe29a;
+        font-weight: bold;
+      }
+
+      .temp-F {
+        background: #9fd3ff;
+        font-weight: bold;
+      }
+
+      /* ===== Destaque nomes estatísticas ===== */
+      .estatistica-destaque {
+        color: #1f2937; /* cinza bem escuro */
+        font-weight: 700;
+      }
+
+      .linha-estatistica td:first-child {
+        background: #f3f4f6;
+        color: #1f2937;
+      }
     </style>
   </head>
   <body>
@@ -454,11 +481,10 @@
         loteriaAtual = LOTERIAS_CONFIG[loteriaId];
         document.documentElement.style.setProperty(
           "--cor-loteria",
-          loteriaAtual.cor
+          loteriaAtual.cor,
         );
-        document.getElementById(
-          "titulo-loteria"
-        ).textContent = `📊 Mapa das Dezenas - ${loteriaAtual.nome}`;
+        document.getElementById("titulo-loteria").textContent =
+          `📊 Mapa das Dezenas - ${loteriaAtual.nome}`;
         document.getElementById("btn-atualizar").disabled = false;
       }
 
@@ -470,7 +496,7 @@
         const loading = document.getElementById("loading");
         const tabela = document.getElementById("tabela-mapa");
         const qtdConcursos = parseInt(
-          document.getElementById("qtd-concursos").value
+          document.getElementById("qtd-concursos").value,
         );
 
         tabelaContainer.style.display = "block";
@@ -481,7 +507,7 @@
           // ✅ Adicionar token na requisição
           const response = await fetch(
             `${API_URL}${loteriaAtual.endpoint}?limit=${qtdConcursos}`,
-            { headers: getHeaders() }
+            { headers: getHeaders() },
           );
 
           // ✅ Verificar status
@@ -549,14 +575,14 @@
             criarLinhaConcurso(
               concurso,
               concurso.dezenas_1 || [],
-              `#${concurso.concurso} (1º)`
+              `#${concurso.concurso} (1º)`,
             );
 
             // Segundo sorteio
             criarLinhaConcurso(
               concurso,
               concurso.dezenas_2 || [],
-              `#${concurso.concurso} (2º)`
+              `#${concurso.concurso} (2º)`,
             );
           } else {
             // Outras loterias: 1 linha normal
@@ -564,10 +590,12 @@
             criarLinhaConcurso(
               concurso,
               dezenasSorteadas,
-              `#${concurso.concurso}`
+              `#${concurso.concurso}`,
             );
           }
         });
+
+        gerarEstatisticasMapa();
       }
 
       function criarLinhaConcurso(concurso, dezenasSorteadas, labelConcurso) {
@@ -604,6 +632,122 @@
         tbody.appendChild(tr);
       }
 
+      function gerarEstatisticasMapa() {
+        const tbody = document.getElementById("tbody-mapa");
+        const linhas = Array.from(tbody.querySelectorAll("tr"));
+
+        const totalDezenas = loteriaAtual.max - loteriaAtual.min + 1;
+        const totalConcursos = linhas.length;
+
+        const freq = Array(totalDezenas).fill(0);
+        const atraso = Array(totalDezenas).fill(0);
+        const sequencia = Array(totalDezenas).fill(0);
+
+        // === FREQUÊNCIA e SEQUÊNCIA ===
+        linhas.forEach((tr) => {
+          Array.from(tr.querySelectorAll(".numero-cell")).forEach(
+            (cell, idx) => {
+              if (cell.classList.contains("sorteado")) {
+                freq[idx]++;
+                sequencia[idx]++;
+              } else {
+                sequencia[idx] = 0;
+              }
+            },
+          );
+        });
+
+        // === ATRASOS (de baixo para cima) ===
+        for (let i = 0; i < totalDezenas; i++) {
+          let atrasoCount = 0;
+          for (let j = linhas.length - 1; j >= 0; j--) {
+            const cell = linhas[j].querySelectorAll(".numero-cell")[i];
+            if (cell.classList.contains("sorteado")) break;
+            atrasoCount++;
+          }
+          atraso[i] = atrasoCount;
+        }
+
+        // === TEMPERATURA ===
+        const media = (totalConcursos * 15) / totalDezenas;
+        const temperatura = freq.map((f) => {
+          if (f >= media + 2) return "Q";
+          if (f <= media - 2) return "F";
+          return "M";
+        });
+
+        criarLinhaEstatistica("Sequência", sequencia);
+        criarLinhaEstatistica("Atrasos", atraso);
+        criarLinhaEstatistica("Freq.", freq);
+        criarLinhaTemperatura(temperatura);
+
+        // 🔥 SALVAR ESTATÍSTICAS NO LOCALSTORAGE
+        localStorage.setItem(
+          "estatisticasMapa",
+          JSON.stringify({
+            loteria: loteriaAtual.nome,
+            min: loteriaAtual.min,
+            max: loteriaAtual.max,
+            concursos: document.getElementById("qtd-concursos").value,
+            frequencia: freq,
+            sequencia: sequencia,
+            atraso: atraso,
+            temperatura: temperatura,
+            atualizadoEm: new Date().toISOString(),
+          }),
+        );
+      }
+
+      function criarLinhaEstatistica(label, valores) {
+        const tbody = document.getElementById("tbody-mapa");
+        const tr = document.createElement("tr");
+
+        // 👇 classe só para estatística
+        tr.classList.add("linha-estatistica");
+
+        const tdLabel = document.createElement("td");
+        tdLabel.textContent = label;
+
+        // 👇 escurecer apenas essas
+        if (["Atrasos", "Freq.", "Frequência"].includes(label)) {
+          tdLabel.classList.add("estatistica-destaque");
+        }
+
+        tr.appendChild(tdLabel);
+
+        valores.forEach((v) => {
+          const td = document.createElement("td");
+          td.textContent = v;
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      }
+
+      function criarLinhaTemperatura(valores) {
+        const tbody = document.getElementById("tbody-mapa");
+        const tr = document.createElement("tr");
+
+        // 👇 classe só para estatística
+        tr.classList.add("linha-estatistica");
+
+        const tdLabel = document.createElement("td");
+        tdLabel.textContent = "Temp.";
+
+        tdLabel.classList.add("estatistica-destaque");
+
+        tr.appendChild(tdLabel);
+
+        valores.forEach((v) => {
+          const td = document.createElement("td");
+          td.textContent = v;
+          td.classList.add(`temp-${v}`);
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      }
+
       let colunasSelecionadas = new Set();
 
       document
@@ -619,7 +763,10 @@
           if (colunaIndex === 0) return;
 
           const tabela = document.getElementById("tabela-mapa");
-          const linhas = tabela.querySelectorAll("tbody tr");
+          const todasLinhas = Array.from(tabela.querySelectorAll("tbody tr"));
+
+          // ✅ Ignorar linhas estatísticas (últimas 4)
+          const linhas = todasLinhas.slice(0, -4);
 
           const ativa = colunasSelecionadas.has(colunaIndex);
 
