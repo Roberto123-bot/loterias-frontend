@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -697,13 +697,13 @@
               <div class="stat-card receita">
                 <h3>Receita Hoje</h3>
                 <div class="value">R$ ${parseFloat(d.receita_hoje || 0).toFixed(
-                  2
+                  2,
                 )}</div>
               </div>
               <div class="stat-card receita">
                 <h3>Receita Mês</h3>
                 <div class="value">R$ ${parseFloat(d.receita_mes || 0).toFixed(
-                  2
+                  2,
                 )}</div>
               </div>
               <div class="stat-card">
@@ -729,6 +729,8 @@
 
       // ========== USUÁRIOS ==========
       let usuariosCache = [];
+      let paginaAtual = 1;
+      const usuariosPorPagina = 10;
 
       async function carregarUsuarios() {
         const container = document.getElementById("usuarios-lista");
@@ -749,19 +751,84 @@
 
           const response = await fetch(
             `${API_URL}/api/admin/usuarios?${params}`,
-            { headers }
+            { headers },
           );
           const data = await response.json();
 
           if (data.success) {
             usuariosCache = data.data;
-            renderUsuarios(data.data);
+            paginaAtual = 1;
+            renderUsuariosPaginados();
           }
         } catch (error) {
           console.error("Erro:", error);
           container.innerHTML =
             '<div class="loading">❌ Erro ao carregar usuários</div>';
         }
+      }
+
+      function renderUsuariosPaginados() {
+        const inicio = (paginaAtual - 1) * usuariosPorPagina;
+        const fim = inicio + usuariosPorPagina;
+        const usuariosPagina = usuariosCache.slice(inicio, fim);
+
+        renderUsuarios(usuariosPagina);
+        renderPaginacao();
+      }
+
+      function renderPaginacao() {
+        const container = document.getElementById("usuarios-lista");
+
+        const totalPaginas = Math.ceil(
+          usuariosCache.length / usuariosPorPagina,
+        );
+
+        if (totalPaginas <= 1) return;
+
+        let html = `
+          <div style="
+            display:flex;
+            justify-content:center;
+            gap:6px;
+            padding:20px;
+            border-top:1px solid #eee;
+          ">
+        `;
+
+        html += `
+          <button class="btn btn-secondary"
+            ${paginaAtual === 1 ? "disabled" : ""}
+            onclick="mudarPagina(${paginaAtual - 1})">
+            ◀
+          </button>
+        `;
+
+        for (let i = 1; i <= totalPaginas; i++) {
+          html += `
+            <button
+              class="btn ${i === paginaAtual ? "btn-primary" : "btn-secondary"}"
+              onclick="mudarPagina(${i})">
+              ${i}
+            </button>
+          `;
+        }
+
+        html += `
+          <button class="btn btn-secondary"
+            ${paginaAtual === totalPaginas ? "disabled" : ""}
+            onclick="mudarPagina(${paginaAtual + 1})">
+            ▶
+          </button>
+        `;
+
+        html += "</div>";
+
+        container.innerHTML += html;
+      }
+
+      function mudarPagina(pagina) {
+        paginaAtual = pagina;
+        renderUsuariosPaginados();
       }
 
       function renderUsuarios(usuarios) {
@@ -793,8 +860,8 @@
             u.status === "PRO ATIVO"
               ? "badge-pro"
               : u.status === "PRO EXPIRADO"
-              ? "badge-expirado"
-              : "badge-free";
+                ? "badge-expirado"
+                : "badge-free";
 
           const expiraEm = u.plano_expira_em
             ? new Date(u.plano_expira_em).toLocaleDateString("pt-BR")
@@ -875,7 +942,7 @@
 
             data.data.forEach((h) => {
               const data_formatted = new Date(h.created_at).toLocaleString(
-                "pt-BR"
+                "pt-BR",
               );
               const mudanca = `${h.plano_anterior} → ${h.plano_novo}`;
 
@@ -883,8 +950,8 @@
                 <tr>
                   <td>${data_formatted}</td>
                   <td>${h.usuario_nome}<br><small>${
-                h.usuario_email
-              }</small></td>
+                    h.usuario_email
+                  }</small></td>
                   <td>${mudanca}</td>
                   <td>${h.dias_adicionados} dias</td>
                   <td>R$ ${parseFloat(h.valor_pago || 0).toFixed(2)}</td>
@@ -939,7 +1006,7 @@
 
             data.data.forEach((u) => {
               const expiraEm = new Date(u.plano_expira_em).toLocaleDateString(
-                "pt-BR"
+                "pt-BR",
               );
 
               html += `
@@ -969,7 +1036,7 @@
 
       function notificarUsuario(id) {
         alert(
-          "Funcionalidade de notificação por email será implementada em breve!"
+          "Funcionalidade de notificação por email será implementada em breve!",
         );
       }
 
@@ -1025,7 +1092,7 @@
                 method: "POST",
                 headers,
                 body: JSON.stringify({ dias, valor, metodo, observacoes }),
-              }
+              },
             );
 
             const data = await response.json();
@@ -1055,7 +1122,7 @@
 
           if (
             !confirm(
-              "Tem certeza que deseja desativar o plano PRO deste usuário?"
+              "Tem certeza que deseja desativar o plano PRO deste usuário?",
             )
           ) {
             return;
@@ -1068,7 +1135,7 @@
                 method: "POST",
                 headers,
                 body: JSON.stringify({ observacoes }),
-              }
+              },
             );
 
             const data = await response.json();
