@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -17,7 +17,7 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: linear-gradient(135deg, #cb852b 0%, #ffa500 100%);
         min-height: 100vh;
-        padding: 20px;
+        padding: 10px;
       }
 
       .container {
@@ -28,8 +28,8 @@
       /* Header */
       header {
         background: white;
-        border-radius: 15px;
-        padding: 30px;
+        border-radius: 5px;
+        padding: 15px;
         margin-bottom: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         display: flex;
@@ -42,7 +42,7 @@
       .header-left {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 10px;
       }
 
       .icon-large {
@@ -50,7 +50,7 @@
       }
 
       h1 {
-        font-size: 2.5rem;
+        font-size: 1.5rem;
         color: #cb852b;
         margin-bottom: 5px;
       }
@@ -77,192 +77,12 @@
         opacity: 0.9;
       }
 
-      /* Stats Cards */
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-        margin-bottom: 20px;
-      }
-
-      .stat-card {
-        background: white;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .stat-value {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #cb852b;
-        margin-bottom: 5px;
-      }
-
-      .stat-label {
-        color: #666;
-        font-size: 0.9rem;
-      }
-
-      /* Filtros */
-      .filtros {
-        background: white;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .filtros-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-        margin-bottom: 15px;
-      }
-
-      .filtro-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .filtro-group label {
-        font-size: 0.9rem;
-        color: #666;
-        font-weight: 500;
-      }
-
-      .filtro-group input,
-      .filtro-group select {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 1rem;
-      }
-
-      .btn-filtrar {
-        padding: 12px 24px;
-        background: #cb852b;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: opacity 0.3;
-      }
-
-      .btn-filtrar:hover {
-        opacity: 0.9;
-      }
-
       /* Tabela */
       .tabela-container {
         background: white;
-        border-radius: 10px;
+        border-radius: 5px;
         padding: 20px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        overflow-x: auto;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      thead {
-        background: #cb852b;
-        color: white;
-      }
-
-      thead th {
-        padding: 15px;
-        text-align: left;
-        font-weight: 600;
-        font-size: 0.95rem;
-      }
-
-      tbody tr {
-        border-bottom: 1px solid #eee;
-        transition: background 0.2s;
-      }
-
-      tbody tr:hover {
-        background: #f5f5f5;
-      }
-
-      tbody td {
-        padding: 15px;
-        color: #333;
-      }
-
-      .concurso-numero {
-        font-weight: bold;
-        color: #cb852b;
-        font-size: 1.1rem;
-      }
-
-      .dezenas-tabela {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
-      .bola-mini {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: #cb852b;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 0.85rem;
-      }
-
-      .mes-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        background: #fff3e0;
-        color: #cb852b;
-        border-radius: 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        border: 1px solid #cb852b;
-      }
-
-      /* Paginação */
-      .paginacao {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .btn-paginacao {
-        padding: 10px 20px;
-        background: #cb852b;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: opacity 0.3;
-      }
-
-      .btn-paginacao:hover:not(:disabled) {
-        opacity: 0.9;
-      }
-
-      .btn-paginacao:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-      }
-
-      .info-paginacao {
-        color: #666;
-        font-size: 0.9rem;
       }
 
       /* Loading */
@@ -292,29 +112,70 @@
         }
       }
 
-      /* Responsivo */
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 1.8rem;
-        }
+      /* =========================
+        CARDS DIA DE SORTE
+      ========================= */
 
-        .stats-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
+      .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 20px;
+      }
 
-        table {
-          font-size: 0.9rem;
-        }
+      .card-concurso {
+        background: #fff;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      }
 
-        .bola-mini {
-          width: 28px;
-          height: 28px;
-          font-size: 0.75rem;
-        }
+      .card-header {
+        font-weight: bold;
+        color: #cb852b;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.95rem;
+      }
 
-        .filtros-grid {
-          grid-template-columns: 1fr;
-        }
+      .card-concurso:first-child {
+        border: 2px solid #cb852b;
+      }
+
+      .grid-31 {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 6px;
+      }
+
+      .dezena {
+        aspect-ratio: 1 / 1;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        font-weight: bold;
+        background: #eee;
+        color: #666;
+      }
+
+      .dezena.sorteada {
+        background: #cb852b;
+        color: #fff;
+      }
+
+      .mes-sorte-card {
+        margin-top: 12px;
+        padding: 8px 12px;
+        background: #fff3e0;
+        border-radius: 8px;
+        border-left: 4px solid #cb852b;
+        font-weight: 600;
+        color: #cb852b;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
       }
     </style>
   </head>
@@ -326,146 +187,28 @@
           <div class="icon-large">🍀</div>
           <div>
             <h1>Dia de Sorte</h1>
-            <div class="subtitle">Resultados e Estatísticas</div>
+            <div class="subtitle">Resultados</div>
           </div>
         </div>
         <a href="index.html" class="btn-voltar">← Voltar</a>
       </header>
 
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value" id="total-concursos">-</div>
-          <div class="stat-label">Total de Concursos</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="ultimo-concurso">-</div>
-          <div class="stat-label">Último Concurso</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="primeiro-concurso">-</div>
-          <div class="stat-label">Primeiro Concurso</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">7</div>
-          <div class="stat-label">Dezenas Sorteadas</div>
-        </div>
-      </div>
-
-      <!-- Filtros -->
-      <div class="filtros">
-        <div class="filtros-grid">
-          <div class="filtro-group">
-            <label>Concurso Específico</label>
-            <input type="number" id="filtro-concurso" placeholder="Ex: 100" />
-          </div>
-          <div class="filtro-group">
-            <label>Buscar por Número</label>
-            <input
-              type="number"
-              id="filtro-numero"
-              placeholder="Ex: 15"
-              min="1"
-              max="31"
-            />
-          </div>
-          <div class="filtro-group">
-            <label>Buscar por Mês</label>
-            <select id="filtro-mes">
-              <option value="">Todos os meses</option>
-              <option value="1">Janeiro</option>
-              <option value="2">Fevereiro</option>
-              <option value="3">Março</option>
-              <option value="4">Abril</option>
-              <option value="5">Maio</option>
-              <option value="6">Junho</option>
-              <option value="7">Julho</option>
-              <option value="8">Agosto</option>
-              <option value="9">Setembro</option>
-              <option value="10">Outubro</option>
-              <option value="11">Novembro</option>
-              <option value="12">Dezembro</option>
-            </select>
-          </div>
-          <div class="filtro-group">
-            <label>Quantidade de Resultados</label>
-            <select id="filtro-quantidade">
-              <option value="10" selected>10 resultados</option>
-              <option value="20">20 resultados</option>
-              <option value="50">50 resultados</option>
-              <option value="100">100 resultados</option>
-            </select>
-          </div>
-        </div>
-        <button class="btn-filtrar" onclick="aplicarFiltros()">
-          🔍 Buscar
-        </button>
-        <button
-          class="btn-filtrar"
-          onclick="limparFiltros()"
-          style="background: #666; margin-left: 10px"
-        >
-          🔄 Limpar
-        </button>
-      </div>
-
       <!-- Tabela -->
       <div class="tabela-container">
         <div id="loading" class="loading">Carregando resultados</div>
 
-        <table id="tabela-resultados" style="display: none">
-          <thead>
-            <tr>
-              <th>Concurso</th>
-              <th>Dezenas Sorteadas</th>
-              <th>Mês da Sorte</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-resultados"></tbody>
-        </table>
-
-        <div class="paginacao" id="paginacao" style="display: none">
-          <button
-            class="btn-paginacao"
-            id="btn-anterior"
-            onclick="paginaAnterior()"
-          >
-            ← Anterior
-          </button>
-          <span class="info-paginacao" id="info-pagina">-</span>
-          <button
-            class="btn-paginacao"
-            id="btn-proxima"
-            onclick="proximaPagina()"
-          >
-            Próxima →
-          </button>
-        </div>
+        <div
+          id="cards-resultados"
+          class="cards-container"
+          style="display: none"
+        ></div>
       </div>
     </div>
 
     <script>
       const ENDPOINT = "/diadasorte";
 
-      let paginaAtual = 1;
-      let limitePorPagina = 10;
-      let totalResultados = 0;
-
-      const MESES = [
-        "",
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro",
-      ];
+      const LIMITE = 10;
 
       // ✅ Pegar token do localStorage
       function getToken() {
@@ -495,249 +238,81 @@
       // Carregar dados iniciais
       async function carregarDados() {
         if (!verificarAutenticacao()) return;
-
-        try {
-          // ✅ Carregar estatísticas COM TOKEN
-          const statsResponse = await fetch(`${API_URL}${ENDPOINT}?limit=1`, {
-            headers: getHeaders(),
-          });
-          const statsData = await statsResponse.json();
-
-          if (statsData.success) {
-            document.getElementById("total-concursos").textContent =
-              statsData.total.toLocaleString();
-          }
-
-          // ✅ Carregar último concurso COM TOKEN
-          const ultimoResponse = await fetch(`${API_URL}${ENDPOINT}/ultimo`, {
-            headers: getHeaders(),
-          });
-          const ultimoData = await ultimoResponse.json();
-
-          if (ultimoData.success) {
-            document.getElementById("ultimo-concurso").textContent =
-              ultimoData.data.concurso;
-          }
-
-          await carregarResultados();
-        } catch (error) {
-          console.error("Erro ao carregar dados:", error);
-          document.getElementById("loading").textContent =
-            "❌ Erro ao carregar dados";
-        }
+        await carregarResultados();
       }
 
       async function carregarResultados() {
         const loading = document.getElementById("loading");
-        const tabela = document.getElementById("tabela-resultados");
-        const paginacao = document.getElementById("paginacao");
+        const cards = document.getElementById("cards-resultados");
 
         loading.style.display = "block";
-        tabela.style.display = "none";
-        paginacao.style.display = "none";
+        cards.style.display = "none";
 
         try {
-          const offset = (paginaAtual - 1) * limitePorPagina;
-
           // ✅ Adicionar token na requisição
           const response = await fetch(
-            `${API_URL}${ENDPOINT}?limit=${limitePorPagina}&offset=${offset}`,
-            { headers: getHeaders() }
+            `${API_URL}${ENDPOINT}?limit=${LIMITE}`,
+            { headers: getHeaders() },
           );
+
           const data = await response.json();
 
           if (data.success) {
-            totalResultados = data.total;
-            renderizarTabela(data.data);
-            atualizarPaginacao();
-
+            renderizarCards(data.data);
             loading.style.display = "none";
-            tabela.style.display = "table";
-            paginacao.style.display = "flex";
+            cards.style.display = "grid";
           } else {
-            loading.textContent = "❌ " + (data.message || "Erro ao carregar");
+            loading.textContent = "❌ Nenhum resultado encontrado";
           }
         } catch (error) {
-          console.error("Erro:", error);
+          console.error(error);
           loading.textContent = "❌ Erro ao carregar resultados";
         }
       }
 
-      function renderizarTabela(resultados) {
-        const tbody = document.getElementById("tbody-resultados");
-        tbody.innerHTML = "";
+      function gerarGrid(dezenasSorteadas) {
+        let html = "";
+
+        for (let i = 1; i <= 31; i++) {
+          html += `
+            <div class="dezena ${dezenasSorteadas.includes(i) ? "sorteada" : ""}">
+              ${String(i).padStart(2, "0")}
+            </div>
+          `;
+        }
+
+        return html;
+      }
+
+      function renderizarCards(resultados) {
+        resultados.sort((a, b) => b.concurso - a.concurso);
+        const container = document.getElementById("cards-resultados");
+        container.innerHTML = "";
 
         resultados.forEach((resultado) => {
-          const tr = document.createElement("tr");
+          const dezenas = (resultado.dezenas || []).map(Number);
+          const mesSorte = resultado.mes_sorte || "Não informado";
 
-          const dezenas = resultado.dezenas || [];
-          const dezenasHTML = dezenas
-            .map((num) => `<div class="bola-mini">${num}</div>`)
-            .join("");
+          const card = document.createElement("div");
+          card.className = "card-concurso";
 
-          // ✅ DEPOIS (CORRETO):
-          const mesHTML = resultado.mes_sorte
-            ? `<span class="mes-badge">${resultado.mes_sorte}</span>`
-            : `<span class="mes-badge">-</span>`;
+          card.innerHTML = `
+            <div class="card-header">
+              <span>Concurso #${resultado.concurso}</span>
+              <span>${resultado.data || ""}</span>
+            </div>
 
-          tr.innerHTML = `
-            <td><div class="concurso-numero">#${resultado.concurso}</div></td>
-            <td><div class="dezenas-tabela">${dezenasHTML}</div></td>
-            <td>${mesHTML}</td>
+            <div class="grid-31">
+              ${gerarGrid(dezenas)}
+            </div>
+
+            <div class="mes-sorte-card">
+              🍀 Mês da Sorte: <strong>${mesSorte}</strong>
+            </div>
           `;
 
-          tbody.appendChild(tr);
+          container.appendChild(card);
         });
-      }
-
-      function atualizarPaginacao() {
-        const totalPaginas = Math.ceil(totalResultados / limitePorPagina);
-        const inicio = (paginaAtual - 1) * limitePorPagina + 1;
-        const fim = Math.min(paginaAtual * limitePorPagina, totalResultados);
-
-        document.getElementById(
-          "info-pagina"
-        ).textContent = `${inicio}-${fim} de ${totalResultados} | Página ${paginaAtual} de ${totalPaginas}`;
-
-        document.getElementById("btn-anterior").disabled = paginaAtual === 1;
-        document.getElementById("btn-proxima").disabled =
-          paginaAtual >= totalPaginas;
-      }
-
-      function proximaPagina() {
-        paginaAtual++;
-        carregarResultados();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      function paginaAnterior() {
-        if (paginaAtual > 1) {
-          paginaAtual--;
-          carregarResultados();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-      }
-
-      async function aplicarFiltros() {
-        const concurso = document.getElementById("filtro-concurso").value;
-        const numero = document.getElementById("filtro-numero").value;
-        const mes = document.getElementById("filtro-mes").value;
-        limitePorPagina = parseInt(
-          document.getElementById("filtro-quantidade").value
-        );
-
-        if (concurso) {
-          await buscarConcurso(concurso);
-        } else if (numero) {
-          await buscarPorNumero(numero);
-        } else if (mes) {
-          await buscarPorMes(mes);
-        } else {
-          paginaAtual = 1;
-          await carregarResultados();
-        }
-      }
-
-      async function buscarConcurso(concurso) {
-        const loading = document.getElementById("loading");
-        const tabela = document.getElementById("tabela-resultados");
-
-        loading.style.display = "block";
-        tabela.style.display = "none";
-        document.getElementById("paginacao").style.display = "none";
-
-        try {
-          // ✅ Adicionar token
-          const response = await fetch(`${API_URL}${ENDPOINT}/${concurso}`, {
-            headers: getHeaders(),
-          });
-          const data = await response.json();
-
-          if (data.success) {
-            renderizarTabela([data.data]);
-            loading.style.display = "none";
-            tabela.style.display = "table";
-          } else {
-            loading.textContent = "❌ Concurso não encontrado";
-          }
-        } catch (error) {
-          loading.textContent = "❌ Erro ao buscar concurso";
-        }
-      }
-
-      async function buscarPorNumero(numero) {
-        const loading = document.getElementById("loading");
-        const tabela = document.getElementById("tabela-resultados");
-
-        loading.style.display = "block";
-        tabela.style.display = "none";
-        document.getElementById("paginacao").style.display = "none";
-
-        try {
-          // ✅ Adicionar token
-          const response = await fetch(
-            `${API_URL}${ENDPOINT}/numero/${numero}?limit=${limitePorPagina}`,
-            { headers: getHeaders() }
-          );
-          const data = await response.json();
-
-          if (data.success && data.data.length > 0) {
-            renderizarTabela(data.data);
-            loading.style.display = "none";
-            tabela.style.display = "table";
-
-            loading.textContent = `Encontrados ${data.total} concursos com o número ${numero}`;
-            loading.style.display = "block";
-            loading.style.color = "#CB852B";
-            loading.style.fontWeight = "bold";
-          } else {
-            loading.textContent = `❌ Nenhum concurso encontrado com o número ${numero}`;
-          }
-        } catch (error) {
-          loading.textContent = "❌ Erro ao buscar";
-        }
-      }
-
-      async function buscarPorMes(mes) {
-        const loading = document.getElementById("loading");
-        const tabela = document.getElementById("tabela-resultados");
-
-        loading.style.display = "block";
-        tabela.style.display = "none";
-        document.getElementById("paginacao").style.display = "none";
-
-        try {
-          const response = await fetch(
-            `${API_URL}${ENDPOINT}/mes/${mes}?limit=${limitePorPagina}`,
-            { headers: getHeaders() }
-          );
-          const data = await response.json();
-
-          if (data.success && data.data.length > 0) {
-            renderizarTabela(data.data);
-            loading.style.display = "none";
-            tabela.style.display = "table";
-
-            loading.textContent = `Encontrados ${data.total} concursos no mês de ${MESES[mes]}`;
-            loading.style.display = "block";
-            loading.style.color = "#CB852B";
-            loading.style.fontWeight = "bold";
-          } else {
-            loading.textContent = `❌ Nenhum concurso encontrado para ${MESES[mes]}`;
-          }
-        } catch (error) {
-          loading.textContent = "❌ Erro ao buscar";
-        }
-      }
-
-      function limparFiltros() {
-        document.getElementById("filtro-concurso").value = "";
-        document.getElementById("filtro-numero").value = "";
-        document.getElementById("filtro-mes").value = "";
-        document.getElementById("filtro-quantidade").value = "10";
-        paginaAtual = 1;
-        limitePorPagina = 10;
-        carregarResultados();
       }
 
       // ✅ Carregar ao iniciar (após verificar auth)
