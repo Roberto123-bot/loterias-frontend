@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -85,10 +85,13 @@
       }
 
       /* ============= CONTAINER ============= */
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 10px;
+      @media (min-width: 1200px) {
+        .container {
+          max-width: 1400px;
+          margin: 0;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
       }
 
       header {
@@ -149,9 +152,14 @@
         border-radius: 12px;
         padding: 15px;
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s, box-shadow 0.2s;
         position: relative;
         overflow: hidden;
+        width: 100%;
+        max-width: 780px;
+        min-height: 190px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
 
       .jogo-card:hover {
@@ -200,6 +208,8 @@
         justify-content: space-between;
         align-items: flex-start;
         margin-bottom: 12px;
+        min-height: 64px;
+        align-items: center;
       }
 
       .jogo-info-left {
@@ -233,8 +243,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        min-width: 60px;
+        width: 72px;
+        min-width: 72px;
+        flex-shrink: 0;
         margin-left: 15px;
+        text-align: center;
       }
 
       .acertos-numero {
@@ -254,6 +267,7 @@
         grid-template-columns: repeat(10, 1fr);
         gap: 6px;
         width: 100%;
+        align-content: start;
       }
 
       .bola-numero {
@@ -461,7 +475,9 @@
         cursor: pointer;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         z-index: 9999;
-        transition: transform 0.2s, opacity 0.2s;
+        transition:
+          transform 0.2s,
+          opacity 0.2s;
         display: none;
       }
 
@@ -645,18 +661,142 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         cursor: pointer;
       }
+
+      @media (min-width: 1200px) {
+        .jogo-card {
+          padding: 12px;
+          max-width: 780px; /* controla largura do card */
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .jogo-dezenas-grid {
+          grid-template-columns: repeat(10, 28px);
+          gap: 4px;
+        }
+
+        .bola-numero {
+          width: 28px;
+          height: 28px;
+          font-size: 0.65rem;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .acertos-numero {
+          font-size: 2.2rem;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .jogos-lista {
+          align-items: flex-start;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .filtros-simples {
+          max-width: 780px; /* mesma largura dos cards */
+          padding: 12px;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .filtros-simples select {
+          flex: none;
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .filtros-simples select {
+          padding: 8px 12px;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* LARGURA 768px */
+
+      @media (min-width: 768px) {
+        .jogo-card {
+          padding: 12px;
+          max-width: 780px; /* controla largura do card */
+        }
+      }
+
+      @media (min-width: 768px) {
+        .jogo-dezenas-grid {
+          grid-template-columns: repeat(10, 28px);
+          gap: 4px;
+        }
+
+        .bola-numero {
+          width: 28px;
+          height: 28px;
+          font-size: 0.65rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .acertos-numero {
+          font-size: 2.2rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .jogos-lista {
+          align-items: flex-start;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .filtros-simples {
+          max-width: 780px; /* mesma largura dos cards */
+          padding: 12px;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .filtros-simples select {
+          flex: none;
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .filtros-simples select {
+          padding: 8px 12px;
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .jogo-card,
+        .filtros-simples {
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body>
     <!-- Barra Superior -->
     <header class="app-header">
-      <button class="icon-btn" onclick="location.href='index.html'">
+      <button class="icon-btn" onclick="location.href = 'index.html'">
         <i class="bi bi-arrow-left"></i>
       </button>
 
       <button
         class="fab-novo"
-        onclick="location.href='gerador-combinacoes.html'"
+        onclick="location.href = 'gerador-combinacoes.html'"
         title="Novo jogo"
       >
         <i class="bi bi-plus"></i>
@@ -733,7 +873,7 @@
         <p>Comece criando seu primeiro jogo da sorte!</p>
         <button
           class="btn-top btn-novo"
-          onclick="location.href='gerar-jogos.html'"
+          onclick="location.href = 'gerador-combinacoes.html'"
         >
           + Criar Primeiro Jogo
         </button>
@@ -813,7 +953,7 @@
 
       function selecionarTodos() {
         const cardsVisiveis = document.querySelectorAll(
-          ".jogo-card:not([style*='display: none'])"
+          ".jogo-card:not([style*='display: none'])",
         );
         cardsVisiveis.forEach((card) => {
           const checkbox = card.querySelector(".checkbox-jogo");
@@ -846,7 +986,7 @@
         const jogosParaCopiar = jogos
           .filter((j) => jogosSelecionados.has(j.id))
           .map((j) =>
-            j.dezenas.map((d) => d.toString().padStart(2, "0")).join(" ")
+            j.dezenas.map((d) => d.toString().padStart(2, "0")).join(" "),
           )
           .join("\n");
 
@@ -855,7 +995,7 @@
           .then(() => {
             mostrarToast(
               `✅ ${jogosSelecionados.size} jogo(s) copiado(s)!`,
-              "success"
+              "success",
             );
             document.getElementById("menuDropdown").style.display = "none";
           })
@@ -871,7 +1011,7 @@
         if (jogosSelecionados.size === 0) return;
 
         const confirmar = confirm(
-          `Deseja excluir ${jogosSelecionados.size} jogo(s)? Essa ação não pode ser desfeita.`
+          `Deseja excluir ${jogosSelecionados.size} jogo(s)? Essa ação não pode ser desfeita.`,
         );
 
         if (!confirmar) return;
@@ -892,7 +1032,7 @@
           if (data.success) {
             mostrarToast(
               `✅ ${data.data.excluidos} jogo(s) excluído(s)!`,
-              "success"
+              "success",
             );
             jogosSelecionados.clear();
             atualizarBotaoExcluir();
@@ -938,7 +1078,7 @@
             `${API_URL}/api/loterias/${loteria}/resultado/${concurso}`,
             {
               headers: { Authorization: `Bearer ${token}` },
-            }
+            },
           );
 
           if (response.ok) {
@@ -951,7 +1091,7 @@
         } catch (error) {
           console.warn(
             `Erro ao buscar resultado ${loteria} ${concurso}:`,
-            error
+            error,
           );
         }
 
@@ -975,7 +1115,7 @@
           ...new Set(
             jogosParaRenderizar
               .filter((j) => j.concurso_conferido)
-              .map((j) => `${j.loteria}-${j.concurso_conferido}`)
+              .map((j) => `${j.loteria}-${j.concurso_conferido}`),
           ),
         ];
 
@@ -984,7 +1124,7 @@
           concursosUnicos.map(async (key) => {
             const [loteria, concurso] = key.split("-");
             await buscarResultadoConcurso(loteria, concurso);
-          })
+          }),
         );
 
         // Renderizar cards
@@ -1110,7 +1250,7 @@
             `${API_URL}/api/jogos/meus-jogos?limit=10000`,
             {
               headers: { Authorization: `Bearer ${token}` },
-            }
+            },
           );
 
           if (!response.ok) {
@@ -1201,7 +1341,7 @@
             {
               method: "POST",
               headers: { Authorization: `Bearer ${token}` },
-            }
+            },
           );
 
           const data = await response.json();
@@ -1209,7 +1349,7 @@
           if (data.success) {
             mostrarToast(
               `✅ ${data.data.conferidos} jogos conferidos!`,
-              "success"
+              "success",
             );
             await carregarJogos();
           } else {
