@@ -1,465 +1,498 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎲 Gerador de Combinações - Sistema de Loterias</title>
-    <!-- ✅ ADICIONAR ESTA LINHA: -->
-    <script src="js/config.js"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
 
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 0;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎲 Gerador de Combinações - Sistema de Loterias</title>
+  <!-- ✅ ADICIONAR ESTA LINHA: -->
+  <script src="js/config.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      /* ============= BARRA SUPERIOR ============= */
-      .top-bar {
-        background: #f5f5f5;
-        padding: 15px 20px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-      }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+    }
 
-      /* 🔥 AQUI ESTÁ A CORREÇÃO */
-      .header-content {
-        width: 100%; /* ⬅️ ESSENCIAL */
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+    /* ============= BARRA SUPERIOR ============= */
+    .top-bar {
+      background: #f5f5f5;
+      padding: 15px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
 
-      :root {
-        --cor-loteria: #667eea;
-      }
+    /* 🔥 AQUI ESTÁ A CORREÇÃO */
+    .header-content {
+      width: 100%;
+      /* ⬅️ ESSENCIAL */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-      #titulo-loteria {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: var(--cor-loteria);
-        transition: color 0.3s ease;
-      }
+    :root {
+      --cor-loteria: #667eea;
+    }
 
-      .top-bar-left {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #667eea;
-      }
+    #titulo-loteria {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--cor-loteria);
+      transition: color 0.3s ease;
+    }
 
-      .top-bar-actions {
-        display: flex;
-        gap: 10px;
-      }
+    .top-bar-left {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #667eea;
+    }
 
-      .btn-voltar {
-        padding: 8px 20px;
-        background: #667eea;
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-        font-weight: 600;
-        transition: background 0.3s;
-      }
+    .top-bar-actions {
+      display: flex;
+      gap: 10px;
+    }
 
-      .btn-voltar:hover {
-        background: #5568d3;
-      }
+    .btn-voltar {
+      padding: 8px 20px;
+      background: #667eea;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
 
-      /* ============= CONTAINER ============= */
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 10px;
-      }
+    .btn-voltar:hover {
+      background: #5568d3;
+    }
 
-      /* ============= SELETOR DE LOTERIA ============= */
-      .loteria-selector {
-        background: white;
-        padding: 15px;
-        border-radius: 5px;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        align-items: center;
-      }
+    /* ============= CONTAINER ============= */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px;
+    }
 
-      .loteria-selector select,
-      .loteria-selector input {
-        padding: 10px 15px;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        flex: 1;
-        min-width: 150px;
-      }
+    /* ============= SELETOR DE LOTERIA ============= */
+    .loteria-selector {
+      background: white;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-      .loteria-selector select:focus,
-      .loteria-selector input:focus {
-        outline: none;
-        border-color: #667eea;
-      }
+    .loteria-selector select,
+    .loteria-selector input {
+      padding: 10px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      flex: 1;
+      min-width: 150px;
+    }
 
-      /* ============= GRID DE DEZENAS ============= */
-      .dezenas-section {
-        background: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden; /* impede vazamento */
-        box-sizing: border-box;
-      }
+    .loteria-selector select:focus,
+    .loteria-selector input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
 
-      .dezenas-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-      }
+    /* ============= GRID DE DEZENAS ============= */
+    .dezenas-section {
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      /* impede vazamento */
+      box-sizing: border-box;
+    }
 
-      .dezenas-header h3 {
-        color: #333;
-        font-size: 1rem;
-      }
+    .dezenas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
 
-      .contador {
-        font-size: 1rem;
-        color: #667eea;
-        font-weight: 600;
-      }
+    .dezenas-header h3 {
+      color: #333;
+      font-size: 1rem;
+    }
 
-      .acoes-dezenas {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 15px;
-      }
+    .contador {
+      font-size: 1rem;
+      color: #667eea;
+      font-weight: 600;
+    }
 
-      .btn-acao {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 0.9rem;
-      }
+    .acoes-dezenas {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
 
-      .btn-selecionar-todas {
-        background: #4caf50;
-        color: white;
-      }
+    .btn-acao {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
 
-      .btn-limpar {
-        background: #f44336;
-        color: white;
-      }
+    .btn-selecionar-todas {
+      background: #4caf50;
+      color: white;
+    }
 
-      .btn-acao:hover {
-        opacity: 0.9;
-      }
+    .btn-limpar {
+      background: #f44336;
+      color: white;
+    }
 
-      .grid-dezenas {
-        width: 100%;
-        max-width: 100%;
-        display: grid;
-        box-sizing: border-box;
-        justify-content: center; /* centraliza o grid */
-        margin: auto;
-      }
+    .btn-acao:hover {
+      opacity: 0.9;
+    }
 
-      .dezena-btn {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 1px solid #e0e0e0;
-        background: white;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 1rem;
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    .grid-dezenas {
+      width: 100%;
+      max-width: 100%;
+      display: grid;
+      box-sizing: border-box;
+      justify-content: center;
+      /* centraliza o grid */
+      margin: auto;
+    }
 
-      .dezena-btn:hover {
-        transform: scale(1.1);
-      }
+    .dezena-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid #e0e0e0;
+      background: white;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-      .dezena-btn.selecionada {
-        background: #667eea;
-        color: white;
-      }
+    .dezena-btn:hover {
+      transform: scale(1.1);
+    }
 
-      /* .dezena-btn.fixa {
+    .dezena-btn.selecionada {
+      background: #667eea;
+      color: white;
+    }
+
+    /* .dezena-btn.fixa {
         background: #ff9800;
         color: white;
         border-color: #ff9800;
         box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
       } */
 
-      /* ============= BOTÃO GERAR ============= */
-      .gerador-controles {
-        text-align: center;
-        margin-top: 20px;
+    /* ============= BOTÃO GERAR ============= */
+    .gerador-controles {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn-gerar {
+      padding: 15px 40px;
+      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+      transition: all 0.3s;
+    }
+
+    .btn-gerar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+    }
+
+    .btn-gerar:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* ============= MODAL ============= */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      overflow: hidden;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
       }
 
-      .btn-gerar {
-        padding: 15px 40px;
-        background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-        color: white;
-        border: none;
-        border-radius: 30px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
-        transition: all 0.3s;
+      to {
+        transform: translateY(0);
+        opacity: 1;
       }
+    }
 
-      .btn-gerar:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
-      }
+    .modal-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
 
-      .btn-gerar:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-        box-shadow: none;
-      }
+    .modal-header h3 {
+      font-size: 1.3rem;
+      margin: 0;
+    }
 
-      /* ============= MODAL ============= */
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 9999;
-        justify-content: center;
-        align-items: center;
-      }
+    .modal-body {
+      padding: 30px;
+    }
 
-      .modal-overlay.active {
-        display: flex;
-      }
+    .control-group {
+      margin-bottom: 25px;
+    }
 
-      .modal-content {
-        background: white;
-        border-radius: 15px;
-        max-width: 500px;
-        width: 90%;
-        overflow: hidden;
-        animation: slideIn 0.3s ease;
-      }
+    .control-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
 
-      @keyframes slideIn {
-        from {
-          transform: translateY(-50px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-      .modal-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 20px;
-        text-align: center;
-      }
+    .slider-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #667eea;
+      background: white;
+      color: #667eea;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-      .modal-header h3 {
-        font-size: 1.3rem;
-        margin: 0;
-      }
+    .slider-btn:hover {
+      background: #667eea;
+      color: white;
+    }
 
-      .modal-body {
-        padding: 30px;
-      }
+    .slider-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
 
-      .control-group {
-        margin-bottom: 25px;
-      }
+    .slider-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #667eea;
+      min-width: 100px;
+      text-align: center;
+    }
 
-      .control-group label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 10px;
-        color: #333;
-      }
+    .custom-slider {
+      flex: 1;
+      height: 8px;
+      border-radius: 4px;
+      outline: none;
+      -webkit-appearance: none;
+      background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+    }
 
-      .slider-container {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-      }
+    .custom-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #667eea;
+      cursor: pointer;
+    }
 
-      .slider-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 2px solid #667eea;
-        background: white;
-        color: #667eea;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    .custom-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #667eea;
+      cursor: pointer;
+    }
 
-      .slider-btn:hover {
-        background: #667eea;
-        color: white;
-      }
+    .separator {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 20px 0;
+    }
 
-      .slider-btn:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-      }
+    .modal-footer {
+      padding: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      border-top: 1px solid #e0e0e0;
+    }
 
-      .slider-value {
-        font-size: 1.3rem;
-        font-weight: bold;
-        color: #667eea;
-        min-width: 100px;
-        text-align: center;
-      }
+    .m3-button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
 
-      .custom-slider {
-        flex: 1;
-        height: 8px;
-        border-radius: 4px;
-        outline: none;
-        -webkit-appearance: none;
-        background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
-      }
+    .m3-button.primary {
+      background: #667eea;
+      color: white;
+    }
 
-      .custom-slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: white;
-        border: 3px solid #667eea;
-        cursor: pointer;
-      }
+    .m3-button.secondary {
+      background: #f5f5f5;
+      color: #666;
+    }
 
-      .custom-slider::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: white;
-        border: 3px solid #667eea;
-        cursor: pointer;
-      }
+    .m3-button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
 
-      .separator {
-        border: none;
-        border-top: 1px solid #e0e0e0;
-        margin: 20px 0;
-      }
+    /* ============= JOGOS GERADOS ============= */
+    .jogos-gerados {
+      height: calc(100vh - 120px);
+      overflow-y: auto;
+      padding-bottom: 120px;
+      /* espaço para os botões fixos */
+    }
 
-      .modal-footer {
-        padding: 20px;
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-        border-top: 1px solid #e0e0e0;
-      }
+    .jogos-gerados h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
 
-      .m3-button {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: all 0.3s;
-      }
+    #lista-jogos {
+      width: 100%;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-x: hidden;
+      /* trava qualquer estouro lateral */
+      box-sizing: border-box;
+    }
 
-      .m3-button.primary {
-        background: #667eea;
-        color: white;
-      }
+    .jogo-card {
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
 
-      .m3-button.secondary {
-        background: #f5f5f5;
-        color: #666;
-      }
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
 
-      .m3-button:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-      }
+      overflow: hidden;
+      /* 🔴 impede bolinha sair do card */
+    }
 
-      /* ============= JOGOS GERADOS ============= */
-      .jogos-gerados {
-        height: calc(100vh - 120px);
-        overflow-y: auto;
-        padding-bottom: 120px; /* espaço para os botões fixos */
-      }
+    .jogo-dezenas {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 6px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
 
-      .jogos-gerados h3 {
-        margin-bottom: 15px;
-        color: #333;
-      }
+    .bolinha {
+      width: 35px;
+      height: 35px;
+      border: 2px solid #d1d1d1;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffffff 0%, #dddddd 100%);
+      color: rgb(41, 41, 41);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
 
-      #lista-jogos {
-        width: 100%;
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        overflow-x: hidden; /* trava qualquer estouro lateral */
-        box-sizing: border-box;
-      }
-
-      .jogo-card {
-        background: #f9f9f9;
-        padding: 10px;
-        border-radius: 10px;
-        border-left: 4px solid #667eea;
-
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-
-        overflow: hidden; /* 🔴 impede bolinha sair do card */
-      }
-
+    @media (max-width: 480px) {
       .jogo-dezenas {
         display: grid;
-        grid-template-columns: repeat(10, minmax(0, 1fr));
-        gap: 6px;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 2px;
         width: 100%;
-        max-width: 100%;
         box-sizing: border-box;
       }
 
       .bolinha {
-        width: 35px;
-        height: 35px;
+        width: 100%;
+        /* ocupa a célula */
+        aspect-ratio: 1 / 1;
+        /* mantém redonda */
         border: 2px solid #d1d1d1;
         border-radius: 50%;
         background: linear-gradient(135deg, #ffffff 0%, #dddddd 100%);
@@ -468,186 +501,213 @@
         align-items: center;
         justify-content: center;
         font-weight: bold;
+        font-size: 0.7rem;
+        box-sizing: border-box;
+      }
+    }
+
+    .jogo-descricao {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .jogo-descricao span.fixas {
+      color: #ff0000;
+      font-weight: 700;
+    }
+
+    /* BOTÕES FIXOS NO RODAPÉ */
+    .jogos-acoes {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #ffffff;
+      padding: 12px 14px;
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+
+    .btn-salvar-todos {
+      background: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+    }
+
+    .btn-limpar-jogos {
+      background: #f44336;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+    }
+
+    .bolinha.fixa {
+      background: linear-gradient(145deg, #0a7c76, #007c76) !important;
+      color: #fff !important;
+    }
+
+    /* Ajuste mobile */
+    @media (max-width: 600px) {
+      .jogos-acoes {
+        flex-direction: row;
+      }
+
+      .jogos-acoes button {
+        width: 100%;
+      }
+    }
+
+    /* ============= RESPONSIVO ============= */
+    @media (max-width: 768px) {
+      .grid-dezenas {
+        grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+      }
+
+      .dezena-btn {
+        width: 45px;
+        height: 45px;
         font-size: 0.9rem;
       }
 
-      @media (max-width: 480px) {
-        .jogo-dezenas {
-          display: grid;
-          grid-template-columns: repeat(10, 1fr);
-          gap: 2px;
-          width: 100%;
-          box-sizing: border-box;
-        }
-
-        .bolinha {
-          width: 100%; /* ocupa a célula */
-          aspect-ratio: 1 / 1; /* mantém redonda */
-          border: 2px solid #d1d1d1;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #ffffff 0%, #dddddd 100%);
-          color: rgb(41, 41, 41);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          font-size: 0.7rem;
-          box-sizing: border-box;
-        }
+      .modal-content {
+        width: 95%;
       }
 
-      .jogo-descricao {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #333;
+      .slider-container {
+        flex-direction: row;
       }
 
-      .jogo-descricao span.fixas {
-        color: #ff0000;
-        font-weight: 700;
-      }
-
-      /* BOTÕES FIXOS NO RODAPÉ */
-      .jogos-acoes {
-        position: fixed;
-        bottom: 0;
-        left: 0;
+      .custom-slider {
         width: 100%;
-        background: #ffffff;
-        padding: 12px 14px;
-        display: flex;
-        gap: 10px;
-        justify-content: space-between;
-        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
-        z-index: 999;
       }
 
-      .btn-salvar-todos {
-        background: #4caf50;
-        color: #fff;
-        border: none;
-        padding: 10px 14px;
-        border-radius: 6px;
+      .loteria-selector {
+        flex-direction: column;
       }
 
-      .btn-limpar-jogos {
-        background: #f44336;
-        color: #fff;
-        border: none;
-        padding: 10px 14px;
-        border-radius: 6px;
+      .loteria-selector select,
+      .loteria-selector input {
+        width: 100%;
       }
+    }
 
-      .bolinha.fixa {
-        background: linear-gradient(145deg, #0a7c76, #007c76) !important;
-        color: #fff !important;
-      }
+    #grid-dezenas {
+      justify-items: center;
+      /* 🔥 ESSENCIAL */
+    }
 
-      /* Ajuste mobile */
-      @media (max-width: 600px) {
-        .jogos-acoes {
-          flex-direction: row;
-        }
+    /* 🍀 Classes específicas por LOTOFACIL*/
+    #grid-dezenas.lotofacil {
+      grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
+      gap: 4px;
+      max-width: 340px;
+      margin: auto;
+    }
 
-        .jogos-acoes button {
-          width: 100%;
-        }
-      }
+    /* Selecionada */
+    #grid-dezenas.lotofacil .dezena-btn.selecionada {
+      background: linear-gradient(145deg, #a94bb8, #7a2f8f);
+      color: #fff;
+    }
 
-      /* ============= RESPONSIVO ============= */
-      @media (max-width: 768px) {
-        .grid-dezenas {
-          grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-        }
-
-        .dezena-btn {
-          width: 45px;
-          height: 45px;
-          font-size: 0.9rem;
-        }
-
-        .modal-content {
-          width: 95%;
-        }
-
-        .slider-container {
-          flex-direction: row;
-        }
-
-        .custom-slider {
-          width: 100%;
-        }
-
-        .loteria-selector {
-          flex-direction: column;
-        }
-
-        .loteria-selector select,
-        .loteria-selector input {
-          width: 100%;
-        }
-      }
-
-      #grid-dezenas {
-        justify-items: center; /* 🔥 ESSENCIAL */
-      }
-
-      /* 🍀 Classes específicas por LOTOFACIL*/
+    @media (max-width: 480px) {
       #grid-dezenas.lotofacil {
         grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
-        gap: 4px;
-        max-width: 340px;
+      }
+
+      #grid-dezenas.lotofacil .dezena-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1rem;
+        margin: 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      #grid-dezenas.lotofacil {
+        grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
+        max-width: 360px;
+      }
+
+      #grid-dezenas.lotofacil .dezena-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1rem;
         margin: auto;
       }
+    }
 
-      /* Selecionada */
-      #grid-dezenas.lotofacil .dezena-btn.selecionada {
-        background: linear-gradient(145deg, #a94bb8, #7a2f8f);
-        color: #fff;
+    @media (min-width: 768px) {
+      #grid-dezenas.lotofacil {
+        grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
+        max-width: 360px;
       }
 
-      @media (max-width: 480px) {
-        #grid-dezenas.lotofacil {
-          grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
-        }
-
-        #grid-dezenas.lotofacil .dezena-btn {
-          width: 60px;
-          height: 60px;
-          font-size: 1rem;
-          margin: 0;
-        }
+      #grid-dezenas.lotofacil .dezena-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1rem;
+        margin: auto;
       }
+    }
 
-      @media (min-width: 1024px) {
-        #grid-dezenas.lotofacil {
-          grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
-          max-width: 360px;
-        }
+    /* 🍀 LOTERIAS COM 10 COLUNAS */
+    #grid-dezenas.megasena,
+    #grid-dezenas.quina,
+    #grid-dezenas.lotomania,
+    #grid-dezenas.duplasena,
+    #grid-dezenas.timemania,
+    #grid-dezenas.diadasorte,
+    #grid-dezenas.maismilionaria {
+      grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
+    }
 
-        #grid-dezenas.lotofacil .dezena-btn {
-          width: 60px;
-          height: 60px;
-          font-size: 1rem;
-          margin: auto;
-        }
-      }
+    /* Selecionada */
+    #grid-dezenas.megasena .dezena-btn.selecionada {
+      background: linear-gradient(145deg, #4bb85a, #0d921f);
+      color: #fff;
+    }
 
-      @media (min-width: 768px) {
-        #grid-dezenas.lotofacil {
-          grid-template-columns: repeat(5, minmax(28px, 1fr)) !important;
-          max-width: 360px;
-        }
+    #grid-dezenas.quina .dezena-btn.selecionada {
+      background: linear-gradient(145deg, #2e34c7, #252bc7);
+      color: #fff;
+    }
 
-        #grid-dezenas.lotofacil .dezena-btn {
-          width: 60px;
-          height: 60px;
-          font-size: 1rem;
-          margin: auto;
-        }
-      }
+    #grid-dezenas.timemania .dezena-btn.selecionada {
+      background: linear-gradient(145deg, #fbff00, #d3d600);
+      color: #000000;
+    }
 
-      /* 🍀 LOTERIAS COM 10 COLUNAS */
+    #grid-dezenas.lotomania .dezena-btn.selecionada {
+      background: linear-gradient(145deg, #ffa10a, #ff9d00);
+      color: #fff;
+    }
+
+    #grid-dezenas.duplasena .dezena-btn.selecionada {
+      background: linear-gradient(145deg, #ff1515, #ff0000);
+      color: #fff;
+    }
+
+    #grid-dezenas.diadasorte .dezena-btn.selecionada {
+      background: linear-gradient(145deg, #ffd20a, #ffd000);
+      color: #000000;
+    }
+
+    #grid-dezenas.maismilionaria .dezena-btn.selecionada {
+      background: linear-gradient(145deg, #0a9dff, #0099ff);
+      color: #fff;
+    }
+
+    /* 📱 MOBILE */
+    @media (max-width: 480px) {
+
       #grid-dezenas.megasena,
       #grid-dezenas.quina,
       #grid-dezenas.lotomania,
@@ -655,325 +715,278 @@
       #grid-dezenas.timemania,
       #grid-dezenas.diadasorte,
       #grid-dezenas.maismilionaria {
-        grid-template-columns: repeat(10, minmax(28px, 1fr)) !important;
+        grid-template-columns: repeat(10, minmax(26px, 1fr)) !important;
+        gap: 3px;
       }
 
-      /* Selecionada */
-      #grid-dezenas.megasena .dezena-btn.selecionada {
-        background: linear-gradient(145deg, #4bb85a, #0d921f);
-        color: #fff;
+      #grid-dezenas.megasena .dezena-btn,
+      #grid-dezenas.quina .dezena-btn,
+      #grid-dezenas.lotomania .dezena-btn,
+      #grid-dezenas.duplasena .dezena-btn,
+      #grid-dezenas.timemania .dezena-btn,
+      #grid-dezenas.diadasorte .dezena-btn,
+      #grid-dezenas.maismilionaria .dezena-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+        margin: auto;
       }
+    }
 
-      #grid-dezenas.quina .dezena-btn.selecionada {
-        background: linear-gradient(145deg, #2e34c7, #252bc7);
-        color: #fff;
+    /* 🖥 TABLET */
+    @media (min-width: 768px) {
+
+      #grid-dezenas.megasena,
+      #grid-dezenas.quina,
+      #grid-dezenas.lotomania,
+      #grid-dezenas.duplasena,
+      #grid-dezenas.timemania,
+      #grid-dezenas.diadasorte,
+      #grid-dezenas.maismilionaria {
+        max-width: 520px;
       }
+    }
 
-      #grid-dezenas.timemania .dezena-btn.selecionada {
-        background: linear-gradient(145deg, #fbff00, #d3d600);
-        color: #000000;
+    /* 🖥 DESKTOP */
+    @media (min-width: 1024px) {
+
+      #grid-dezenas.megasena,
+      #grid-dezenas.quina,
+      #grid-dezenas.lotomania,
+      #grid-dezenas.duplasena,
+      #grid-dezenas.timemania,
+      #grid-dezenas.diadasorte,
+      #grid-dezenas.maismilionaria {
+        max-width: 560px;
       }
+    }
 
-      #grid-dezenas.lotomania .dezena-btn.selecionada {
-        background: linear-gradient(145deg, #ffa10a, #ff9d00);
-        color: #fff;
-      }
-
-      #grid-dezenas.duplasena .dezena-btn.selecionada {
-        background: linear-gradient(145deg, #ff1515, #ff0000);
-        color: #fff;
-      }
-
-      #grid-dezenas.diadasorte .dezena-btn.selecionada {
-        background: linear-gradient(145deg, #ffd20a, #ffd000);
-        color: #000000;
-      }
-
-      #grid-dezenas.maismilionaria .dezena-btn.selecionada {
-        background: linear-gradient(145deg, #0a9dff, #0099ff);
-        color: #fff;
-      }
-
-      /* 📱 MOBILE */
-      @media (max-width: 480px) {
-        #grid-dezenas.megasena,
-        #grid-dezenas.quina,
-        #grid-dezenas.lotomania,
-        #grid-dezenas.duplasena,
-        #grid-dezenas.timemania,
-        #grid-dezenas.diadasorte,
-        #grid-dezenas.maismilionaria {
-          grid-template-columns: repeat(10, minmax(26px, 1fr)) !important;
-          gap: 3px;
-        }
-
-        #grid-dezenas.megasena .dezena-btn,
-        #grid-dezenas.quina .dezena-btn,
-        #grid-dezenas.lotomania .dezena-btn,
-        #grid-dezenas.duplasena .dezena-btn,
-        #grid-dezenas.timemania .dezena-btn,
-        #grid-dezenas.diadasorte .dezena-btn,
-        #grid-dezenas.maismilionaria .dezena-btn {
-          width: 35px;
-          height: 35px;
-          font-size: 0.8rem;
-          margin: auto;
-        }
-      }
-
-      /* 🖥 TABLET */
-      @media (min-width: 768px) {
-        #grid-dezenas.megasena,
-        #grid-dezenas.quina,
-        #grid-dezenas.lotomania,
-        #grid-dezenas.duplasena,
-        #grid-dezenas.timemania,
-        #grid-dezenas.diadasorte,
-        #grid-dezenas.maismilionaria {
-          max-width: 520px;
-        }
-      }
-
-      /* 🖥 DESKTOP */
-      @media (min-width: 1024px) {
-        #grid-dezenas.megasena,
-        #grid-dezenas.quina,
-        #grid-dezenas.lotomania,
-        #grid-dezenas.duplasena,
-        #grid-dezenas.timemania,
-        #grid-dezenas.diadasorte,
-        #grid-dezenas.maismilionaria {
-          max-width: 560px;
-        }
-      }
-
-      /* ============================================
+    /* ============================================
       DEZENA FIXA - COR GLOBAL (ABSOLUTA)
       ============================================ */
 
-      #grid-dezenas .dezena-btn.fixa {
-        background: linear-gradient(145deg, #0a7c76, #007c76) !important;
-        color: #fff !important;
-      }
+    #grid-dezenas .dezena-btn.fixa {
+      background: linear-gradient(145deg, #0a7c76, #007c76) !important;
+      color: #fff !important;
+    }
 
-      /* ===============================
+    /* ===============================
           ESTATÍSTICAS DAS DEZENAS
       =============================== */
 
-      .estatisticas-dezenas {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        background: linear-gradient(135deg, #7b3fa1, #9b59b6);
-        border-radius: 8px;
-        margin: 10px 0 15px;
-        overflow: hidden;
-      }
+    .estatisticas-dezenas {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: linear-gradient(135deg, #7b3fa1, #9b59b6);
+      border-radius: 8px;
+      margin: 10px 0 15px;
+      overflow: hidden;
+    }
 
-      .estatistica {
-        text-align: center;
-        padding: 8px 4px;
-        border-right: 1px solid rgba(255, 255, 255, 0.25);
-      }
+    .estatistica {
+      text-align: center;
+      padding: 8px 4px;
+      border-right: 1px solid rgba(255, 255, 255, 0.25);
+    }
 
-      .estatistica:last-child {
-        border-right: none;
-      }
+    .estatistica:last-child {
+      border-right: none;
+    }
 
-      .estatistica .label {
-        display: block;
-        font-size: 0.85rem;
-        color: #f0e6f6;
-        font-weight: 500;
-      }
+    .estatistica .label {
+      display: block;
+      font-size: 0.85rem;
+      color: #f0e6f6;
+      font-weight: 500;
+    }
 
-      .estatistica .valor {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #ffffff;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="top-bar">
-      <div class="header-content">
-        <h1 id="titulo-loteria">🎲 Gerar Jogos</h1>
-        <a href="index.html" class="btn-voltar">← Voltar</a>
-      </div>
+    .estatistica .valor {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .grupo-nome-container {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .grupo-nome-container select {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+    }
+
+    .btn-gerenciar-grupos {
+      width: 44px;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      background: #ffffff;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-bar">
+    <div class="header-content">
+      <h1 id="titulo-loteria">🎲 Gerar Jogos</h1>
+      <a href="index.html" class="btn-voltar">← Voltar</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Seletor de Loteria -->
+    <div id="loteria-section" class="loteria-selector">
+      <select id="select-loteria">
+        <option value="">-- Selecione uma loteria --</option>
+        <option value="megasena">🍀 Mega-Sena</option>
+        <option value="lotofacil">🎯 Lotofácil</option>
+        <option value="quina">🌟 Quina</option>
+        <option value="lotomania">🎲 Lotomania</option>
+        <option value="duplasena">🎭 Dupla-Sena</option>
+        <option value="timemania">⚽ Timemania</option>
+        <option value="diadasorte">🍀 Dia de Sorte</option>
+        <option value="maismilionaria">💰 +Milionária</option>
+      </select>
     </div>
 
-    <div class="container">
-      <!-- Seletor de Loteria -->
-      <div id="loteria-section" class="loteria-selector">
-        <select id="select-loteria" onchange="mudarLoteria()">
-          <option value="">-- Selecione uma loteria --</option>
-          <option value="megasena">🍀 Mega-Sena</option>
-          <option value="lotofacil">🎯 Lotofácil</option>
-          <option value="quina">🌟 Quina</option>
-          <option value="lotomania">🎲 Lotomania</option>
-          <option value="duplasena">🎭 Dupla-Sena</option>
-          <option value="timemania">⚽ Timemania</option>
-          <option value="diadasorte">🍀 Dia de Sorte</option>
-          <option value="maismilionaria">💰 +Milionária</option>
-        </select>
-      </div>
+    <!-- ================= NOME DO GRUPO ================= -->
+    <div class="grupo-nome-container">
+      <select id="select-grupo">
+        <option value="">📁 Nenhum grupo criado</option>
+      </select>
 
-      <!-- Grid de Dezenas -->
-      <div id="dezenas-section" class="dezenas-section" style="display: none">
-        <div class="dezenas-header">
-          <h3>Selecione suas dezenas</h3>
-          <span class="contador" id="contador">0 selecionadas</span>
-        </div>
+      <button class="btn-gerenciar-grupos" onclick="location.href='gerenciar-grupos.html'" title="Gerenciar grupos">
+        ➕
+      </button>
 
-        <div class="estatisticas-dezenas" id="estatisticas-dezenas">
-          <div class="estatistica">
-            <span class="label">Par</span>
-            <span class="valor" id="stat-par">0</span>
-          </div>
-          <div class="estatistica">
-            <span class="label">Ímpar</span>
-            <span class="valor" id="stat-impar">0</span>
-          </div>
-          <div class="estatistica">
-            <span class="label">Primo</span>
-            <span class="valor" id="stat-primo">0</span>
-          </div>
-          <div class="estatistica">
-            <span class="label">Soma</span>
-            <span class="valor" id="stat-soma">0</span>
-          </div>
-        </div>
-
-        <div class="acoes-dezenas">
-          <button
-            class="btn-acao btn-selecionar-todas"
-            onclick="selecionarTodas()"
-          >
-            Selecionar Todas
-          </button>
-          <button class="btn-acao btn-limpar" onclick="limparSelecao()">
-            Limpar Seleção
-          </button>
-        </div>
-
-        <div id="grid-dezenas" class="grid-dezenas"></div>
-
-        <div class="gerador-controles">
-          <button
-            id="btn-gerar"
-            class="btn-gerar"
-            onclick="abrirModal()"
-            disabled
-          >
-            Gerar Combinações
-          </button>
-        </div>
-      </div>
-      <!-- Jogos Gerados -->
-      <div id="jogos-gerados" class="jogos-gerados" style="display: none">
-        <h3>
-          Jogos Gerados:
-          <span id="total-jogos">0</span>
-        </h3>
-
-        <div id="lista-jogos" class="lista-jogos"></div>
-
-        <!-- Ações fixas -->
-        <div class="jogos-acoes">
-          <button class="btn-voltar" onclick="voltarParaSelecao()">
-            ← Editar Dezenas
-          </button>
-          <button class="btn-limpar-jogos" onclick="limparJogos()">
-            Limpar Jogos
-          </button>
-          <button class="btn-salvar-todos" onclick="salvarTodos()">
-            Salvar Todos os Jogos
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- FECHAMENTO DO .container -->
-
-    <!-- Modal de Configuração -->
-    <div id="modal-randomico" class="modal-overlay">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 id="modal-title">Configurar Geração</h3>
-        </div>
-
-        <div class="modal-body">
-          <div class="control-group">
-            <label>Dezenas por jogo:</label>
-            <div class="slider-container">
-              <button class="slider-btn minus" onclick="ajustarDezenas(-1)">
-                -
-              </button>
-              <span class="slider-value" id="dezenas-display">15</span>
-              <button class="slider-btn plus" onclick="ajustarDezenas(1)">
-                +
-              </button>
-              <input type="range" id="dezenas-slider" class="custom-slider" />
-            </div>
-          </div>
-
-          <hr class="separator" />
-
-          <div class="control-group">
-            <label>Jogos a serem gerados:</label>
-            <div class="slider-container">
-              <button class="slider-btn minus" onclick="ajustarJogos(-1)">
-                -
-              </button>
-              <span class="slider-value" id="jogos-display">1 de 100</span>
-              <button class="slider-btn plus" onclick="ajustarJogos(1)">
-                +
-              </button>
-              <input type="range" id="jogos-slider" class="custom-slider" />
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button class="m3-button secondary" onclick="fecharModal()">
-            CANCELAR
-          </button>
-          <button class="m3-button primary" onclick="gerarCombinacoes()">
-            GERAR
-          </button>
-        </div>
-      </div>
     </div>
 
-    <script>
-      function mudarLoteria() {
-        const select = document.getElementById("select-loteria");
-        const loteriaId = select.value;
-        const titulo = document.getElementById("titulo-loteria");
+    <!-- Grid de Dezenas -->
+    <div id="dezenas-section" class="dezenas-section" style="display: none">
+      <div class="dezenas-header">
+        <h3>Selecione suas dezenas</h3>
+        <span class="contador" id="contador">0 selecionadas</span>
+      </div>
 
-        if (!loteriaId || !LOTERIAS_CONFIG[loteriaId]) {
-          loteriaSelecionada = null;
-          titulo.textContent = "🎲 Gerar Jogos";
-          document.documentElement.style.setProperty(
-            "--cor-loteria",
-            "#667eea"
-          );
-          document.getElementById("dezenas-section").style.display = "none";
-          return;
-        }
+      <div class="estatisticas-dezenas" id="estatisticas-dezenas">
+        <div class="estatistica">
+          <span class="label">Par</span>
+          <span class="valor" id="stat-par">0</span>
+        </div>
+        <div class="estatistica">
+          <span class="label">Ímpar</span>
+          <span class="valor" id="stat-impar">0</span>
+        </div>
+        <div class="estatistica">
+          <span class="label">Primo</span>
+          <span class="valor" id="stat-primo">0</span>
+        </div>
+        <div class="estatistica">
+          <span class="label">Soma</span>
+          <span class="valor" id="stat-soma">0</span>
+        </div>
+      </div>
 
-        // 🔥 FONTE ÚNICA DE VERDADE
-        loteriaSelecionada = loteriaId;
-        const config = LOTERIAS_CONFIG[loteriaId];
+      <div class="acoes-dezenas">
+        <button class="btn-acao btn-selecionar-todas" onclick="selecionarTodas()">
+          Selecionar Todas
+        </button>
+        <button class="btn-acao btn-limpar" onclick="limparSelecao()">
+          Limpar Seleção
+        </button>
+      </div>
 
-        titulo.textContent = `🎲 Gerar Jogos - ${config.nome}`;
+      <div id="grid-dezenas" class="grid-dezenas"></div>
 
-        // 🎨 COR DA LOTERIA
-        document.documentElement.style.setProperty("--cor-loteria", config.cor);
+      <div class="gerador-controles">
+        <button id="btn-gerar" class="btn-gerar" onclick="abrirModal()" disabled>
+          Gerar Combinações
+        </button>
+      </div>
+    </div>
+    <!-- Jogos Gerados -->
+    <div id="jogos-gerados" class="jogos-gerados" style="display: none">
+      <h3>
+        Jogos Gerados:
+        <span id="total-jogos">0</span>
+      </h3>
 
-        inicializarGrid(loteriaId);
-      }
-    </script>
+      <div id="lista-jogos" class="lista-jogos"></div>
 
-    <script src="js/gerador-combinacoes.js"></script>
-    <script src="js/auth-check.js"></script>
-  </body>
+      <!-- Ações fixas -->
+      <div class="jogos-acoes">
+        <button class="btn-voltar" onclick="voltarParaSelecao()">
+          ← Editar Dezenas
+        </button>
+        <button class="btn-limpar-jogos" onclick="limparJogos()">
+          Limpar Jogos
+        </button>
+        <button class="btn-salvar-todos" onclick="salvarTodos()">
+          Salvar Todos os Jogos
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- FECHAMENTO DO .container -->
+
+  <!-- Modal de Configuração -->
+  <div id="modal-randomico" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Configurar Geração</h3>
+      </div>
+
+      <div class="modal-body">
+        <div class="control-group">
+          <label>Dezenas por jogo:</label>
+          <div class="slider-container">
+            <button class="slider-btn minus" onclick="ajustarDezenas(-1)">
+              -
+            </button>
+            <span class="slider-value" id="dezenas-display">15</span>
+            <button class="slider-btn plus" onclick="ajustarDezenas(1)">
+              +
+            </button>
+            <input type="range" id="dezenas-slider" class="custom-slider" />
+          </div>
+        </div>
+
+        <hr class="separator" />
+
+        <div class="control-group">
+          <label>Jogos a serem gerados:</label>
+          <div class="slider-container">
+            <button class="slider-btn minus" onclick="ajustarJogos(-1)">
+              -
+            </button>
+            <span class="slider-value" id="jogos-display">1 de 100</span>
+            <button class="slider-btn plus" onclick="ajustarJogos(1)">
+              +
+            </button>
+            <input type="range" id="jogos-slider" class="custom-slider" />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="m3-button secondary" onclick="fecharModal()">
+          CANCELAR
+        </button>
+        <button class="m3-button primary" onclick="gerarCombinacoes()">
+          GERAR
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/gerador-combinacoes.js"></script>
+  <script src="js/auth-check.js"></script>
+</body>
+
 </html>
