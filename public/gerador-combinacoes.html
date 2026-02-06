@@ -987,6 +987,13 @@
 
   <script src="js/gerador-combinacoes.js"></script>
   <script src="js/auth-check.js"></script>
+  <script>
+    // Autenticação básica
+    if (verificarAutenticacao()) {
+      // 🚫 Verificação do plano
+      verificarPlanoPro();
+    }
+  </script>
 </body>
 
 </html>

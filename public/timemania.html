@@ -1,316 +1,317 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>⚽ Timemania - Resultados</title>
-    <!-- ✅ ADICIONAR ESTA LINHA: -->
-    <script src="js/config.js"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚽ Timemania - Resultados</title>
+  <!-- ✅ ADICIONAR ESTA LINHA: -->
+  <script src="js/config.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c851 0%, #007e33 100%);
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: white;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-large {
+      font-size: 3rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #007e33;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .btn-voltar {
+      padding: 12px 24px;
+      background: #007e33;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.3s;
+    }
+
+    .btn-voltar:hover {
+      opacity: 0.9;
+    }
+
+    /* Tabela */
+    .tabela-container {
+      background: white;
+      border-radius: 5px;
+      padding: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-size: 1.2rem;
+    }
+
+    .loading::after {
+      content: "...";
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+
+      0%,
+      20% {
+        content: ".";
       }
 
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #00c851 0%, #007e33 100%);
-        min-height: 100vh;
-        padding: 10px;
+      40% {
+        content: "..";
       }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      /* Header */
-      header {
-        background: white;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 20px;
-      }
-
-      .header-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .icon-large {
-        font-size: 3rem;
-      }
-
-      h1 {
-        font-size: 1.5rem;
-        color: #007e33;
-        margin-bottom: 5px;
-      }
-
-      .subtitle {
-        color: #666;
-        font-size: 1rem;
-      }
-
-      .btn-voltar {
-        padding: 12px 24px;
-        background: #007e33;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        transition: opacity 0.3s;
-      }
-
-      .btn-voltar:hover {
-        opacity: 0.9;
-      }
-
-      /* Tabela */
-      .tabela-container {
-        background: white;
-        border-radius: 5px;
-        padding: 15px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      /* Loading */
-      .loading {
-        text-align: center;
-        padding: 40px;
-        color: #666;
-        font-size: 1.2rem;
-      }
-
-      .loading::after {
+      60%,
+      100% {
         content: "...";
-        animation: dots 1.5s steps(4, end) infinite;
       }
+    }
 
-      @keyframes dots {
-        0%,
-        20% {
-          content: ".";
-        }
-        40% {
-          content: "..";
-        }
-        60%,
-        100% {
-          content: "...";
-        }
-      }
-
-      /* =========================
+    /* =========================
         CARDS 5x5 LOTOFÁCIL
       ========================= */
 
-      .cards-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-        gap: 20px;
-      }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+    }
 
-      .card-concurso {
-        background: #fff;
-        border-radius: 12px;
-        padding: 15px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-      }
+    .card-concurso {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
 
-      .card-header {
-        font-weight: bold;
-        color: #007e33;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.95rem;
-      }
+    .card-header {
+      font-weight: bold;
+      color: #007e33;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
 
-      .card-concurso:first-child {
-        border: 2px solid #007e33;
-      }
+    .card-concurso:first-child {
+      border: 2px solid #007e33;
+    }
 
-      .grid-80 {
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        gap: 6px;
-      }
+    .grid-80 {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 6px;
+    }
 
-      /* Ajuste visual para grid grande */
-      .grid-80 .dezena {
-        font-size: 0.7rem;
-      }
+    /* Ajuste visual para grid grande */
+    .grid-80 .dezena {
+      font-size: 0.7rem;
+    }
 
-      /* Time do coração no card */
-      .time-coracao-card {
-        margin-top: 12px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px;
-        background: #f0f9f4;
-        border-radius: 8px;
-        border-left: 4px solid #007e33;
-      }
+    /* Time do coração no card */
+    .time-coracao-card {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px;
+      background: #f0f9f4;
+      border-radius: 8px;
+      border-left: 4px solid #007e33;
+    }
 
-      .time-coracao-card .time-icon {
-        font-size: 1.2rem;
-      }
+    .time-coracao-card .time-icon {
+      font-size: 1.2rem;
+    }
 
-      .time-coracao-card .time-nome {
-        font-weight: 600;
-        color: #007e33;
-        font-size: 0.95rem;
-      }
+    .time-coracao-card .time-nome {
+      font-weight: 600;
+      color: #007e33;
+      font-size: 0.95rem;
+    }
 
-      .dezena {
-        aspect-ratio: 1 / 1;
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.85rem;
-        font-weight: bold;
-        background: #eee;
-        color: #666;
-      }
+    .dezena {
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: bold;
+      background: #eee;
+      color: #666;
+    }
 
-      .dezena.sorteada {
-        background: #2ecc71;
-        color: #fff;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="header-left">
-          <div class="icon-large">⚽</div>
-          <div>
-            <h1>Timemania</h1>
-            <div class="subtitle">Resultados</div>
-          </div>
+    .dezena.sorteada {
+      background: #2ecc71;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-left">
+        <div class="icon-large">⚽</div>
+        <div>
+          <h1>Timemania</h1>
+          <div class="subtitle">Resultados</div>
         </div>
-        <a href="index.html" class="btn-voltar">← Voltar</a>
-      </header>
-
-      <!-- Tabela -->
-      <div class="tabela-container">
-        <div id="loading" class="loading">Carregando resultados</div>
-
-        <div
-          id="cards-resultados"
-          class="cards-container"
-          style="display: none"
-        ></div>
       </div>
+      <a href="index.html" class="btn-voltar">← Voltar</a>
+    </header>
+
+    <!-- Tabela -->
+    <div class="tabela-container">
+      <div id="loading" class="loading">Carregando resultados</div>
+
+      <div id="cards-resultados" class="cards-container" style="display: none"></div>
     </div>
+  </div>
 
-    <script>
-      const ENDPOINT = "/timemania";
+  <script>
+    const ENDPOINT = "/timemania";
 
-      const LIMITE = 10;
+    const LIMITE = 10;
 
-      // ✅ Pegar token do localStorage
-      function getToken() {
-        return localStorage.getItem("token");
+    // ✅ Pegar token do localStorage
+    function getToken() {
+      return localStorage.getItem("token");
+    }
+
+    // ✅ Criar headers com autenticação
+    function getHeaders() {
+      const token = getToken();
+      return {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+    }
+
+    // ✅ Verificar se está autenticado
+    function verificarAutenticacao() {
+      const token = getToken();
+      if (!token) {
+        alert("Você precisa fazer login!");
+        window.location.href = "login.html";
+        return false;
       }
+      return true;
+    }
 
-      // ✅ Criar headers com autenticação
-      function getHeaders() {
-        const token = getToken();
-        return {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        };
-      }
+    // Carregar dados iniciais
+    async function carregarDados() {
+      if (!verificarAutenticacao()) return;
+      await carregarResultados();
+    }
 
-      // ✅ Verificar se está autenticado
-      function verificarAutenticacao() {
-        const token = getToken();
-        if (!token) {
-          alert("Você precisa fazer login!");
-          window.location.href = "login.html";
-          return false;
+    async function carregarResultados() {
+      const loading = document.getElementById("loading");
+      const cards = document.getElementById("cards-resultados");
+
+      loading.style.display = "block";
+      cards.style.display = "none";
+
+      try {
+        // ✅ Adicionar token na requisição
+        const response = await fetch(
+          `${API_URL}${ENDPOINT}?limit=${LIMITE}`,
+          { headers: getHeaders() },
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          renderizarCards(data.data);
+          loading.style.display = "none";
+          cards.style.display = "grid";
+        } else {
+          loading.textContent = "❌ Nenhum resultado encontrado";
         }
-        return true;
+      } catch (error) {
+        console.error(error);
+        loading.textContent = "❌ Erro ao carregar resultados";
       }
+    }
 
-      // Carregar dados iniciais
-      async function carregarDados() {
-        if (!verificarAutenticacao()) return;
-        await carregarResultados();
-      }
+    function gerarGrid(dezenasSorteadas) {
+      let html = "";
 
-      async function carregarResultados() {
-        const loading = document.getElementById("loading");
-        const cards = document.getElementById("cards-resultados");
-
-        loading.style.display = "block";
-        cards.style.display = "none";
-
-        try {
-          // ✅ Adicionar token na requisição
-          const response = await fetch(
-            `${API_URL}${ENDPOINT}?limit=${LIMITE}`,
-            { headers: getHeaders() },
-          );
-
-          const data = await response.json();
-
-          if (data.success) {
-            renderizarCards(data.data);
-            loading.style.display = "none";
-            cards.style.display = "grid";
-          } else {
-            loading.textContent = "❌ Nenhum resultado encontrado";
-          }
-        } catch (error) {
-          console.error(error);
-          loading.textContent = "❌ Erro ao carregar resultados";
-        }
-      }
-
-      function gerarGrid(dezenasSorteadas) {
-        let html = "";
-
-        for (let i = 1; i <= 80; i++) {
-          html += `
+      for (let i = 1; i <= 80; i++) {
+        html += `
             <div class="dezena ${dezenasSorteadas.includes(i) ? "sorteada" : ""}">
               ${String(i).padStart(2, "0")}
             </div>
           `;
-        }
-
-        return html;
       }
 
-      function renderizarCards(resultados) {
-        resultados.sort((a, b) => b.concurso - a.concurso);
-        const container = document.getElementById("cards-resultados");
-        container.innerHTML = "";
+      return html;
+    }
 
-        resultados.forEach((resultado) => {
-          const dezenasSorteadas = (resultado.dezenas || []).map(Number);
-          const timeCoracao = resultado.time_coracao || "Time não informado";
+    function renderizarCards(resultados) {
+      resultados.sort((a, b) => b.concurso - a.concurso);
+      const container = document.getElementById("cards-resultados");
+      container.innerHTML = "";
 
-          const card = document.createElement("div");
-          card.className = "card-concurso";
+      resultados.forEach((resultado) => {
+        const dezenasSorteadas = (resultado.dezenas || []).map(Number);
+        const timeCoracao = resultado.time_coracao || "Time não informado";
 
-          card.innerHTML = `
+        const card = document.createElement("div");
+        card.className = "card-concurso";
+
+        card.innerHTML = `
             <div class="card-header">
               <span>Concurso #${resultado.concurso}</span>
               <span>${resultado.data || ""}</span>
@@ -326,13 +327,21 @@
             </div>
           `;
 
-          container.appendChild(card);
-        });
-      }
+        container.appendChild(card);
+      });
+    }
 
-      // ✅ Carregar ao iniciar (após verificar auth)
-      carregarDados();
-    </script>
-    <script src="js/auth-check.js"></script>
-  </body>
+    // ✅ Carregar ao iniciar (após verificar auth)
+    carregarDados();
+  </script>
+  <script src="js/auth-check.js"></script>
+  <script>
+    // Autenticação básica
+    if (verificarAutenticacao()) {
+      // 🚫 Verificação do plano
+      verificarPlanoPro();
+    }
+  </script>
+</body>
+
 </html>

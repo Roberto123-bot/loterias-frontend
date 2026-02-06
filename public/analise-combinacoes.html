@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📊 Análise de Combinações</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script src="js/config.js"></script>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            padding: 15px;
+            margin: 0;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .badge-dezena {
+            display: inline-block;
+            background-color: #4a00e0;
+            color: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            font-weight: bold;
+            margin-right: 4px;
+        }
+
+        table thead {
+            background-color: #f1f1f1;
+        }
+
+        .titulo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            font-weight: bold;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-radius: 0;
+            padding: 10px 20px;
+            margin: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .btn-voltar {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: opacity 0.3s;
+        }
+
+        .btn-voltar:hover {
+            opacity: 0.9;
+        }
+
+        .container-fluid {
+            background: white;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="btn-voltar">← Voltar</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="container-fluid">
+            <div class="titulo">
+                <i class="bi bi-diagram-3-fill text-primary"></i> Análise de Combinações
+            </div>
+
+            <div class="mb-3">
+                <label for="inputCombinacoes" class="form-label"><strong>Cole suas combinações (uma por
+                        linha):</strong></label>
+                <textarea id="inputCombinacoes" class="form-control"
+                    placeholder="07 09 11 13&#10;07 11 17 20"></textarea>
+                <small id="avisoLimite" class="text-danger d-none">
+                    ⚠️ Limite máximo de 100 combinações atingido.
+                </small>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="inputLoteria" class="form-label"><strong>Escolha a Loteria:</strong></label>
+                    <select id="inputLoteria" class="form-select">
+                        <option value="lotofacil" selected>🎯 Lotofácil</option>
+                        <option value="megasena">🍀 Mega-Sena</option>
+                        <option value="quina">🌟 Quina</option>
+                        <option value="lotomania">🎲 Lotomania</option>
+                        <option value="duplasena">🎭 Dupla-Sena</option>
+                        <option value="timemania">⚽ Timemania</option>
+                        <option value="diadasorte">🍀 Dia de Sorte</option>
+                        <option value="maismilionaria">💰 +Milionária</option>
+                        <!-- Outras -->
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="inputQtdConcursos" class="form-label"><strong>Analisar últimos
+                            concursos:</strong></label>
+                    <select id="inputQtdConcursos" class="form-select">
+                        <option value="10" selected>10 concursos</option>
+                        <option value="20">20 concursos</option>
+                        <option value="30">30 concursos</option>
+                        <option value="50">50 concursos</option>
+                        <option value="100">100 concursos</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary w-100" onclick="analisarCombinacoes()">
+                <i class="bi bi-graph-up"></i> Analisar Números
+            </button>
+
+        </div>
+
+        <div class="progress mt-4" style="height: 25px; display: none;" id="progressContainer">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" id="barraProgresso" role="progressbar"
+                style="width: 0%">0%</div>
+        </div>
+
+
+    </div>
+
+    <script>
+        async function analisarCombinacoes() {
+            const input = document.getElementById("inputCombinacoes");
+            const combinacoesTexto = input.value.trim();
+            const avisoLimite = document.getElementById("avisoLimite");
+            avisoLimite.classList.add("d-none"); // oculta aviso inicialmente
+
+            const loteria = document.getElementById("inputLoteria").value;
+            const concursos = Number(document.getElementById("inputQtdConcursos").value);
+
+            if (!combinacoesTexto) {
+                alert("Por favor, cole ao menos uma combinação.");
+                return;
+            }
+
+            const linhas = combinacoesTexto.split("\n").filter(l => l.trim() !== "");
+
+            if (linhas.length > 100) {
+                avisoLimite.classList.remove("d-none");
+                return;
+            }
+
+            const combinacoes = linhas
+                .map((linha) =>
+                    linha
+                        .trim()
+                        .split(/\s+/)
+                        .map((n) => Number(n))
+                        .filter((n) => !isNaN(n))
+                )
+                .filter((comb) => comb.length > 0);
+
+            if (combinacoes.length === 0) {
+                alert("Nenhuma combinação válida encontrada.");
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem("token");
+
+                iniciarBarraProgresso();
+
+                const res = await fetch(`${API_URL}/api/analise/combinacoes`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        loteria,
+                        concursos,
+                        combinacoes,
+                    }),
+                });
+
+                const data = await res.json();
+
+                if (!data.success) {
+                    alert(data.message || "Erro na análise.");
+                    return;
+                }
+
+                localStorage.setItem("resultadoCombinacoes", JSON.stringify(data.resultados));
+                localStorage.setItem(
+                    "metaCombinacoes",
+                    JSON.stringify({
+                        loteria,
+                        concursos,
+                        totalCombinacoes: combinacoes.length,
+                        dataAnalise: new Date().toISOString(),
+                    })
+                );
+
+                window.location.href = "resultado-combinacoes.html";
+            } catch (error) {
+                console.error("Erro ao analisar combinações:", error);
+                alert("Erro ao analisar combinações.");
+            }
+        }
+
+        function iniciarBarraProgresso() {
+            const container = document.getElementById("progressContainer");
+            const barra = document.getElementById("barraProgresso");
+
+            container.style.display = "block";
+            barra.style.width = "0%";
+            barra.textContent = "0%";
+
+            const duracaoTotal = 7000; // ⏱ 7 segundos
+            const intervalo = 100; // a cada 100ms
+            let tempoDecorrido = 0;
+
+            const animacao = setInterval(() => {
+                tempoDecorrido += intervalo;
+
+                let progresso = Math.min((tempoDecorrido / duracaoTotal) * 100, 100);
+                barra.style.width = progresso + "%";
+                barra.textContent = Math.floor(progresso) + "%";
+
+                if (tempoDecorrido >= duracaoTotal) {
+                    clearInterval(animacao);
+                    window.location.href = "resultado-combinacoes.html"; // redireciona
+                }
+            }, intervalo);
+        }
+
+    </script>
+    <script src="js/auth-check.js"></script>
+    <script>
+        // Autenticação básica
+        if (verificarAutenticacao()) {
+            // 🚫 Verificação do plano
+            verificarPlanoPro();
+        }
+    </script>
+
+</body>
+
+</html>

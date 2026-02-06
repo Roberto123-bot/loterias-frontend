@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📊 Resultado das Combinações</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .titulo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dezena {
+            display: inline-block;
+            background-color: #5e35b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            margin: 2px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-radius: 0;
+            padding: 10px 20px;
+            margin: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .btn-voltar {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: opacity 0.3s;
+        }
+
+        .btn-voltar:hover {
+            opacity: 0.9;
+        }
+
+        .container-fluid {
+            background: white;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ... (mantém seus estilos anteriores) */
+
+        .dezena {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #5e35b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin: 2px;
+        }
+
+        .celula-combinacao {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 4px;
+            padding: 5px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .container {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            /* novo espaçamento */
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="titulo">📊 Resultado
+            </div>
+            <a href="analise-combinacoes.html" class="btn-voltar">← Voltar</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Combinação</th>
+                        <th>Ocorrências</th>
+                        <th>Ocorrências %</th>
+                        <th>Atraso atual</th>
+                        <th>Maior atraso</th>
+                        <th>Repet. consecutivas</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-combinacoes">
+                    <!-- Resultado dinâmico aqui -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const combinacoes = JSON.parse(localStorage.getItem("resultadoCombinacoes")) || [];
+            const tbody = document.getElementById("tabela-combinacoes");
+
+            combinacoes.forEach((item) => {
+                const tr = document.createElement("tr");
+
+                const dezTd = document.createElement("td");
+                dezTd.className = "celula-combinacao";
+
+                item.dezenas.forEach((d) => {
+                    const span = document.createElement("span");
+                    span.className = "dezena";
+                    span.textContent = d.toString().padStart(2, "0");
+                    dezTd.appendChild(span);
+                });
+
+
+                tr.appendChild(dezTd); // Primeiro adiciona a célula com as dezenas
+
+                // Agora adiciona as outras células normalmente
+                const tdOcorrencias = document.createElement("td");
+                tdOcorrencias.textContent = item.ocorrencias ?? 0;
+
+                const tdPorcentagem = document.createElement("td");
+                tdPorcentagem.textContent = item.ocorrenciasPercentual !== undefined
+                    ? item.ocorrenciasPercentual.toFixed(2) + "%"
+                    : "-";
+
+                const tdAtrasoAtual = document.createElement("td");
+                tdAtrasoAtual.textContent = item.atrasoAtual ?? "-";
+
+                const tdMaiorAtraso = document.createElement("td");
+                tdMaiorAtraso.textContent = item.maiorAtraso ?? "-";
+
+                const tdRepeticoes = document.createElement("td");
+                tdRepeticoes.textContent = item.repeticoesConsecutivas ?? "-";
+
+                // Adiciona as colunas na linha
+                tr.appendChild(tdOcorrencias);
+                tr.appendChild(tdPorcentagem);
+                tr.appendChild(tdAtrasoAtual);
+                tr.appendChild(tdMaiorAtraso);
+                tr.appendChild(tdRepeticoes);
+
+                tbody.appendChild(tr);
+
+            });
+        });
+    </script>
+    <script src="js/auth-check.js"></script>
+    <script>
+        // Autenticação básica
+        if (verificarAutenticacao()) {
+            // 🚫 Verificação do plano
+            verificarPlanoPro();
+        }
+    </script>
+</body>
+
+</html>

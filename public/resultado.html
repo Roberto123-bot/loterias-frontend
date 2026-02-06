@@ -1,532 +1,530 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>📊 Resultado da Conferência</title>
-    <!-- ✅ ADICIONAR ESTA LINHA: -->
-    <script src="js/config.js"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📊 Resultado da Conferência</title>
+  <!-- ✅ ADICIONAR ESTA LINHA: -->
+  <script src="js/config.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: white;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: var(--cor-loteria, #667eea);
+      margin: 0;
+    }
+
+    .btn-voltar {
+      padding: 12px 24px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.3s;
+    }
+
+    .btn-voltar:hover {
+      opacity: 0.9;
+    }
+
+    /* Jogo Consultado */
+    .jogo-consultado {
+      background: white;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .jogo-consultado h1 {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .jogo-consultado-info {
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+
+    .numeros-jogo {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .bola-jogo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--cor-loteria, #667eea);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* Resumo */
+    .resumo-container {
+      background: white;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .resumo-container h1 {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .resumo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 2px;
+      margin-bottom: 20px;
+    }
+
+    .resumo-item {
+      background: var(--cor-loteria, #667eea);
+      color: white;
+      padding: 2px;
+      text-align: center;
+    }
+
+    .resumo-qtd {
+      background: #ffffff;
+      color: #333;
+      font-size: 1rem;
+      padding: 1px 0;
+    }
+
+    .resumo-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      opacity: 0.95;
+    }
+
+    /* Detalhes */
+    .detalhes-container {
+      background: white;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .detalhes-container h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .concurso-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-left: 5px solid var(--cor-loteria, #667eea);
+    }
+
+    .concurso-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .concurso-numero {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--cor-loteria, #667eea);
+    }
+
+    .concurso-data {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .acertos-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 1rem;
+      background: #4caf50;
+      color: white;
+    }
+
+    .numeros-sorteados {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .bola-sorteada {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .bola-sorteada.acertou {
+      background: #4caf50;
+      color: white;
+      box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .loading::after {
+      content: "...";
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+
+      0%,
+      20% {
+        content: ".";
       }
 
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 10px;
+      40% {
+        content: "..";
       }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
+      60%,
+      100% {
+        content: "...";
       }
+    }
 
-      /* Header */
-      header {
-        background: white;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      }
+    .erro-container {
+      background: white;
+      border-radius: 15px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
 
-      .header-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
+    .erro-container h2 {
+      color: #f44336;
+      margin-bottom: 15px;
+    }
 
+    /* Responsivo */
+    @media (max-width: 768px) {
       h1 {
-        font-size: 2rem;
-        color: var(--cor-loteria, #667eea);
-        margin: 0;
+        font-size: 1.5rem;
       }
 
-      .btn-voltar {
-        padding: 12px 24px;
-        background: #667eea;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        transition: opacity 0.3s;
-      }
-
-      .btn-voltar:hover {
-        opacity: 0.9;
-      }
-
-      /* Jogo Consultado */
-      .jogo-consultado {
-        background: white;
-        border-radius: 5px;
-        padding: 20px;
-        margin-bottom: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .jogo-consultado h1 {
-        font-size: 1rem;
-        color: #333;
-        margin-bottom: 10px;
-      }
-
-      .jogo-consultado-info {
-        color: #666;
-        margin-bottom: 15px;
-        font-size: 1rem;
-      }
-
-      .numeros-jogo {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        justify-content: center;
+      .jogo-consultado,
+      .resumo-container,
+      .detalhes-container {
+        padding: 15px;
       }
 
       .bola-jogo {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: var(--cor-loteria, #667eea);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 1.1rem;
-      }
-
-      /* Resumo */
-      .resumo-container {
-        background: white;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .resumo-container h1 {
-        font-size: 1rem;
-        color: #333;
-        margin-bottom: 20px;
-      }
-
-      .resumo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 2px;
-        margin-bottom: 20px;
-      }
-
-      .resumo-item {
-        background: var(--cor-loteria, #667eea);
-        color: white;
-        padding: 2px;
-        text-align: center;
-      }
-
-      .resumo-qtd {
-        background: #ffffff;
-        color: #333;
-        font-size: 1rem;
-        padding: 1px 0;
-      }
-
-      .resumo-label {
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 6px;
-        opacity: 0.95;
-      }
-
-      /* Detalhes */
-      .detalhes-container {
-        background: white;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .detalhes-container h2 {
-        font-size: 1.5rem;
-        color: #333;
-        margin-bottom: 20px;
-      }
-
-      .concurso-card {
-        background: #f8f9fa;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 15px;
-        border-left: 5px solid var(--cor-loteria, #667eea);
-      }
-
-      .concurso-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .concurso-numero {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: var(--cor-loteria, #667eea);
-      }
-
-      .concurso-data {
-        color: #666;
+        width: 40px;
+        height: 40px;
         font-size: 0.95rem;
       }
 
-      .acertos-badge {
-        display: inline-block;
-        padding: 8px 20px;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 1rem;
-        background: #4caf50;
-        color: white;
-      }
-
-      .numeros-sorteados {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
       .bola-sorteada {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: #e0e0e0;
-        color: #666;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 0.9rem;
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
       }
 
-      .bola-sorteada.acertou {
-        background: #4caf50;
-        color: white;
-        box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+      .resumo-grid {
+        grid-template-columns: repeat(4, 1fr);
       }
 
-      .loading {
-        text-align: center;
-        padding: 60px 20px;
-        color: white;
-        font-size: 1.5rem;
+      .concurso-card {
+        padding: 15px;
       }
+    }
+  </style>
+</head>
 
-      .loading::after {
-        content: "...";
-        animation: dots 1.5s steps(4, end) infinite;
-      }
-
-      @keyframes dots {
-        0%,
-        20% {
-          content: ".";
-        }
-        40% {
-          content: "..";
-        }
-        60%,
-        100% {
-          content: "...";
-        }
-      }
-
-      .erro-container {
-        background: white;
-        border-radius: 15px;
-        padding: 40px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .erro-container h2 {
-        color: #f44336;
-        margin-bottom: 15px;
-      }
-
-      /* Responsivo */
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 1.5rem;
-        }
-
-        .jogo-consultado,
-        .resumo-container,
-        .detalhes-container {
-          padding: 15px;
-        }
-
-        .bola-jogo {
-          width: 40px;
-          height: 40px;
-          font-size: 0.95rem;
-        }
-
-        .bola-sorteada {
-          width: 32px;
-          height: 32px;
-          font-size: 0.8rem;
-        }
-
-        .resumo-grid {
-          grid-template-columns: repeat(4, 1fr);
-        }
-
-        .concurso-card {
-          padding: 15px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="header-content">
-          <h1 id="titulo-loteria">Resultado da Conferência</h1>
-          <a href="conferir.html" class="btn-voltar">← Nova Consulta</a>
-        </div>
-      </header>
-
-      <!-- Loading -->
-      <div id="loading" class="loading">Processando resultado</div>
-
-      <!-- Erro -->
-      <div id="erro-container" class="erro-container" style="display: none">
-        <h2>❌ Erro ao Carregar</h2>
-        <p>Não foi possível carregar o resultado da conferência.</p>
-        <br />
-        <a href="conferir.html" class="btn-voltar">← Voltar</a>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-content">
+        <h1 id="titulo-loteria">Resultado da Conferência</h1>
+        <a href="conferir.html" class="btn-voltar">← Nova Consulta</a>
       </div>
+    </header>
 
-      <!-- Jogo Consultado -->
-      <div id="jogo-consultado" class="jogo-consultado" style="display: none">
-        <h1>Jogo Consultado</h1>
-        <p class="jogo-consultado-info">
-          Seu Jogo (<span id="qtd-dezenas">0</span> dezenas):
-        </p>
-        <div class="numeros-jogo" id="numeros-jogo"></div>
-      </div>
+    <!-- Loading -->
+    <div id="loading" class="loading">Processando resultado</div>
 
-      <!-- Resumo -->
-      <div id="resumo-container" class="resumo-container" style="display: none">
-        <h1>📊 Resumo: Acertos/Concurso</h1>
-        <div class="resumo-grid" id="resumo-grid"></div>
-      </div>
-
-      <!-- Detalhes -->
-      <div
-        id="detalhes-container"
-        class="detalhes-container"
-        style="display: none"
-      >
-        <h2>🎯 Detalhes dos Acertos</h2>
-        <div id="concursos-list"></div>
-      </div>
+    <!-- Erro -->
+    <div id="erro-container" class="erro-container" style="display: none">
+      <h2>❌ Erro ao Carregar</h2>
+      <p>Não foi possível carregar o resultado da conferência.</p>
+      <br />
+      <a href="conferir.html" class="btn-voltar">← Voltar</a>
     </div>
 
-    <script>
-      // ✅ Pegar token
-      function getToken() {
-        return localStorage.getItem("token");
-      }
+    <!-- Jogo Consultado -->
+    <div id="jogo-consultado" class="jogo-consultado" style="display: none">
+      <h1>Jogo Consultado</h1>
+      <p class="jogo-consultado-info">
+        Seu Jogo (<span id="qtd-dezenas">0</span> dezenas):
+      </p>
+      <div class="numeros-jogo" id="numeros-jogo"></div>
+    </div>
 
-      // ✅ Criar headers
-      function getHeaders() {
-        const token = getToken();
-        return {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        };
-      }
+    <!-- Resumo -->
+    <div id="resumo-container" class="resumo-container" style="display: none">
+      <h1>📊 Resumo: Acertos/Concurso</h1>
+      <div class="resumo-grid" id="resumo-grid"></div>
+    </div>
 
+    <!-- Detalhes -->
+    <div id="detalhes-container" class="detalhes-container" style="display: none">
+      <h2>🎯 Detalhes dos Acertos</h2>
+      <div id="concursos-list"></div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ Pegar token
+    function getToken() {
+      return localStorage.getItem("token");
+    }
+
+    // ✅ Criar headers
+    function getHeaders() {
+      const token = getToken();
+      return {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+    }
+
+    // ✅ Verificar autenticação
+    function verificarAutenticacao() {
+      const token = getToken();
+      if (!token) {
+        alert("Você precisa fazer login!");
+        window.location.href = "login.html";
+        return false;
+      }
+      return true;
+    }
+
+    async function carregarResultado() {
       // ✅ Verificar autenticação
-      function verificarAutenticacao() {
-        const token = getToken();
-        if (!token) {
-          alert("Você precisa fazer login!");
-          window.location.href = "login.html";
-          return false;
+      if (!verificarAutenticacao()) return;
+      try {
+        // Pegar dados do localStorage
+        const dadosJogo = localStorage.getItem("conferencia_jogo");
+
+        if (!dadosJogo) {
+          throw new Error("Dados não encontrados");
         }
-        return true;
-      }
 
-      async function carregarResultado() {
-        // ✅ Verificar autenticação
-        if (!verificarAutenticacao()) return;
-        try {
-          // Pegar dados do localStorage
-          const dadosJogo = localStorage.getItem("conferencia_jogo");
+        const jogo = JSON.parse(dadosJogo);
 
-          if (!dadosJogo) {
-            throw new Error("Dados não encontrados");
+        // Aplicar cor da loteria
+        document.documentElement.style.setProperty("--cor-loteria", jogo.cor);
+        document.getElementById(
+          "titulo-loteria"
+        ).textContent = `Resultado - ${jogo.nomeLoteria}`;
+
+        // ✅ Buscar concursos da API COM TOKEN
+        const response = await fetch(
+          `${API_URL}${jogo.endpoint}?limit=10000`,
+          {
+            headers: getHeaders(),
           }
+        );
 
-          const jogo = JSON.parse(dadosJogo);
-
-          // Aplicar cor da loteria
-          document.documentElement.style.setProperty("--cor-loteria", jogo.cor);
-          document.getElementById(
-            "titulo-loteria"
-          ).textContent = `Resultado - ${jogo.nomeLoteria}`;
-
-          // ✅ Buscar concursos da API COM TOKEN
-          const response = await fetch(
-            `${API_URL}${jogo.endpoint}?limit=10000`,
-            {
-              headers: getHeaders(),
-            }
-          );
-
-          // ✅ Verificar se a resposta é OK
-          if (!response.ok) {
-            if (response.status === 401) {
-              throw new Error("Sessão expirada. Faça login novamente.");
-            } else if (response.status === 403) {
-              throw new Error("Recurso disponível apenas para usuários PRÓ.");
-            }
-            throw new Error(`Erro ${response.status}: ${response.statusText}`);
+        // ✅ Verificar se a resposta é OK
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error("Sessão expirada. Faça login novamente.");
+          } else if (response.status === 403) {
+            throw new Error("Recurso disponível apenas para usuários PRÓ.");
           }
-          const data = await response.json();
-
-          if (!data.success) {
-            throw new Error(data.message || "Erro ao buscar concursos");
-          }
-
-          // Processar resultados
-          const resultados = conferirAcertos(jogo.numeros, data.data, jogo.min);
-
-          // Mostrar resultado
-          mostrarResultado(jogo, resultados);
-        } catch (error) {
-          console.error("Erro:", error);
-          document.getElementById("loading").style.display = "none";
-          document.getElementById("erro-mensagem").textContent = error.message;
-          document.getElementById("erro-container").style.display = "block";
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
         }
-      }
+        const data = await response.json();
 
-      function conferirAcertos(meuJogo, concursos, min) {
-        const resultados = [];
+        if (!data.success) {
+          throw new Error(data.message || "Erro ao buscar concursos");
+        }
 
-        concursos.forEach((concurso) => {
-          const dezenas = concurso.dezenas || [];
-          const acertos = meuJogo.filter((num) => dezenas.includes(num));
+        // Processar resultados
+        const resultados = conferirAcertos(jogo.numeros, data.data, jogo.min);
 
-          if (acertos.length > 0) {
-            resultados.push({
-              concurso: concurso.concurso,
-              data: concurso.created_at,
-              dezenas: dezenas,
-              acertos: acertos,
-              qtdAcertos: acertos.length,
-            });
-          }
-        });
-
-        resultados.sort((a, b) => b.qtdAcertos - a.qtdAcertos);
-        return resultados;
-      }
-
-      const LIMITE_RESULTADOS_EXIBIDOS = 10;
-
-      function mostrarResultado(jogo, resultados) {
+        // Mostrar resultado
+        mostrarResultado(jogo, resultados);
+      } catch (error) {
+        console.error("Erro:", error);
         document.getElementById("loading").style.display = "none";
+        document.getElementById("erro-mensagem").textContent = error.message;
+        document.getElementById("erro-container").style.display = "block";
+      }
+    }
 
-        // Jogo Consultado
-        document.getElementById("qtd-dezenas").textContent =
-          jogo.numeros.length;
-        const numerosDiv = document.getElementById("numeros-jogo");
-        numerosDiv.innerHTML = "";
+    function conferirAcertos(meuJogo, concursos, min) {
+      const resultados = [];
 
-        jogo.numeros
-          .sort((a, b) => a - b)
-          .forEach((num) => {
-            const bola = document.createElement("div");
-            bola.className = "bola-jogo";
-            const texto =
-              jogo.min === 0 ? num.toString().padStart(2, "0") : num;
-            bola.textContent = texto;
-            numerosDiv.appendChild(bola);
+      concursos.forEach((concurso) => {
+        const dezenas = concurso.dezenas || [];
+        const acertos = meuJogo.filter((num) => dezenas.includes(num));
+
+        if (acertos.length > 0) {
+          resultados.push({
+            concurso: concurso.concurso,
+            data: concurso.created_at,
+            dezenas: dezenas,
+            acertos: acertos,
+            qtdAcertos: acertos.length,
           });
+        }
+      });
 
-        document.getElementById("jogo-consultado").style.display = "block";
+      resultados.sort((a, b) => b.qtdAcertos - a.qtdAcertos);
+      return resultados;
+    }
 
-        // Resumo
-        const resumo = {};
-        resultados.forEach((r) => {
-          resumo[r.qtdAcertos] = (resumo[r.qtdAcertos] || 0) + 1;
+    const LIMITE_RESULTADOS_EXIBIDOS = 10;
+
+    function mostrarResultado(jogo, resultados) {
+      document.getElementById("loading").style.display = "none";
+
+      // Jogo Consultado
+      document.getElementById("qtd-dezenas").textContent =
+        jogo.numeros.length;
+      const numerosDiv = document.getElementById("numeros-jogo");
+      numerosDiv.innerHTML = "";
+
+      jogo.numeros
+        .sort((a, b) => a - b)
+        .forEach((num) => {
+          const bola = document.createElement("div");
+          bola.className = "bola-jogo";
+          const texto =
+            jogo.min === 0 ? num.toString().padStart(2, "0") : num;
+          bola.textContent = texto;
+          numerosDiv.appendChild(bola);
         });
 
-        const resumoDiv = document.getElementById("resumo-grid");
-        resumoDiv.innerHTML = "";
+      document.getElementById("jogo-consultado").style.display = "block";
 
-        // Ordenar do maior para o menor
-        Object.keys(resumo)
-          .sort((a, b) => b - a)
-          .forEach((qtd) => {
-            const item = document.createElement("div");
-            item.className = "resumo-item";
-            item.innerHTML = `
+      // Resumo
+      const resumo = {};
+      resultados.forEach((r) => {
+        resumo[r.qtdAcertos] = (resumo[r.qtdAcertos] || 0) + 1;
+      });
+
+      const resumoDiv = document.getElementById("resumo-grid");
+      resumoDiv.innerHTML = "";
+
+      // Ordenar do maior para o menor
+      Object.keys(resumo)
+        .sort((a, b) => b - a)
+        .forEach((qtd) => {
+          const item = document.createElement("div");
+          item.className = "resumo-item";
+          item.innerHTML = `
             <div class="resumo-label">${qtd} acerto${qtd > 1 ? "s" : ""}</div>
               <div class="resumo-qtd">${resumo[qtd]}</div>
                 `;
-            resumoDiv.appendChild(item);
-          });
+          resumoDiv.appendChild(item);
+        });
 
-        document.getElementById("resumo-container").style.display = "block";
+      document.getElementById("resumo-container").style.display = "block";
 
-        // Detalhes (primeiros 50)
-        const concursosList = document.getElementById("concursos-list");
-        concursosList.innerHTML = "";
+      // Detalhes (primeiros 50)
+      const concursosList = document.getElementById("concursos-list");
+      concursosList.innerHTML = "";
 
-        resultados.slice(0, LIMITE_RESULTADOS_EXIBIDOS).forEach((resultado) => {
-          const card = document.createElement("div");
-          card.className = "concurso-card";
+      resultados.slice(0, LIMITE_RESULTADOS_EXIBIDOS).forEach((resultado) => {
+        const card = document.createElement("div");
+        card.className = "concurso-card";
 
-          const dezenasHTML = resultado.dezenas
-            .map((num) => {
-              const acertou = resultado.acertos.includes(num);
-              const texto =
-                jogo.min === 0 ? num.toString().padStart(2, "0") : num;
-              return `<div class="bola-sorteada ${
-                acertou ? "acertou" : ""
+        const dezenasHTML = resultado.dezenas
+          .map((num) => {
+            const acertou = resultado.acertos.includes(num);
+            const texto =
+              jogo.min === 0 ? num.toString().padStart(2, "0") : num;
+            return `<div class="bola-sorteada ${acertou ? "acertou" : ""
               }">${texto}</div>`;
-            })
-            .join("");
+          })
+          .join("");
 
-          card.innerHTML = `
+        card.innerHTML = `
                     <div class="concurso-header">
                         <div>
-                            <div class="concurso-numero">Concurso #${
-                              resultado.concurso
-                            }</div>
+                            <div class="concurso-numero">Concurso #${resultado.concurso
+          }</div>
                         </div>
                         <div class="acertos-badge">
-                            ${resultado.qtdAcertos} acerto${
-            resultado.qtdAcertos > 1 ? "s" : ""
+                            ${resultado.qtdAcertos} acerto${resultado.qtdAcertos > 1 ? "s" : ""
           }
                         </div>
                     </div>
@@ -535,24 +533,32 @@
                     </div>
                 `;
 
-          concursosList.appendChild(card);
-        });
+        concursosList.appendChild(card);
+      });
 
-        if (resultados.length > LIMITE_RESULTADOS_EXIBIDOS) {
-          const aviso = document.createElement("div");
-          aviso.style.textAlign = "center";
-          aviso.style.padding = "20px";
-          aviso.style.color = "#666";
-          aviso.textContent = `Mostrando os primeiros 100 resultados. Total de acertos: ${resultados.length}`;
-          concursosList.appendChild(aviso);
-        }
-
-        document.getElementById("detalhes-container").style.display = "block";
+      if (resultados.length > LIMITE_RESULTADOS_EXIBIDOS) {
+        const aviso = document.createElement("div");
+        aviso.style.textAlign = "center";
+        aviso.style.padding = "20px";
+        aviso.style.color = "#666";
+        aviso.textContent = `Mostrando os primeiros 100 resultados. Total de acertos: ${resultados.length}`;
+        concursosList.appendChild(aviso);
       }
 
-      // ✅ Carregar ao iniciar (após verificar auth)
-      carregarResultado();
-    </script>
-    <script src="js/auth-check.js"></script>
-  </body>
+      document.getElementById("detalhes-container").style.display = "block";
+    }
+
+    // ✅ Carregar ao iniciar (após verificar auth)
+    carregarResultado();
+  </script>
+  <script src="js/auth-check.js"></script>
+  <script>
+    // Autenticação básica
+    if (verificarAutenticacao()) {
+      // 🚫 Verificação do plano
+      verificarPlanoPro();
+    }
+  </script>
+</body>
+
 </html>

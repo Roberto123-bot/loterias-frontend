@@ -1,312 +1,312 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>📊 Estatísticas - Sistema de Loterias</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📊 Estatísticas - Sistema de Loterias</title>
 
-    <script src="js/config.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 1px;
-      }
+  <script src="js/config.js"></script>
 
-      .container {
-        max-width: 100%;
-        margin: 0 auto;
-      }
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 1px;
+    }
 
-      header {
-        background: white;
-        border-radius: 5px;
-        padding: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
 
-      h1 {
-        font-size: 1.8rem;
-        color: #333;
-      }
+    header {
+      background: white;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-      .btn-voltar {
-        background: #667eea;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        text-decoration: none;
-      }
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+    }
 
-      .cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 15px;
-        margin-bottom: 20px;
-      }
+    .btn-voltar {
+      background: #667eea;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
-      .card {
-        background: white;
-        border-radius: 5px;
-        padding: 20px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
 
-      .card h3 {
-        margin-bottom: 10px;
-        font-size: 1.1rem;
-      }
+    .card {
+      background: white;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
 
-      /* ===== Tooltip ===== */
-      /* Ícone do tooltip */
-      .tooltip-icon {
-        font-size: 1rem;
-        color: #667eea;
-        vertical-align: middle;
-        cursor: pointer;
-        transition:
-          transform 0.2s ease,
-          opacity 0.2s ease;
-      }
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
 
-      .tooltip-icon:hover {
-        transform: scale(1.1);
-        opacity: 0.85;
-      }
+    /* ===== Tooltip ===== */
+    /* Ícone do tooltip */
+    .tooltip-icon {
+      font-size: 1rem;
+      color: #667eea;
+      vertical-align: middle;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
 
-      .tooltip-container {
-        position: relative;
-        display: inline-block;
-        margin-left: 6px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        color: #667eea;
-      }
+    .tooltip-icon:hover {
+      transform: scale(1.1);
+      opacity: 0.85;
+    }
 
+    .tooltip-container {
+      position: relative;
+      display: inline-block;
+      margin-left: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #667eea;
+    }
+
+    .tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      width: 260px;
+      background: #1f2937;
+      color: #fff;
+      text-align: left;
+      padding: 12px;
+      border-radius: 8px;
+      position: absolute;
+      z-index: 10;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      line-height: 1.4;
+      transition: opacity 0.3s ease;
+    }
+
+    .tooltip-text::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent transparent #1f2937 transparent;
+    }
+
+    .tooltip-container:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Mobile: tooltip por toque */
+    @media (max-width: 768px) {
       .tooltip-text {
-        visibility: hidden;
-        opacity: 0;
-        width: 260px;
-        background: #1f2937;
-        color: #fff;
-        text-align: left;
-        padding: 12px;
-        border-radius: 8px;
-        position: absolute;
-        z-index: 10;
-        top: 120%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.8rem;
-        line-height: 1.4;
-        transition: opacity 0.3s ease;
+        width: 90vw;
       }
+    }
 
-      .tooltip-text::after {
-        content: "";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        border-width: 6px;
-        border-style: solid;
-        border-color: transparent transparent #1f2937 transparent;
-      }
+    /* ===== Linha estilo tabela dentro dos cards ===== */
+    .linha-estat {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 0.9rem;
+    }
 
-      .tooltip-container:hover .tooltip-text {
-        visibility: visible;
-        opacity: 1;
-      }
+    .linha-estat:last-child {
+      border-bottom: none;
+    }
 
-      /* Mobile: tooltip por toque */
-      @media (max-width: 768px) {
-        .tooltip-text {
-          width: 90vw;
-        }
-      }
+    .linha-estat .dezena {
+      font-weight: 700;
+      text-align: center;
+    }
 
-      /* ===== Linha estilo tabela dentro dos cards ===== */
-      .linha-estat {
-        display: grid;
-        grid-template-columns: 42px 1fr;
-        gap: 10px;
-        align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid #eee;
-        font-size: 0.9rem;
-      }
+    .linha-estat .dados {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 16px;
+      color: #555;
+      font-size: 0.8rem;
+    }
 
-      .linha-estat:last-child {
-        border-bottom: none;
-      }
+    .linha-estat .dados span {
+      white-space: nowrap;
+    }
 
-      .linha-estat .dezena {
-        font-weight: 700;
-        text-align: center;
-      }
+    /* Ícones */
+    .linha-estat.forte .dezena {
+      color: #e11d48;
+    }
 
-      .linha-estat .dados {
-        display: grid;
-        grid-template-columns: repeat(3, auto);
-        gap: 16px;
-        color: #555;
-        font-size: 0.8rem;
-      }
+    .linha-estat.fraca .dezena {
+      color: #2563eb;
+    }
 
-      .linha-estat .dados span {
-        white-space: nowrap;
-      }
+    .linha-estat.atraso .dezena {
+      color: #7c3aed;
+    }
 
-      /* Ícones */
-      .linha-estat.forte .dezena {
-        color: #e11d48;
-      }
-      .linha-estat.fraca .dezena {
-        color: #2563eb;
-      }
-      .linha-estat.atraso .dezena {
-        color: #7c3aed;
-      }
+    /* ===== Bolinha de dezena ===== */
+    .bolinha {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+      font-size: 0.9rem;
+    }
 
-      /* ===== Bolinha de dezena ===== */
-      .bolinha {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        color: #fff;
-        font-size: 0.9rem;
-      }
+    /* Cores por contexto */
+    .bolinha.forte {
+      background: linear-gradient(135deg, #ff6b6b, #c92a2a);
+    }
 
-      /* Cores por contexto */
-      .bolinha.forte {
-        background: linear-gradient(135deg, #ff6b6b, #c92a2a);
-      }
+    .bolinha.fraca {
+      background: linear-gradient(135deg, #4dabf7, #1864ab);
+    }
 
-      .bolinha.fraca {
-        background: linear-gradient(135deg, #4dabf7, #1864ab);
-      }
+    .bolinha.atraso {
+      background: linear-gradient(135deg, #9775fa, #5f3dc4);
+    }
+  </style>
+</head>
 
-      .bolinha.atraso {
-        background: linear-gradient(135deg, #9775fa, #5f3dc4);
-      }
-    </style>
-  </head>
+<body>
+  <div class="container">
+    <header>
+      <h2>📊 Estatísticas</h2>
+      <a href="index.html" class="btn-voltar">← Voltar</a>
+    </header>
 
-  <body>
-    <div class="container">
-      <header>
-        <h2>📊 Estatísticas</h2>
-        <a href="index.html" class="btn-voltar">← Voltar</a>
-      </header>
-
-      <!-- Cards resumo -->
-      <section class="cards">
-        <div class="card" id="card-top5">
-          <h3>
-            🔥 Top 5 Dezenas Fortes
-            <span class="tooltip-container">
-              <i class="bi bi-info-circle-fill tooltip-icon"></i>
-              <span class="tooltip-text">
-                <strong>O que é o Score?</strong><br /><br />
-                O Score é um índice estatístico de tendência calculado com base
-                em:
-                <br />• Frequência da dezena <br />• Sequência de aparições
-                <br />• Atraso nos concursos <br /><br />
-                Fórmula utilizada:<br />
-                <code>(Freq × 2) + (Seq × 3) − (Atraso × 2)</code>
-                <br /><br />
-                <em>Não representa garantia ou previsão de resultado.</em>
-              </span>
+    <!-- Cards resumo -->
+    <section class="cards">
+      <div class="card" id="card-top5">
+        <h3>
+          🔥 Top 5 Dezenas Fortes
+          <span class="tooltip-container">
+            <i class="bi bi-info-circle-fill tooltip-icon"></i>
+            <span class="tooltip-text">
+              <strong>O que é o Score?</strong><br /><br />
+              O Score é um índice estatístico de tendência calculado com base
+              em:
+              <br />• Frequência da dezena <br />• Sequência de aparições
+              <br />• Atraso nos concursos <br /><br />
+              Fórmula utilizada:<br />
+              <code>(Freq × 2) + (Seq × 3) − (Atraso × 2)</code>
+              <br /><br />
+              <em>Não representa garantia ou previsão de resultado.</em>
             </span>
-          </h3>
+          </span>
+        </h3>
 
-          <div class="conteudo"></div>
-        </div>
+        <div class="conteudo"></div>
+      </div>
 
-        <div class="card" id="card-bottom5">
-          <h3>❄️ Top 5 Dezenas Fracas</h3>
-          <div class="conteudo"></div>
-        </div>
+      <div class="card" id="card-bottom5">
+        <h3>❄️ Top 5 Dezenas Fracas</h3>
+        <div class="conteudo"></div>
+      </div>
 
-        <div class="card" id="card-atrasos">
-          <h3>⏱️ Atrasos Críticos</h3>
-          <div class="conteudo"></div>
-        </div>
+      <div class="card" id="card-atrasos">
+        <h3>⏱️ Atrasos Críticos</h3>
+        <div class="conteudo"></div>
+      </div>
 
-        <div class="card" id="card-temperatura">
-          <h3>🌡️ Temperatura Geral</h3>
-          <div class="conteudo"></div>
-        </div>
-      </section>
-    </div>
+      <div class="card" id="card-temperatura">
+        <h3>🌡️ Temperatura Geral</h3>
+        <div class="conteudo"></div>
+      </div>
+    </section>
+  </div>
 
-    <script>
-      document.querySelectorAll(".tooltip-container").forEach((t) => {
-        t.addEventListener("click", () => {
-          const tip = t.querySelector(".tooltip-text");
-          tip.style.visibility =
-            tip.style.visibility === "visible" ? "hidden" : "visible";
-          tip.style.opacity = tip.style.opacity === "1" ? "0" : "1";
-        });
+  <script>
+    document.querySelectorAll(".tooltip-container").forEach((t) => {
+      t.addEventListener("click", () => {
+        const tip = t.querySelector(".tooltip-text");
+        tip.style.visibility =
+          tip.style.visibility === "visible" ? "hidden" : "visible";
+        tip.style.opacity = tip.style.opacity === "1" ? "0" : "1";
       });
+    });
 
-      function carregarEstatisticas() {
-        const dados = localStorage.getItem("estatisticasMapa");
+    function carregarEstatisticas() {
+      const dados = localStorage.getItem("estatisticasMapa");
 
-        if (!dados) {
-          alert(
-            "Nenhuma estatística encontrada. Acesse o Mapa das Dezenas primeiro.",
-          );
-          window.location.href = "mapa-dezenas.html";
-          return;
-        }
-
-        return JSON.parse(dados);
+      if (!dados) {
+        alert(
+          "Nenhuma estatística encontrada. Acesse o Mapa das Dezenas primeiro.",
+        );
+        window.location.href = "mapa-dezenas.html";
+        return;
       }
 
-      function calcularScore(est) {
-        return est.frequencia.map((f, i) => ({
-          dezena: est.min + i,
-          freq: f,
-          seq: est.sequencia[i],
-          atraso: est.atraso[i],
-          score: f * 2 + est.sequencia[i] * 3 - est.atraso[i] * 2,
-        }));
-      }
+      return JSON.parse(dados);
+    }
 
-      function obterTop5(scores) {
-        const ordenado = [...scores].sort((a, b) => b.score - a.score);
+    function calcularScore(est) {
+      return est.frequencia.map((f, i) => ({
+        dezena: est.min + i,
+        freq: f,
+        seq: est.sequencia[i],
+        atraso: est.atraso[i],
+        score: f * 2 + est.sequencia[i] * 3 - est.atraso[i] * 2,
+      }));
+    }
 
-        return {
-          fortes: ordenado.slice(0, 5),
-          fracas: ordenado.slice(-5).reverse(),
-        };
-      }
+    function obterTop5(scores) {
+      const ordenado = [...scores].sort((a, b) => b.score - a.score);
 
-      function renderTop5Fortes(lista) {
-        const container = document.querySelector("#card-top5 .conteudo");
-        container.innerHTML = "";
+      return {
+        fortes: ordenado.slice(0, 5),
+        fracas: ordenado.slice(-5).reverse(),
+      };
+    }
 
-        lista.forEach((d) => {
-          const div = document.createElement("div");
-          div.className = "linha-estat";
-          div.innerHTML = `
+    function renderTop5Fortes(lista) {
+      const container = document.querySelector("#card-top5 .conteudo");
+      container.innerHTML = "";
+
+      lista.forEach((d) => {
+        const div = document.createElement("div");
+        div.className = "linha-estat";
+        div.innerHTML = `
             <div class="bolinha forte">${d.dezena}</div>
             <div class="dados">
               <span>Score <strong>${d.score}</strong></span>
@@ -314,18 +314,18 @@
               <span>Seq <strong>${d.seq}</strong></span>
             </div>
           `;
-          container.appendChild(div);
-        });
-      }
+        container.appendChild(div);
+      });
+    }
 
-      function renderTop5Fracas(lista) {
-        const container = document.querySelector("#card-bottom5 .conteudo");
-        container.innerHTML = "";
+    function renderTop5Fracas(lista) {
+      const container = document.querySelector("#card-bottom5 .conteudo");
+      container.innerHTML = "";
 
-        lista.forEach((d) => {
-          const div = document.createElement("div");
-          div.className = "linha-estat";
-          div.innerHTML = `
+      lista.forEach((d) => {
+        const div = document.createElement("div");
+        div.className = "linha-estat";
+        div.innerHTML = `
             <div class="bolinha fraca">${d.dezena}</div>
             <div class="dados">
               <span>Score <strong>${d.score}</strong></span>
@@ -333,64 +333,64 @@
               <span>Atraso <strong>${d.atraso}</strong></span>
             </div>
           `;
-          container.appendChild(div);
-        });
-      }
+        container.appendChild(div);
+      });
+    }
 
-      function calcularTemperaturaGeral(est) {
-        const total = est.temperatura.length;
+    function calcularTemperaturaGeral(est) {
+      const total = est.temperatura.length;
 
-        const quentes = est.temperatura.filter((t) => t === "Q").length;
-        const mornas = est.temperatura.filter((t) => t === "M").length;
-        const frias = est.temperatura.filter((t) => t === "F").length;
+      const quentes = est.temperatura.filter((t) => t === "Q").length;
+      const mornas = est.temperatura.filter((t) => t === "M").length;
+      const frias = est.temperatura.filter((t) => t === "F").length;
 
-        return {
-          quentes,
-          mornas,
-          frias,
-          total,
-          pctQ: Math.round((quentes / total) * 100),
-          pctM: Math.round((mornas / total) * 100),
-          pctF: Math.round((frias / total) * 100),
-        };
-      }
+      return {
+        quentes,
+        mornas,
+        frias,
+        total,
+        pctQ: Math.round((quentes / total) * 100),
+        pctM: Math.round((mornas / total) * 100),
+        pctF: Math.round((frias / total) * 100),
+      };
+    }
 
-      function renderAtrasosCriticos(est) {
-        const lista = calcularAtrasosCriticos(est);
-        const container = document.querySelector("#card-atrasos .conteudo");
-        container.innerHTML = "";
+    function renderAtrasosCriticos(est) {
+      const lista = calcularAtrasosCriticos(est);
+      const container = document.querySelector("#card-atrasos .conteudo");
+      container.innerHTML = "";
 
-        lista.forEach((d) => {
-          const div = document.createElement("div");
-          div.className = "linha-estat";
-          div.innerHTML = `
+      lista.forEach((d) => {
+        const div = document.createElement("div");
+        div.className = "linha-estat";
+        div.innerHTML = `
             <div class="bolinha atraso">${d.dezena}</div>
             <div class="dados">
               <span>Atraso <strong>${d.atraso}</strong></span>
               <span>Freq <strong>${d.freq}</strong></span>
             </div>
           `;
-          container.appendChild(div);
-        });
-      }
+        container.appendChild(div);
+      });
+    }
 
-      function calcularAtrasosCriticos(est) {
-        return est.atraso
-          .map((a, i) => ({
-            dezena: est.min + i,
-            atraso: a,
-            freq: est.frequencia[i],
-          }))
-          .filter((d) => d.atraso > 0)
-          .sort((a, b) => b.atraso - a.atraso)
-          .slice(0, 5);
-      }
+    function calcularAtrasosCriticos(est) {
+      return est.atraso
+        .map((a, i) => ({
+          dezena: est.min + i,
+          atraso: a,
+          freq: est.frequencia[i],
+        }))
+        .filter((d) => d.atraso > 0)
+        .sort((a, b) => b.atraso - a.atraso)
+        .slice(0, 5);
+    }
 
-      function renderTemperaturaGeral(est) {
-        const temp = calcularTemperaturaGeral(est);
-        const container = document.querySelector("#card-temperatura .conteudo");
+    function renderTemperaturaGeral(est) {
+      const temp = calcularTemperaturaGeral(est);
+      const container = document.querySelector("#card-temperatura .conteudo");
 
-        container.innerHTML = `
+      container.innerHTML = `
           🔥 <strong>Quentes:</strong> ${temp.quentes} (${temp.pctQ}%)<br>
           🌤️ <strong>Mornas:</strong> ${temp.mornas} (${temp.pctM}%)<br>
           ❄️ <strong>Frias:</strong> ${temp.frias} (${temp.pctF}%)
@@ -403,18 +403,26 @@
             </div>
           </div>
         `;
-      }
+    }
 
-      const estat = carregarEstatisticas();
-      const scores = calcularScore(estat);
-      const { fortes, fracas } = obterTop5(scores);
+    const estat = carregarEstatisticas();
+    const scores = calcularScore(estat);
+    const { fortes, fracas } = obterTop5(scores);
 
-      renderTop5Fortes(fortes);
-      renderTop5Fracas(fracas);
-      renderAtrasosCriticos(estat);
-      renderTemperaturaGeral(estat);
-    </script>
+    renderTop5Fortes(fortes);
+    renderTop5Fracas(fracas);
+    renderAtrasosCriticos(estat);
+    renderTemperaturaGeral(estat);
+  </script>
 
-    <script src="js/auth-check.js"></script>
-  </body>
+  <script src="js/auth-check.js"></script>
+  <script>
+    // Autenticação básica
+    if (verificarAutenticacao()) {
+      // 🚫 Verificação do plano
+      verificarPlanoPro();
+    }
+  </script>
+</body>
+
 </html>
