@@ -611,6 +611,25 @@
         display: none !important;
       }
     }
+
+    .menu-footer a i.bi-instagram {
+      color: #e1306c;
+      margin-top: auto;
+      padding: 25px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .instagram-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #e1306c;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
   </style>
 </head>
 
@@ -661,6 +680,13 @@
         <span class="menu-badge badge-pro">PRO</span>
       </a>
 
+      <!-- Ciclo das Dezenas -->
+      <a href="#" class="menu-item" onclick="verificarPlanoENavegar('ciclo-dezenas.html', event)">
+        <i class="bi bi-fire"></i>
+        <span>Ciclo das Dezenas</span>
+        <span class="menu-badge badge-pro">PRO</span>
+      </a>
+
       <div class="menu-divider"></div>
 
       <!-- Mapa das Dezenas -->
@@ -699,7 +725,18 @@
         <span>Configurações</span>
         <span class="menu-badge badge-pro">PRO</span>
       </a>
+
     </div>
+
+    <div>
+      <li class="menu-footer">
+        <a href="https://www.instagram.com/roberto.loterias" target="_blank" class="instagram-link">
+          <i class="bi bi-instagram"></i>
+          <span>Instagram</span>
+        </a>
+      </li>
+    </div>
+
   </div>
 
   <!-- ============= TOP BAR ============= -->
@@ -709,7 +746,7 @@
       <button class="mobile-menu-btn" onclick="openMobileMenu()">
         <i class="bi bi-list"></i>
       </button>
-      <h1>🎰 Sistema de Loterias</h1>
+      <h1>🎰 Roberto Loterias</h1>
     </div>
     <div class="top-bar-right">
       <span id="badge-plano" class="badge-plano"></span>
