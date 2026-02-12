@@ -577,10 +577,9 @@
 <body>
   <header>
     <div class="header-left">
-      <div class="icon-large">✅</div>
       <div>
-        <h1>Conferir Jogo</h1>
-        <div class="subtitle">Clique nos números do seu jogo</div>
+        <h1 style="display: flex; align-items: center; gap: 10px"><i class="bi bi-check-circle-fill"></i>Conferir Jogo
+        </h1>
       </div>
     </div>
     <a href="index.html" class="btn-voltar" title="Voltar">
@@ -596,8 +595,8 @@
           <label for="loteria-select">Selecione a Loteria:</label>
           <select id="loteria-select" onchange="mudarLoteria()">
             <option value="">-- Selecione uma loteria --</option>
-            <option value="megasena">🍀 Mega-Sena</option>
             <option value="lotofacil">🎯 Lotofácil</option>
+            <option value="megasena">🍀 Mega-Sena</option>
             <option value="quina">🌟 Quina</option>
             <option value="lotomania">🎲 Lotomania</option>
             <option value="duplasena">🎭 Dupla-Sena</option>
@@ -926,6 +925,7 @@
         min: loteriaAtual.min,
         temTrevos: loteriaAtual.temTrevos || false, // ⭐ NOVO
         trevos: trevosSelecionados, // ⭐ NOVO
+        origem: "conferir" // 🔥 NOVO
       };
 
       localStorage.setItem("conferencia_jogo", JSON.stringify(dadosJogo));

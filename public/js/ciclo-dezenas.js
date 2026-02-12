@@ -84,10 +84,20 @@ function pad2(n) {
 function mudarLoteria() {
     const select = document.getElementById("loteria-select");
     const id = select.value;
+    const titulo = document.getElementById("titulo-loteria");
 
     if (!id) {
         document.getElementById("btn-atualizar").disabled = true;
         document.getElementById("tabela-container").style.display = "none";
+
+        if (titulo) {
+            titulo.innerHTML = `
+                <i class="bi bi-fire" style="color:#667eea;"></i>
+                Ciclo das Dezenas
+            `;
+        }
+
+        document.documentElement.style.setProperty("--cor-loteria", "#667eea");
         return;
     }
 
@@ -98,11 +108,16 @@ function mudarLoteria() {
         loteriaAtual.cor
     );
 
-    document.getElementById("titulo-loteria").textContent =
-        `Ciclo das Dezenas – ${loteriaAtual.nome}`;
+    if (titulo) {
+        titulo.innerHTML = `
+            <i class="bi bi-fire" style="color:${loteriaAtual.cor};"></i>
+            Ciclo das Dezenas – ${loteriaAtual.nome}
+        `;
+    }
 
     document.getElementById("btn-atualizar").disabled = false;
 }
+
 
 // ===============================
 // CICLO

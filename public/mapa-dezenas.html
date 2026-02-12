@@ -333,7 +333,10 @@
   <!-- Header -->
   <header>
     <div class="header-content">
-      <h1 id="titulo-loteria">📊 Mapa das Dezenas</h1>
+      <h1 id="titulo-loteria" style="display: flex; align-items: center; gap: 10px;">
+        <i class="bi bi-bar-chart-fill"></i>
+        Mapa das Dezenas
+      </h1>
       <a href="index.html" class="btn-voltar" title="Voltar">
         <i class="bi bi-arrow-left"></i>
       </a>
@@ -349,8 +352,8 @@
           <label for="loteria-select">Loteria:</label>
           <select id="loteria-select" onchange="mudarLoteria()">
             <option value="">-- Selecione uma loteria --</option>
-            <option value="megasena">🍀 Mega-Sena</option>
             <option value="lotofacil">🎯 Lotofácil</option>
+            <option value="megasena">🍀 Mega-Sena</option>
             <option value="quina">🌟 Quina</option>
             <option value="lotomania">🎲 Lotomania</option>
             <option value="duplasena">🎭 Dupla-Sena</option>
@@ -484,22 +487,40 @@
     function mudarLoteria() {
       const select = document.getElementById("loteria-select");
       const loteriaId = select.value;
+      const titulo = document.getElementById("titulo-loteria");
 
       if (!loteriaId) {
         document.getElementById("btn-atualizar").disabled = true;
         document.getElementById("tabela-container").style.display = "none";
+
+        if (titulo) {
+          titulo.innerHTML = `
+        <i class="bi bi-bar-chart-fill" style="color:#667eea;"></i>
+        Mapa das Dezenas
+      `;
+        }
+
+        document.documentElement.style.setProperty("--cor-loteria", "#667eea");
         return;
       }
 
       loteriaAtual = LOTERIAS_CONFIG[loteriaId];
+
       document.documentElement.style.setProperty(
         "--cor-loteria",
-        loteriaAtual.cor,
+        loteriaAtual.cor
       );
-      document.getElementById("titulo-loteria").textContent =
-        `📊 Mapa das Dezenas - ${loteriaAtual.nome}`;
+
+      if (titulo) {
+        titulo.innerHTML = `
+      <i class="bi bi-bar-chart-fill" style="color:${loteriaAtual.cor};"></i>
+      Mapa das Dezenas - ${loteriaAtual.nome}
+    `;
+      }
+
       document.getElementById("btn-atualizar").disabled = false;
     }
+
 
     async function carregarTabela() {
       // ✅ Verificar autenticação

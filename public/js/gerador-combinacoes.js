@@ -121,36 +121,55 @@ function escapeHtml(str) {
 // LOTERIA
 // ============================================
 
+// ============================================
+// LOTERIA
+// ============================================
+
 function mudarLoteria(loteriaId) {
   const titulo = document.getElementById("titulo-loteria");
   const selectGrupo = document.getElementById("select-grupo");
 
+  // ❌ Nenhuma loteria selecionada
   if (!loteriaId || !LOTERIAS_CONFIG[loteriaId]) {
     loteriaSelecionada = null;
 
-    if (titulo) titulo.textContent = "🎲 Gerar Jogos";
+    if (titulo) {
+      titulo.innerHTML = `
+        <i class="bi bi-dice-3-fill" style="color:#667eea;"></i>
+        Gerar Jogos
+      `;
+    }
+
     document.documentElement.style.setProperty("--cor-loteria", "#667eea");
     document.getElementById("dezenas-section").style.display = "none";
 
-    // reset grupos
+    // Reset grupos
     if (selectGrupo) {
       selectGrupo.innerHTML = `<option value="">📁 Nenhum grupo criado</option>`;
       selectGrupo.disabled = true;
     }
+
     nomeGrupoSelecionado = "";
     atualizarBotaoGerar();
     return;
   }
 
+  // ✅ Loteria selecionada
   loteriaSelecionada = loteriaId;
   const config = LOTERIAS_CONFIG[loteriaId];
 
-  if (titulo) titulo.textContent = `🎲 Gerar Jogos - ${config.nome}`;
+  if (titulo) {
+    titulo.innerHTML = `
+      <i class="bi bi-dice-3-fill" style="color:${config.cor};"></i>
+      Gerar Jogos - ${config.nome}
+    `;
+  }
+
   document.documentElement.style.setProperty("--cor-loteria", config.cor);
 
   inicializarGrid(loteriaId);
 
-  // ✅ carrega grupos DA LOTERIA (corrigido: era "loteria" undefined)
+  // Carregar grupos da loteria correta
   carregarGruposPorLoteria(loteriaId);
 }
 
@@ -283,14 +302,14 @@ function atualizarContador() {
 function atualizarBotaoGerar() {
   const config = LOTERIAS_CONFIG[loteriaSelecionada];
   const btnGerar = document.getElementById("btn-gerar");
-  
+
   if (!btnGerar) return;
-  
+
   if (!loteriaSelecionada) {
     btnGerar.disabled = true;
     return;
   }
-  
+
   btnGerar.disabled = dezenasSelecionadas.size < config.minDezenas;
 }
 

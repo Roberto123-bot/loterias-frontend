@@ -744,6 +744,26 @@
     </div>
   </header>
 
+  <button id="btn-consultar-selecionado" onclick="consultarJogoSelecionado()" title="Consultar jogo" style="
+    position: fixed;
+    bottom: 95px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #9c27b0;
+    color: white;
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 9999;
+  ">
+    <i class="bi bi-search"></i>
+  </button>
+
+
   <!-- Botão flutuante de excluir -->
   <button id="btn-excluir-selecionados" onclick="excluirSelecionados()" title="Excluir selecionados">
     🗑
@@ -1039,15 +1059,73 @@
 
     /** Mostra/esconde o botão flutuante de excluir e exibe quantidade */
     function atualizarBotaoExcluir() {
-      const btn = document.getElementById("btn-excluir-selecionados");
-      if (!btn) return;
+      const btnExcluir = document.getElementById("btn-excluir-selecionados");
+      const btnConsultar = document.getElementById("btn-consultar-selecionado");
 
-      if (jogosSelecionados.size > 0) {
-        btn.innerHTML = `🗑 ${jogosSelecionados.size}`;
-        btn.style.display = "block";
+      const totalSelecionados = jogosSelecionados.size;
+
+      // BOTÃO EXCLUIR
+      if (totalSelecionados > 0) {
+        btnExcluir.innerHTML = `🗑 ${totalSelecionados}`;
+        btnExcluir.style.display = "block";
       } else {
-        btn.style.display = "none";
+        btnExcluir.style.display = "none";
       }
+
+      // BOTÃO CONSULTAR (APENAS 1 SELECIONADO)
+      if (totalSelecionados === 1) {
+        btnConsultar.style.display = "block";
+      } else {
+        btnConsultar.style.display = "none";
+      }
+    }
+
+    function consultarJogoSelecionado() {
+      if (jogosSelecionados.size !== 1) {
+        mostrarToast("Selecione apenas 1 jogo para consultar", "error");
+        return;
+      }
+
+      const idSelecionado = Array.from(jogosSelecionados)[0];
+      const jogo = jogos.find(j => j.id === idSelecionado);
+
+      if (!jogo) {
+        mostrarToast("Jogo não encontrado", "error");
+        return;
+      }
+
+      const dados = {
+        numeros: jogo.dezenas,
+        nomeLoteria: LOTERIAS_NOMES[jogo.loteria],
+        cor: obterCorLoteria(jogo.loteria), // 👈 vamos corrigir isso
+        endpoint: `/${jogo.loteria}`, // 🔥 IGUAL AO conferir.html
+        min: jogo.loteria === "lotomania" ? 0 : 1,
+        origem: "meus-jogos" // 🔥 NOVO
+      };
+
+      // 🔥 MUITO IMPORTANTE: limpar antes de salvar
+      localStorage.removeItem("conferencia_jogo");
+
+      // 🔥 salvar novo jogo
+      localStorage.setItem("conferencia_jogo", JSON.stringify(dados));
+
+      // 🔥 redirecionar
+      window.location.href = "resultado.html";
+    }
+
+    function obterCorLoteria(loteria) {
+      const cores = {
+        megasena: "#209869",
+        lotofacil: "#930089",
+        quina: "#260085",
+        lotomania: "#F78100",
+        duplasena: "#A61324",
+        timemania: "#00FF48",
+        diadasorte: "#CB852B",
+        maismilionaria: "#6BCCEF"
+      };
+
+      return cores[loteria] || "#667eea";
     }
 
     /** Mostra/esconde a opção "Copiar jogos" no menu conforme seleção */
