@@ -1,842 +1,881 @@
 <!doctype html>
 <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>📊 Mapa das Dezenas - Sistema de Loterias</title>
+        <!-- ✅ ADICIONAR ESTA LINHA: -->
+        <script src="js/config.js"></script>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📊 Mapa das Dezenas - Sistema de Loterias</title>
-  <!-- ✅ ADICIONAR ESTA LINHA: -->
-  <script src="js/config.js"></script>
+        <!-- Bootstrap 5 CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <!-- Bootstrap Icons -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+        />
 
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                padding: 0;
+                margin: 0;
+            }
 
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 0;
-      margin: 0;
-    }
+            .container {
+                max-width: 100%;
+                padding: 10px;
+                margin: 0;
+            }
 
-    .container {
-      max-width: 100%;
-      padding: 10px;
-      margin: 0;
-    }
+            /* Header */
+            header {
+                background: #f5f5f5;
+                padding: 10px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+            }
 
-    /* Header */
-    header {
-      background: #f5f5f5;
-      padding: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
+            .header-content {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
 
-    .header-content {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+            h1 {
+                font-size: 2rem;
+                color: var(--cor-loteria, #667eea);
+                margin: 0;
+            }
 
-    h1 {
-      font-size: 2rem;
-      color: var(--cor-loteria, #667eea);
-      margin: 0;
-    }
+            .btn-voltar {
+                padding: 12px 24px;
+                background: #667eea;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 1rem;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                transition: opacity 0.3s;
+            }
 
-    .btn-voltar {
-      padding: 12px 24px;
-      background: #667eea;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: opacity 0.3s;
-    }
+            .btn-voltar:hover {
+                opacity: 0.9;
+            }
 
-    .btn-voltar:hover {
-      opacity: 0.9;
-    }
+            /* Controles */
+            .controles-container {
+                background: white;
+                border-radius: 5px;
+                padding: 25px;
+                margin-bottom: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
 
-    /* Controles */
-    .controles-container {
-      background: white;
-      border-radius: 5px;
-      padding: 25px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    }
+            .controles-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+                align-items: end;
+            }
 
-    .controles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      align-items: end;
-    }
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+            .form-group label {
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: #333;
+            }
 
-    .form-group label {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #333;
-    }
+            .form-group select {
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                font-size: 1rem;
+                transition: border-color 0.3s;
+            }
 
-    .form-group select {
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
+            .form-group select:focus {
+                outline: none;
+                border-color: #667eea;
+            }
 
-    .form-group select:focus {
-      outline: none;
-      border-color: #667eea;
-    }
+            .btn-atualizar {
+                padding: 12px 30px;
+                background: var(--cor-loteria, #667eea);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 1rem;
+                font-weight: bold;
+                cursor: pointer;
+                transition: opacity 0.3s;
+            }
 
-    .btn-atualizar {
-      padding: 12px 30px;
-      background: var(--cor-loteria, #667eea);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: opacity 0.3s;
-    }
+            .btn-atualizar:hover {
+                opacity: 0.9;
+            }
 
-    .btn-atualizar:hover {
-      opacity: 0.9;
-    }
+            /* Tabela */
+            .tabela-container {
+                background: white;
+                border-radius: 5px;
+                padding: 15px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                overflow-x: auto;
+            }
 
-    /* Tabela */
-    .tabela-container {
-      background: white;
-      border-radius: 5px;
-      padding: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      overflow-x: auto;
-    }
+            .info-scroll {
+                text-align: center;
+                padding: 10px;
+                color: #666;
+                font-size: 0.9rem;
+                background: #f0f4ff;
+                border-radius: 8px;
+                margin-bottom: 15px;
+            }
 
-    .info-scroll {
-      text-align: center;
-      padding: 10px;
-      color: #666;
-      font-size: 0.9rem;
-      background: #f0f4ff;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                min-width: 1000px;
+            }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 1000px;
-    }
+            thead {
+                background: var(--cor-loteria, #667eea);
+                color: white;
+            }
 
-    thead {
-      background: var(--cor-loteria, #667eea);
-      color: white;
-    }
+            thead th {
+                padding: 12px 8px;
+                text-align: center;
+                font-weight: 600;
+                font-size: 0.9rem;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
 
-    thead th {
-      padding: 12px 8px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 0.9rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+            tbody tr {
+                transition: background 0.2s;
+            }
 
-    tbody tr {
-      transition: background 0.2s;
-    }
+            tbody tr:hover {
+                background: #f8f9fa;
+            }
 
-    tbody tr:hover {
-      background: #f8f9fa;
-    }
+            tbody td {
+                padding: 10px 8px;
+                text-align: center;
+                border: 1px solid #eee;
+                font-size: 0.85rem;
+            }
 
-    tbody td {
-      padding: 10px 8px;
-      text-align: center;
-      border: 1px solid #eee;
-      font-size: 0.85rem;
-    }
+            tbody td:first-child {
+                font-weight: 600;
+                color: var(--cor-loteria, #667eea);
+            }
 
-    tbody td:first-child {
-      font-weight: 600;
-      color: var(--cor-loteria, #667eea);
-    }
+            .numero-cell {
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 20%;
+                font-weight: bold;
+                margin: 0 auto;
+            }
 
-    .numero-cell {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      font-weight: bold;
-      margin: 0 auto;
-    }
+            .numero-cell.sorteado {
+                background: var(--cor-loteria, #667eea);
+                color: white;
+            }
 
-    .numero-cell.sorteado {
-      background: var(--cor-loteria, #667eea);
-      color: white;
-    }
+            .numero-cell.nao-sorteado {
+                background: #f0f0f0;
+                color: #999;
+            }
 
-    .numero-cell.nao-sorteado {
-      background: #f0f0f0;
-      color: #999;
-    }
+            /* Destaque para Dupla-Sena */
+            .sorteio-label {
+                font-size: 0.75rem;
+                color: #999;
+                margin-left: 5px;
+            }
 
-    /* Destaque para Dupla-Sena */
-    .sorteio-label {
-      font-size: 0.75rem;
-      color: #999;
-      margin-left: 5px;
-    }
+            /* Loading */
+            .loading {
+                text-align: center;
+                padding: 60px 20px;
+                color: #667eea;
+                font-size: 1.3rem;
+            }
 
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 60px 20px;
-      color: #667eea;
-      font-size: 1.3rem;
-    }
+            .loading::after {
+                content: "...";
+                animation: dots 1.5s steps(4, end) infinite;
+            }
 
-    .loading::after {
-      content: "...";
-      animation: dots 1.5s steps(4, end) infinite;
-    }
+            @keyframes dots {
+                0%,
+                20% {
+                    content: ".";
+                }
 
-    @keyframes dots {
+                40% {
+                    content: "..";
+                }
 
-      0%,
-      20% {
-        content: ".";
-      }
+                60%,
+                100% {
+                    content: "...";
+                }
+            }
 
-      40% {
-        content: "..";
-      }
+            /* Responsivo */
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 1.2rem;
+                }
 
-      60%,
-      100% {
-        content: "...";
-      }
-    }
+                .controles-container {
+                    padding: 15px;
+                }
 
-    /* Responsivo */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 1.2rem;
-      }
+                .controles-grid {
+                    grid-template-columns: 1fr;
+                }
 
-      .controles-container {
-        padding: 15px;
-      }
+                .tabela-container {
+                    padding: 15px;
+                }
 
-      .controles-grid {
-        grid-template-columns: 1fr;
-      }
+                thead th {
+                    padding: 10px 5px;
+                    font-size: 0.8rem;
+                }
 
-      .tabela-container {
-        padding: 15px;
-      }
+                tbody td {
+                    padding: 8px 5px;
+                    font-size: 0.75rem;
+                }
 
-      thead th {
-        padding: 10px 5px;
-        font-size: 0.8rem;
-      }
+                .numero-cell {
+                    width: 35px;
+                    height: 35px;
+                    font-size: 0.8rem;
+                }
+            }
 
-      tbody td {
-        padding: 8px 5px;
-        font-size: 0.75rem;
-      }
+            /* ===== Seleção de coluna ===== */
+            th.coluna-ativa {
+                background: #fff3b0 !important;
+                color: var(--cor-loteria) !important;
+                cursor: pointer;
+            }
 
-      .numero-cell {
-        width: 35px;
-        height: 35px;
-        font-size: 0.8rem;
-      }
-    }
+            td.coluna-ativa {
+                background: #fff3b0 !important;
+            }
 
-    /* ===== Seleção de coluna ===== */
-    th.coluna-ativa {
-      background: #fff3b0 !important;
-      color: var(--cor-loteria) !important;
-      cursor: pointer;
-    }
+            th {
+                cursor: pointer;
+                user-select: none;
+            }
 
-    td.coluna-ativa {
-      background: #fff3b0 !important;
-    }
+            /* ===== Temperatura ===== */
+            .temp-Q {
+                background: #ffb3c7;
+                font-weight: bold;
+            }
 
-    th {
-      cursor: pointer;
-      user-select: none;
-    }
+            .temp-M {
+                background: #ffe29a;
+                font-weight: bold;
+            }
 
-    /* ===== Temperatura ===== */
-    .temp-Q {
-      background: #ffb3c7;
-      font-weight: bold;
-    }
+            .temp-F {
+                background: #9fd3ff;
+                font-weight: bold;
+            }
 
-    .temp-M {
-      background: #ffe29a;
-      font-weight: bold;
-    }
+            /* ===== Destaque nomes estatísticas ===== */
+            .estatistica-destaque {
+                color: #1f2937;
+                /* cinza bem escuro */
+                font-weight: 700;
+            }
 
-    .temp-F {
-      background: #9fd3ff;
-      font-weight: bold;
-    }
+            .linha-estatistica td:first-child {
+                background: #f3f4f6;
+                color: #1f2937;
+            }
+        </style>
+    </head>
 
-    /* ===== Destaque nomes estatísticas ===== */
-    .estatistica-destaque {
-      color: #1f2937;
-      /* cinza bem escuro */
-      font-weight: 700;
-    }
+    <body>
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1
+                    id="titulo-loteria"
+                    style="display: flex; align-items: center; gap: 10px"
+                >
+                    <i class="bi bi-bar-chart-fill"></i>
+                    Mapa das Dezenas
+                </h1>
+                <a href="index.html" class="btn-voltar" title="Voltar">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+            </div>
+        </header>
 
-    .linha-estatistica td:first-child {
-      background: #f3f4f6;
-      color: #1f2937;
-    }
-  </style>
-</head>
+        <div class="container">
+            <!-- Controles -->
+            <div class="controles-container">
+                <div class="controles-grid">
+                    <div class="form-group">
+                        <label for="loteria-select">Loteria:</label>
+                        <select id="loteria-select" onchange="mudarLoteria()">
+                            <option value="">
+                                -- Selecione uma loteria --
+                            </option>
+                            <option value="lotofacil">🎯 Lotofácil</option>
+                            <option value="megasena">🍀 Mega-Sena</option>
+                            <option value="quina">🌟 Quina</option>
+                            <option value="lotomania">🎲 Lotomania</option>
+                            <option value="duplasena">🎭 Dupla-Sena</option>
+                            <option value="timemania">⚽ Timemania</option>
+                            <option value="diadasorte">🍀 Dia de Sorte</option>
+                            <option value="maismilionaria">
+                                💰 +Milionária
+                            </option>
+                        </select>
+                    </div>
 
-<body>
-  <!-- Header -->
-  <header>
-    <div class="header-content">
-      <h1 id="titulo-loteria" style="display: flex; align-items: center; gap: 10px;">
-        <i class="bi bi-bar-chart-fill"></i>
-        Mapa das Dezenas
-      </h1>
-      <a href="index.html" class="btn-voltar" title="Voltar">
-        <i class="bi bi-arrow-left"></i>
-      </a>
-    </div>
-  </header>
+                    <div class="form-group">
+                        <label for="qtd-concursos">Exibir:</label>
+                        <select id="qtd-concursos">
+                            <option value="10" selected>10 concursos</option>
+                            <option value="20">20 concursos</option>
+                            <option value="50">50 concursos</option>
+                            <option value="100">100 concursos</option>
+                        </select>
+                    </div>
 
-  <div class="container">
+                    <div class="form-group">
+                        <button
+                            class="btn-atualizar"
+                            onclick="carregarTabela()"
+                            id="btn-atualizar"
+                            disabled
+                        >
+                            🔄 Atualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Controles -->
-    <div class="controles-container">
-      <div class="controles-grid">
-        <div class="form-group">
-          <label for="loteria-select">Loteria:</label>
-          <select id="loteria-select" onchange="mudarLoteria()">
-            <option value="">-- Selecione uma loteria --</option>
-            <option value="lotofacil">🎯 Lotofácil</option>
-            <option value="megasena">🍀 Mega-Sena</option>
-            <option value="quina">🌟 Quina</option>
-            <option value="lotomania">🎲 Lotomania</option>
-            <option value="duplasena">🎭 Dupla-Sena</option>
-            <option value="timemania">⚽ Timemania</option>
-            <option value="diadasorte">🍀 Dia de Sorte</option>
-            <option value="maismilionaria">💰 +Milionária</option>
-          </select>
+            <!-- Tabela -->
+            <div
+                class="tabela-container"
+                id="tabela-container"
+                style="display: none"
+            >
+                <div class="info-scroll">
+                    👉 Role para o lado para ver todas as dezenas
+                </div>
+
+                <div id="loading" class="loading">Carregando dados</div>
+
+                <table id="tabela-mapa" style="display: none">
+                    <thead id="thead-mapa"></thead>
+                    <tbody id="tbody-mapa"></tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="form-group">
-          <label for="qtd-concursos">Exibir:</label>
-          <select id="qtd-concursos">
-            <option value="10" selected>10 concursos</option>
-            <option value="20">20 concursos</option>
-            <option value="50">50 concursos</option>
-            <option value="100">100 concursos</option>
-          </select>
-        </div>
+        <script>
+            const LOTERIAS_CONFIG = {
+                megasena: {
+                    nome: "Mega-Sena",
+                    min: 1,
+                    max: 60,
+                    endpoint: "/megasena",
+                    cor: "#209869",
+                },
+                lotofacil: {
+                    nome: "Lotofácil",
+                    min: 1,
+                    max: 25,
+                    endpoint: "/lotofacil",
+                    cor: "#930089",
+                },
+                quina: {
+                    nome: "Quina",
+                    min: 1,
+                    max: 80,
+                    endpoint: "/quina",
+                    cor: "#260085",
+                },
+                lotomania: {
+                    nome: "Lotomania",
+                    min: 0,
+                    max: 99,
+                    endpoint: "/lotomania",
+                    cor: "#F78100",
+                },
+                duplasena: {
+                    nome: "Dupla-Sena",
+                    min: 1,
+                    max: 50,
+                    endpoint: "/duplasena",
+                    cor: "#A61324",
+                    doisSorteios: true, // ⭐ FLAG ESPECIAL
+                },
+                timemania: {
+                    nome: "Timemania",
+                    min: 1,
+                    max: 80,
+                    endpoint: "/timemania",
+                    cor: "#00FF48",
+                },
+                diadasorte: {
+                    nome: "Dia de Sorte",
+                    min: 1,
+                    max: 31,
+                    endpoint: "/diadasorte",
+                    cor: "#CB852B",
+                },
+                maismilionaria: {
+                    nome: "+Milionária",
+                    min: 1,
+                    max: 50,
+                    endpoint: "/maismilionaria",
+                    cor: "#6BCCEF",
+                },
+            };
 
-        <div class="form-group">
-          <button class="btn-atualizar" onclick="carregarTabela()" id="btn-atualizar" disabled>
-            🔄 Atualizar
-          </button>
-        </div>
-      </div>
-    </div>
+            let loteriaAtual = null;
 
-    <!-- Tabela -->
-    <div class="tabela-container" id="tabela-container" style="display: none">
-      <div class="info-scroll">
-        👉 Role para o lado para ver todas as dezenas
-      </div>
+            // ✅ Pegar token do localStorage
+            function getToken() {
+                return localStorage.getItem("token");
+            }
 
-      <div id="loading" class="loading">Carregando dados</div>
+            // ✅ Criar headers com autenticação
+            function getHeaders() {
+                const token = getToken();
+                return {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                };
+            }
 
-      <table id="tabela-mapa" style="display: none">
-        <thead id="thead-mapa"></thead>
-        <tbody id="tbody-mapa"></tbody>
-      </table>
-    </div>
-  </div>
+            // ✅ Verificar se está autenticado
+            function verificarAutenticacao() {
+                const token = getToken();
+                if (!token) {
+                    alert("Você precisa fazer login para acessar esta página!");
+                    window.location.href = "login.html";
+                    return false;
+                }
+                return true;
+            }
 
-  <script>
-    const LOTERIAS_CONFIG = {
-      megasena: {
-        nome: "Mega-Sena",
-        min: 1,
-        max: 60,
-        endpoint: "/megasena",
-        cor: "#209869",
-      },
-      lotofacil: {
-        nome: "Lotofácil",
-        min: 1,
-        max: 25,
-        endpoint: "/lotofacil",
-        cor: "#930089",
-      },
-      quina: {
-        nome: "Quina",
-        min: 1,
-        max: 80,
-        endpoint: "/quina",
-        cor: "#260085",
-      },
-      lotomania: {
-        nome: "Lotomania",
-        min: 0,
-        max: 99,
-        endpoint: "/lotomania",
-        cor: "#F78100",
-      },
-      duplasena: {
-        nome: "Dupla-Sena",
-        min: 1,
-        max: 50,
-        endpoint: "/duplasena",
-        cor: "#A61324",
-        doisSorteios: true, // ⭐ FLAG ESPECIAL
-      },
-      timemania: {
-        nome: "Timemania",
-        min: 1,
-        max: 80,
-        endpoint: "/timemania",
-        cor: "#00FF48",
-      },
-      diadasorte: {
-        nome: "Dia de Sorte",
-        min: 1,
-        max: 31,
-        endpoint: "/diadasorte",
-        cor: "#CB852B",
-      },
-      maismilionaria: {
-        nome: "+Milionária",
-        min: 1,
-        max: 50,
-        endpoint: "/maismilionaria",
-        cor: "#6BCCEF",
-      },
-    };
+            function mudarLoteria() {
+                const select = document.getElementById("loteria-select");
+                const loteriaId = select.value;
+                const titulo = document.getElementById("titulo-loteria");
 
-    let loteriaAtual = null;
+                if (!loteriaId) {
+                    document.getElementById("btn-atualizar").disabled = true;
+                    document.getElementById("tabela-container").style.display =
+                        "none";
 
-    // ✅ Pegar token do localStorage
-    function getToken() {
-      return localStorage.getItem("token");
-    }
-
-    // ✅ Criar headers com autenticação
-    function getHeaders() {
-      const token = getToken();
-      return {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      };
-    }
-
-    // ✅ Verificar se está autenticado
-    function verificarAutenticacao() {
-      const token = getToken();
-      if (!token) {
-        alert("Você precisa fazer login para acessar esta página!");
-        window.location.href = "login.html";
-        return false;
-      }
-      return true;
-    }
-
-    function mudarLoteria() {
-      const select = document.getElementById("loteria-select");
-      const loteriaId = select.value;
-      const titulo = document.getElementById("titulo-loteria");
-
-      if (!loteriaId) {
-        document.getElementById("btn-atualizar").disabled = true;
-        document.getElementById("tabela-container").style.display = "none";
-
-        if (titulo) {
-          titulo.innerHTML = `
+                    if (titulo) {
+                        titulo.innerHTML = `
         <i class="bi bi-bar-chart-fill" style="color:#667eea;"></i>
         Mapa das Dezenas
       `;
-        }
+                    }
 
-        document.documentElement.style.setProperty("--cor-loteria", "#667eea");
-        return;
-      }
+                    document.documentElement.style.setProperty(
+                        "--cor-loteria",
+                        "#667eea",
+                    );
+                    return;
+                }
 
-      loteriaAtual = LOTERIAS_CONFIG[loteriaId];
+                loteriaAtual = LOTERIAS_CONFIG[loteriaId];
 
-      document.documentElement.style.setProperty(
-        "--cor-loteria",
-        loteriaAtual.cor
-      );
+                document.documentElement.style.setProperty(
+                    "--cor-loteria",
+                    loteriaAtual.cor,
+                );
 
-      if (titulo) {
-        titulo.innerHTML = `
+                if (titulo) {
+                    titulo.innerHTML = `
       <i class="bi bi-bar-chart-fill" style="color:${loteriaAtual.cor};"></i>
       Mapa das Dezenas - ${loteriaAtual.nome}
     `;
-      }
+                }
 
-      document.getElementById("btn-atualizar").disabled = false;
-    }
-
-
-    async function carregarTabela() {
-      // ✅ Verificar autenticação
-      if (!verificarAutenticacao()) return;
-
-      const tabelaContainer = document.getElementById("tabela-container");
-      const loading = document.getElementById("loading");
-      const tabela = document.getElementById("tabela-mapa");
-      const qtdConcursos = parseInt(
-        document.getElementById("qtd-concursos").value,
-      );
-
-      tabelaContainer.style.display = "block";
-      loading.style.display = "block";
-      tabela.style.display = "none";
-
-      try {
-        // ✅ Adicionar token na requisição
-        const response = await fetch(
-          `${API_URL}${loteriaAtual.endpoint}?limit=${qtdConcursos}`,
-          { headers: getHeaders() },
-        );
-
-        // ✅ Verificar status
-        if (!response.ok) {
-          if (response.status === 401) {
-            alert("Sessão expirada. Faça login novamente.");
-            window.location.href = "login.html";
-            return;
-          } else if (response.status === 403) {
-            alert("Este recurso está disponível apenas para usuários PRÓ.");
-            window.location.href = "index.html";
-            return;
-          }
-          throw new Error(`Erro ${response.status}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-
-        if (!data.success) {
-          throw new Error("Erro ao buscar dados");
-        }
-
-        criarTabelaMapa(data.data);
-
-        loading.style.display = "none";
-        tabela.style.display = "table";
-      } catch (error) {
-        console.error("Erro:", error);
-        loading.textContent = "❌ Erro ao carregar dados";
-      }
-    }
-
-    function criarTabelaMapa(concursos) {
-      colunasSelecionadas.clear();
-
-      const thead = document.getElementById("thead-mapa");
-      const tbody = document.getElementById("tbody-mapa");
-
-      // Limpar
-      thead.innerHTML = "";
-      tbody.innerHTML = "";
-
-      // INVERTER A ORDEM - do menor para o maior (mais antigo em cima)
-      concursos = concursos.reverse();
-
-      // Criar cabeçalho
-      const trHead = document.createElement("tr");
-      trHead.innerHTML = "<th>Concurso</th>";
-
-      // Adicionar colunas para cada dezena
-      for (let i = loteriaAtual.min; i <= loteriaAtual.max; i++) {
-        const th = document.createElement("th");
-        th.textContent =
-          loteriaAtual.min === 0 ? i.toString().padStart(2, "0") : i;
-        trHead.appendChild(th);
-      }
-
-      thead.appendChild(trHead);
-
-      // Criar linhas de dados
-      concursos.forEach((concurso) => {
-        // ⭐ DUPLA-SENA: Criar 2 linhas (1º e 2º sorteio)
-        if (loteriaAtual.doisSorteios) {
-          // Primeiro sorteio
-          criarLinhaConcurso(
-            concurso,
-            concurso.dezenas_1 || [],
-            `#${concurso.concurso} (1º)`,
-          );
-
-          // Segundo sorteio
-          criarLinhaConcurso(
-            concurso,
-            concurso.dezenas_2 || [],
-            `#${concurso.concurso} (2º)`,
-          );
-        } else {
-          // Outras loterias: 1 linha normal
-          const dezenasSorteadas = concurso.dezenas || [];
-          criarLinhaConcurso(
-            concurso,
-            dezenasSorteadas,
-            `#${concurso.concurso}`,
-          );
-        }
-      });
-
-      gerarEstatisticasMapa();
-    }
-
-    function criarLinhaConcurso(concurso, dezenasSorteadas, labelConcurso) {
-      const tbody = document.getElementById("tbody-mapa");
-      const tr = document.createElement("tr");
-
-      // Concurso
-      const tdConcurso = document.createElement("td");
-      tdConcurso.textContent = labelConcurso;
-      tr.appendChild(tdConcurso);
-
-      // Dezenas
-      for (let i = loteriaAtual.min; i <= loteriaAtual.max; i++) {
-        const td = document.createElement("td");
-        const div = document.createElement("div");
-        div.className = "numero-cell";
-
-        const foiSorteado = dezenasSorteadas.includes(i);
-
-        if (foiSorteado) {
-          div.classList.add("sorteado");
-          div.textContent =
-            loteriaAtual.min === 0 ? i.toString().padStart(2, "0") : i;
-        } else {
-          div.classList.add("nao-sorteado");
-          div.textContent =
-            loteriaAtual.min === 0 ? i.toString().padStart(2, "0") : i;
-        }
-
-        td.appendChild(div);
-        tr.appendChild(td);
-      }
-
-      tbody.appendChild(tr);
-    }
-
-    function gerarEstatisticasMapa() {
-      const tbody = document.getElementById("tbody-mapa");
-      const linhas = Array.from(tbody.querySelectorAll("tr"));
-
-      const totalDezenas = loteriaAtual.max - loteriaAtual.min + 1;
-      const totalConcursos = linhas.length;
-
-      const freq = Array(totalDezenas).fill(0);
-      const atraso = Array(totalDezenas).fill(0);
-      const sequencia = Array(totalDezenas).fill(0);
-
-      // === FREQUÊNCIA e SEQUÊNCIA ===
-      linhas.forEach((tr) => {
-        Array.from(tr.querySelectorAll(".numero-cell")).forEach(
-          (cell, idx) => {
-            if (cell.classList.contains("sorteado")) {
-              freq[idx]++;
-              sequencia[idx]++;
-            } else {
-              sequencia[idx] = 0;
+                document.getElementById("btn-atualizar").disabled = false;
             }
-          },
-        );
-      });
 
-      // === ATRASOS (de baixo para cima) ===
-      for (let i = 0; i < totalDezenas; i++) {
-        let atrasoCount = 0;
-        for (let j = linhas.length - 1; j >= 0; j--) {
-          const cell = linhas[j].querySelectorAll(".numero-cell")[i];
-          if (cell.classList.contains("sorteado")) break;
-          atrasoCount++;
-        }
-        atraso[i] = atrasoCount;
-      }
+            async function carregarTabela() {
+                // ✅ Verificar autenticação
+                if (!verificarAutenticacao()) return;
 
-      // === TEMPERATURA ===
-      const media = (totalConcursos * 15) / totalDezenas;
-      const temperatura = freq.map((f) => {
-        if (f >= media + 2) return "Q";
-        if (f <= media - 2) return "F";
-        return "M";
-      });
+                const tabelaContainer =
+                    document.getElementById("tabela-container");
+                const loading = document.getElementById("loading");
+                const tabela = document.getElementById("tabela-mapa");
+                const qtdConcursos = parseInt(
+                    document.getElementById("qtd-concursos").value,
+                );
 
-      criarLinhaEstatistica("Sequência", sequencia);
-      criarLinhaEstatistica("Atrasos", atraso);
-      criarLinhaEstatistica("Freq.", freq);
-      criarLinhaTemperatura(temperatura);
+                tabelaContainer.style.display = "block";
+                loading.style.display = "block";
+                tabela.style.display = "none";
 
-      // 🔥 SALVAR ESTATÍSTICAS NO LOCALSTORAGE
-      localStorage.setItem(
-        "estatisticasMapa",
-        JSON.stringify({
-          loteria: loteriaAtual.nome,
-          min: loteriaAtual.min,
-          max: loteriaAtual.max,
-          concursos: document.getElementById("qtd-concursos").value,
-          frequencia: freq,
-          sequencia: sequencia,
-          atraso: atraso,
-          temperatura: temperatura,
-          atualizadoEm: new Date().toISOString(),
-        }),
-      );
-    }
+                try {
+                    // ✅ Adicionar token na requisição
+                    const response = await fetch(
+                        `${API_URL}${loteriaAtual.endpoint}?limit=${qtdConcursos}`,
+                        { headers: getHeaders() },
+                    );
 
-    function criarLinhaEstatistica(label, valores) {
-      const tbody = document.getElementById("tbody-mapa");
-      const tr = document.createElement("tr");
+                    // ✅ Verificar status
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            alert("Sessão expirada. Faça login novamente.");
+                            window.location.href = "login.html";
+                            return;
+                        } else if (response.status === 403) {
+                            alert(
+                                "Este recurso está disponível apenas para usuários PRÓ.",
+                            );
+                            window.location.href = "index.html";
+                            return;
+                        }
+                        throw new Error(
+                            `Erro ${response.status}: ${response.statusText}`,
+                        );
+                    }
 
-      // 👇 classe só para estatística
-      tr.classList.add("linha-estatistica");
+                    const data = await response.json();
 
-      const tdLabel = document.createElement("td");
-      tdLabel.textContent = label;
+                    if (!data.success) {
+                        throw new Error("Erro ao buscar dados");
+                    }
 
-      // 👇 escurecer apenas essas
-      if (["Atrasos", "Freq.", "Frequência"].includes(label)) {
-        tdLabel.classList.add("estatistica-destaque");
-      }
+                    criarTabelaMapa(data.data);
 
-      tr.appendChild(tdLabel);
+                    loading.style.display = "none";
+                    tabela.style.display = "table";
+                } catch (error) {
+                    console.error("Erro:", error);
+                    loading.textContent = "❌ Erro ao carregar dados";
+                }
+            }
 
-      valores.forEach((v) => {
-        const td = document.createElement("td");
-        td.textContent = v;
-        tr.appendChild(td);
-      });
+            function criarTabelaMapa(concursos) {
+                colunasSelecionadas.clear();
 
-      tbody.appendChild(tr);
-    }
+                const thead = document.getElementById("thead-mapa");
+                const tbody = document.getElementById("tbody-mapa");
 
-    function criarLinhaTemperatura(valores) {
-      const tbody = document.getElementById("tbody-mapa");
-      const tr = document.createElement("tr");
+                // Limpar
+                thead.innerHTML = "";
+                tbody.innerHTML = "";
 
-      // 👇 classe só para estatística
-      tr.classList.add("linha-estatistica");
+                // INVERTER A ORDEM - do menor para o maior (mais antigo em cima)
+                concursos = concursos.reverse();
 
-      const tdLabel = document.createElement("td");
-      tdLabel.textContent = "Temp.";
+                // Criar cabeçalho
+                const trHead = document.createElement("tr");
+                trHead.innerHTML = "<th>Concurso</th>";
 
-      tdLabel.classList.add("estatistica-destaque");
+                // Adicionar colunas para cada dezena
+                for (let i = loteriaAtual.min; i <= loteriaAtual.max; i++) {
+                    const th = document.createElement("th");
+                    th.textContent =
+                        loteriaAtual.min === 0
+                            ? i.toString().padStart(2, "0")
+                            : i;
+                    trHead.appendChild(th);
+                }
 
-      tr.appendChild(tdLabel);
+                thead.appendChild(trHead);
 
-      valores.forEach((v) => {
-        const td = document.createElement("td");
-        td.textContent = v;
-        td.classList.add(`temp-${v}`);
-        tr.appendChild(td);
-      });
+                // Criar linhas de dados
+                concursos.forEach((concurso) => {
+                    // ⭐ DUPLA-SENA: Criar 2 linhas (1º e 2º sorteio)
+                    if (loteriaAtual.doisSorteios) {
+                        // Primeiro sorteio
+                        criarLinhaConcurso(
+                            concurso,
+                            concurso.dezenas_1 || [],
+                            `#${concurso.concurso} (1º)`,
+                        );
 
-      tbody.appendChild(tr);
-    }
+                        // Segundo sorteio
+                        criarLinhaConcurso(
+                            concurso,
+                            concurso.dezenas_2 || [],
+                            `#${concurso.concurso} (2º)`,
+                        );
+                    } else {
+                        // Outras loterias: 1 linha normal
+                        const dezenasSorteadas = concurso.dezenas || [];
+                        criarLinhaConcurso(
+                            concurso,
+                            dezenasSorteadas,
+                            `#${concurso.concurso}`,
+                        );
+                    }
+                });
 
-    let colunasSelecionadas = new Set();
+                gerarEstatisticasMapa();
+            }
 
-    document
-      .getElementById("thead-mapa")
-      .addEventListener("click", function (e) {
-        const th = e.target.closest("th");
-        if (!th) return;
+            function criarLinhaConcurso(
+                concurso,
+                dezenasSorteadas,
+                labelConcurso,
+            ) {
+                const tbody = document.getElementById("tbody-mapa");
+                const tr = document.createElement("tr");
 
-        const ths = Array.from(th.parentElement.children);
-        const colunaIndex = ths.indexOf(th);
+                // Concurso
+                const tdConcurso = document.createElement("td");
+                tdConcurso.textContent = labelConcurso;
+                tr.appendChild(tdConcurso);
 
-        // Ignorar a coluna "Concurso"
-        if (colunaIndex === 0) return;
+                // Dezenas
+                for (let i = loteriaAtual.min; i <= loteriaAtual.max; i++) {
+                    const td = document.createElement("td");
+                    const div = document.createElement("div");
+                    div.className = "numero-cell";
 
-        const tabela = document.getElementById("tabela-mapa");
-        const todasLinhas = Array.from(tabela.querySelectorAll("tbody tr"));
+                    const foiSorteado = dezenasSorteadas.includes(i);
 
-        // ✅ Ignorar linhas estatísticas (últimas 4)
-        const linhas = todasLinhas.slice(0, -4);
+                    if (foiSorteado) {
+                        div.classList.add("sorteado");
+                        div.textContent =
+                            loteriaAtual.min === 0
+                                ? i.toString().padStart(2, "0")
+                                : i;
+                    } else {
+                        div.classList.add("nao-sorteado");
+                        div.textContent =
+                            loteriaAtual.min === 0
+                                ? i.toString().padStart(2, "0")
+                                : i;
+                    }
 
-        const ativa = colunasSelecionadas.has(colunaIndex);
+                    td.appendChild(div);
+                    tr.appendChild(td);
+                }
 
-        // Alternar estado
-        if (ativa) {
-          colunasSelecionadas.delete(colunaIndex);
-        } else {
-          colunasSelecionadas.add(colunaIndex);
-        }
+                tbody.appendChild(tr);
+            }
 
-        // Atualizar header
-        th.classList.toggle("coluna-ativa", !ativa);
+            function gerarEstatisticasMapa() {
+                const tbody = document.getElementById("tbody-mapa");
+                const linhas = Array.from(tbody.querySelectorAll("tr"));
 
-        // Atualizar células
-        linhas.forEach((tr) => {
-          const td = tr.children[colunaIndex];
-          if (td) {
-            td.classList.toggle("coluna-ativa", !ativa);
-          }
-        });
-      });
+                const totalDezenas = loteriaAtual.max - loteriaAtual.min + 1;
+                const totalConcursos = linhas.length;
 
-    // ✅ Verificar autenticação ao carregar página
-    window.addEventListener("DOMContentLoaded", () => {
-      verificarAutenticacao();
-    });
-  </script>
-  <script src="js/auth-check.js"></script>
-  <script>
-    // Autenticação básica
-    if (verificarAutenticacao()) {
-      // 🚫 Verificação do plano
-      verificarPlanoPro();
-    }
-  </script>
+                const freq = Array(totalDezenas).fill(0);
+                const atraso = Array(totalDezenas).fill(0);
+                const sequencia = Array(totalDezenas).fill(0);
 
-</body>
+                // === FREQUÊNCIA e SEQUÊNCIA ===
+                linhas.forEach((tr) => {
+                    Array.from(tr.querySelectorAll(".numero-cell")).forEach(
+                        (cell, idx) => {
+                            if (cell.classList.contains("sorteado")) {
+                                freq[idx]++;
+                                sequencia[idx]++;
+                            } else {
+                                sequencia[idx] = 0;
+                            }
+                        },
+                    );
+                });
 
+                // === ATRASOS (de baixo para cima) ===
+                for (let i = 0; i < totalDezenas; i++) {
+                    let atrasoCount = 0;
+                    for (let j = linhas.length - 1; j >= 0; j--) {
+                        const cell =
+                            linhas[j].querySelectorAll(".numero-cell")[i];
+                        if (cell.classList.contains("sorteado")) break;
+                        atrasoCount++;
+                    }
+                    atraso[i] = atrasoCount;
+                }
+
+                // === TEMPERATURA ===
+                const media = (totalConcursos * 15) / totalDezenas;
+                const temperatura = freq.map((f) => {
+                    if (f >= media + 2) return "Q";
+                    if (f <= media - 2) return "F";
+                    return "M";
+                });
+
+                criarLinhaEstatistica("Sequência", sequencia);
+                criarLinhaEstatistica("Atrasos", atraso);
+                criarLinhaEstatistica("Freq.", freq);
+                criarLinhaTemperatura(temperatura);
+
+                // 🔥 SALVAR ESTATÍSTICAS NO LOCALSTORAGE
+                localStorage.setItem(
+                    "estatisticasMapa",
+                    JSON.stringify({
+                        loteria: loteriaAtual.nome,
+                        min: loteriaAtual.min,
+                        max: loteriaAtual.max,
+                        concursos:
+                            document.getElementById("qtd-concursos").value,
+                        frequencia: freq,
+                        sequencia: sequencia,
+                        atraso: atraso,
+                        temperatura: temperatura,
+                        atualizadoEm: new Date().toISOString(),
+                    }),
+                );
+            }
+
+            function criarLinhaEstatistica(label, valores) {
+                const tbody = document.getElementById("tbody-mapa");
+                const tr = document.createElement("tr");
+
+                // 👇 classe só para estatística
+                tr.classList.add("linha-estatistica");
+
+                const tdLabel = document.createElement("td");
+                tdLabel.textContent = label;
+
+                // 👇 escurecer apenas essas
+                if (["Atrasos", "Freq.", "Frequência"].includes(label)) {
+                    tdLabel.classList.add("estatistica-destaque");
+                }
+
+                tr.appendChild(tdLabel);
+
+                valores.forEach((v) => {
+                    const td = document.createElement("td");
+                    td.textContent = v;
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            }
+
+            function criarLinhaTemperatura(valores) {
+                const tbody = document.getElementById("tbody-mapa");
+                const tr = document.createElement("tr");
+
+                // 👇 classe só para estatística
+                tr.classList.add("linha-estatistica");
+
+                const tdLabel = document.createElement("td");
+                tdLabel.textContent = "Temp.";
+
+                tdLabel.classList.add("estatistica-destaque");
+
+                tr.appendChild(tdLabel);
+
+                valores.forEach((v) => {
+                    const td = document.createElement("td");
+                    td.textContent = v;
+                    td.classList.add(`temp-${v}`);
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            }
+
+            let colunasSelecionadas = new Set();
+
+            document
+                .getElementById("thead-mapa")
+                .addEventListener("click", function (e) {
+                    const th = e.target.closest("th");
+                    if (!th) return;
+
+                    const ths = Array.from(th.parentElement.children);
+                    const colunaIndex = ths.indexOf(th);
+
+                    // Ignorar a coluna "Concurso"
+                    if (colunaIndex === 0) return;
+
+                    const tabela = document.getElementById("tabela-mapa");
+                    const todasLinhas = Array.from(
+                        tabela.querySelectorAll("tbody tr"),
+                    );
+
+                    // ✅ Ignorar linhas estatísticas (últimas 4)
+                    const linhas = todasLinhas.slice(0, -4);
+
+                    const ativa = colunasSelecionadas.has(colunaIndex);
+
+                    // Alternar estado
+                    if (ativa) {
+                        colunasSelecionadas.delete(colunaIndex);
+                    } else {
+                        colunasSelecionadas.add(colunaIndex);
+                    }
+
+                    // Atualizar header
+                    th.classList.toggle("coluna-ativa", !ativa);
+
+                    // Atualizar células
+                    linhas.forEach((tr) => {
+                        const td = tr.children[colunaIndex];
+                        if (td) {
+                            td.classList.toggle("coluna-ativa", !ativa);
+                        }
+                    });
+                });
+
+            // ✅ Verificar autenticação ao carregar página
+            window.addEventListener("DOMContentLoaded", () => {
+                verificarAutenticacao();
+            });
+        </script>
+        <script src="js/auth-check.js"></script>
+        <script>
+            // Autenticação básica
+            if (verificarAutenticacao()) {
+                // 🚫 Verificação do plano
+                verificarPlanoPro();
+            }
+        </script>
+    </body>
 </html>
