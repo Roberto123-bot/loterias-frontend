@@ -1128,44 +1128,49 @@
                 {
                     id: "lotofacil",
                     nome: "Lotofácil",
-                    icon: "🎯",
+                    icon: "image/favicon-lf-32.png",
                     endpoint: "/lotofacil",
                 },
                 {
                     id: "megasena",
                     nome: "Mega-Sena",
-                    icon: "🍀",
+                    icon: "image/favicon-ms-32.png",
                     endpoint: "/megasena",
                 },
-                { id: "quina", nome: "Quina", icon: "🌟", endpoint: "/quina" },
+                {
+                    id: "quina",
+                    nome: "Quina",
+                    icon: "image/favicon-qu-32.png",
+                    endpoint: "/quina",
+                },
                 {
                     id: "lotomania",
                     nome: "Lotomania",
-                    icon: "🎲",
+                    icon: "image/favicon-lm-32.png",
                     endpoint: "/lotomania",
                 },
                 {
                     id: "duplasena",
                     nome: "Dupla-Sena",
-                    icon: "🎭",
+                    icon: "image/favicon-ds-32.png",
                     endpoint: "/duplasena",
                 },
                 {
                     id: "timemania",
                     nome: "Timemania",
-                    icon: "⚽",
+                    icon: "image/favicon-tm-32.png",
                     endpoint: "/timemania",
                 },
                 {
                     id: "diadasorte",
                     nome: "Dia de Sorte",
-                    icon: "🍀",
+                    icon: "image/favicon-di-32.png",
                     endpoint: "/diadasorte",
                 },
                 {
                     id: "maismilionaria",
                     nome: "+Milionária",
-                    icon: "💰",
+                    icon: "image/favicon-mm-32.png",
                     endpoint: "/maismilionaria",
                 },
             ];
@@ -1633,7 +1638,9 @@
             <div class="loteria-name">${loteria.nome}</div>
             <div class="concurso-numero">Concurso ${resultado.concurso}</div>
         </div>
-        <div class="loteria-icon">${loteria.icon}</div>
+        <div class="loteria-icon">
+            <img src="${loteria.icon}" alt="${loteria.nome}" />
+        </div>
         </div>
       <div class="ultimo-concurso">
 
