@@ -25,12 +25,92 @@
                 box-sizing: border-box;
             }
 
+            :root {
+                --cor-loteria: #667eea;
+
+                --bg-body: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                --bg-header: #f5f5f5;
+                --card-bg: #ffffff;
+                --card-border: rgba(0, 0, 0, 0.08);
+
+                --text-primary: #1f2937;
+                --text-secondary: #4b5563;
+                --text-muted: #6b7280;
+
+                --input-bg: #ffffff;
+                --input-border: #d1d5db;
+
+                --table-border: #eeeeee;
+                --row-hover: #f8f9fa;
+
+                --info-bg: #f0f4ff;
+                --info-text: #556070;
+
+                --number-off-bg: #f0f0f0;
+                --number-off-text: #999999;
+
+                --stats-bg: #f3f4f6;
+                --stats-label: #1f2937;
+
+                --selected-col-header-bg: #fff3b0;
+                --selected-col-header-text: #5a4300;
+                --selected-col-bg: #fff8d6;
+
+                --temp-q: #ffb3c7;
+                --temp-m: #ffe29a;
+                --temp-f: #9fd3ff;
+                --temp-text: #1f2937;
+
+                --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            html[data-theme="dark"] {
+                --bg-body: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                --bg-header: #111827;
+                --card-bg: #111827;
+                --card-border: rgba(255, 255, 255, 0.08);
+
+                --text-primary: #f3f4f6;
+                --text-secondary: #d1d5db;
+                --text-muted: #9ca3af;
+
+                --input-bg: #0f172a;
+                --input-border: #374151;
+
+                --table-border: #273244;
+                --row-hover: #172132;
+
+                --info-bg: #172554;
+                --info-text: #dbeafe;
+
+                --number-off-bg: #1f2937;
+                --number-off-text: #94a3b8;
+
+                --stats-bg: #1f2937;
+                --stats-label: #f9fafb;
+
+                --selected-col-header-bg: #fde68a;
+                --selected-col-header-text: #3b2f00;
+                --selected-col-bg: #4b3d09;
+
+                --temp-q: #7f1d3f;
+                --temp-m: #7c5b12;
+                --temp-f: #0c4a6e;
+                --temp-text: #f9fafb;
+
+                --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            }
+
             body {
                 font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: var(--bg-body);
+                color: var(--text-primary);
                 min-height: 100vh;
                 padding: 0;
                 margin: 0;
+                transition:
+                    background 0.3s ease,
+                    color 0.3s ease;
             }
 
             .container {
@@ -41,13 +121,59 @@
 
             /* Header */
             header {
-                background: #f5f5f5;
+                background: var(--bg-header);
                 padding: 10px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+                border-bottom: 1px solid var(--card-border);
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 gap: 10px;
+                transition:
+                    background 0.3s ease,
+                    border-color 0.3s ease;
+            }
+
+            .header-actions {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .btn-tema,
+            .btn-voltar {
+                width: 48px;
+                height: 48px;
+                padding: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+            .btn-tema {
+                background: var(--card-bg);
+                color: var(--text-primary);
+                border: 1px solid var(--card-border);
+                cursor: pointer;
+            }
+
+            .btn-tema:hover {
+                background: var(--row-hover);
+            }
+
+            .btn-voltar {
+                background: #667eea;
+                color: white;
+                border: none;
+                font-size: 1rem;
+                cursor: pointer;
+            }
+
+            .btn-voltar:hover {
+                opacity: 0.9;
             }
 
             .header-content {
@@ -82,11 +208,16 @@
 
             /* Controles */
             .controles-container {
-                background: white;
+                background: var(--card-bg);
+                border: 1px solid var(--card-border);
                 border-radius: 5px;
                 padding: 25px;
                 margin-bottom: 20px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                box-shadow: var(--shadow);
+                transition:
+                    background 0.3s ease,
+                    border-color 0.3s ease,
+                    box-shadow 0.3s ease;
             }
 
             .controles-grid {
@@ -105,20 +236,26 @@
             .form-group label {
                 font-size: 0.95rem;
                 font-weight: 600;
-                color: #333;
+                color: var(--text-primary);
             }
 
             .form-group select {
                 padding: 12px;
-                border: 2px solid #ddd;
+                border: 2px solid var(--input-border);
                 border-radius: 8px;
                 font-size: 1rem;
-                transition: border-color 0.3s;
+                background: var(--input-bg);
+                color: var(--text-primary);
+                transition:
+                    border-color 0.3s,
+                    background 0.3s,
+                    color 0.3s;
             }
 
             .form-group select:focus {
                 outline: none;
-                border-color: #667eea;
+                border-color: var(--cor-loteria, #667eea);
+                box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
             }
 
             .btn-atualizar {
@@ -139,21 +276,29 @@
 
             /* Tabela */
             .tabela-container {
-                background: white;
+                background: var(--card-bg);
+                border: 1px solid var(--card-border);
                 border-radius: 5px;
                 padding: 15px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                box-shadow: var(--shadow);
                 overflow-x: auto;
+                transition:
+                    background 0.3s ease,
+                    border-color 0.3s ease,
+                    box-shadow 0.3s ease;
             }
 
             .info-scroll {
                 text-align: center;
                 padding: 10px;
-                color: #666;
+                color: var(--info-text);
                 font-size: 0.9rem;
-                background: #f0f4ff;
+                background: var(--info-bg);
                 border-radius: 8px;
                 margin-bottom: 15px;
+                transition:
+                    background 0.3s ease,
+                    color 0.3s ease;
             }
 
             table {
@@ -180,14 +325,15 @@
             }
 
             tbody tr:hover {
-                background: #f8f9fa;
+                background: var(--row-hover);
             }
 
             tbody td {
                 padding: 10px 8px;
                 text-align: center;
-                border: 1px solid #eee;
+                border: 1px solid var(--table-border);
                 font-size: 0.85rem;
+                color: var(--text-primary);
             }
 
             tbody td:first-child {
@@ -204,6 +350,9 @@
                 border-radius: 20%;
                 font-weight: bold;
                 margin: 0 auto;
+                transition:
+                    background 0.3s ease,
+                    color 0.3s ease;
             }
 
             .numero-cell.sorteado {
@@ -212,22 +361,21 @@
             }
 
             .numero-cell.nao-sorteado {
-                background: #f0f0f0;
-                color: #999;
+                background: var(--number-off-bg);
+                color: var(--number-off-text);
             }
 
             /* Destaque para Dupla-Sena */
             .sorteio-label {
                 font-size: 0.75rem;
-                color: #999;
+                color: var(--text-muted);
                 margin-left: 5px;
             }
 
-            /* Loading */
             .loading {
                 text-align: center;
                 padding: 60px 20px;
-                color: #667eea;
+                color: var(--cor-loteria, #667eea);
                 font-size: 1.3rem;
             }
 
@@ -289,13 +437,13 @@
 
             /* ===== Seleção de coluna ===== */
             th.coluna-ativa {
-                background: #fff3b0 !important;
-                color: var(--cor-loteria) !important;
+                background: var(--selected-col-header-bg) !important;
+                color: var(--selected-col-header-text) !important;
                 cursor: pointer;
             }
 
             td.coluna-ativa {
-                background: #fff3b0 !important;
+                background: var(--selected-col-bg) !important;
             }
 
             th {
@@ -305,50 +453,63 @@
 
             /* ===== Temperatura ===== */
             .temp-Q {
-                background: #ffb3c7;
+                background: var(--temp-q);
+                color: var(--temp-text);
                 font-weight: bold;
             }
 
             .temp-M {
-                background: #ffe29a;
+                background: var(--temp-m);
+                color: var(--temp-text);
                 font-weight: bold;
             }
 
             .temp-F {
-                background: #9fd3ff;
+                background: var(--temp-f);
+                color: var(--temp-text);
                 font-weight: bold;
             }
 
             /* ===== Destaque nomes estatísticas ===== */
             .estatistica-destaque {
-                color: #1f2937;
-                /* cinza bem escuro */
+                color: var(--stats-label);
                 font-weight: 700;
             }
 
             .linha-estatistica td:first-child {
-                background: #f3f4f6;
-                color: #1f2937;
+                background: var(--stats-bg);
+                color: var(--stats-label);
             }
         </style>
     </head>
 
     <body>
         <!-- Header -->
-        <header>
-            <div class="header-content">
-                <h1
-                    id="titulo-loteria"
-                    style="display: flex; align-items: center; gap: 10px"
+        <div class="header-content">
+            <h1
+                id="titulo-loteria"
+                style="display: flex; align-items: center; gap: 10px"
+            >
+                <i class="bi bi-bar-chart-fill"></i>
+                Mapa das Dezenas
+            </h1>
+
+            <div class="header-actions">
+                <button
+                    type="button"
+                    class="btn-tema"
+                    id="btn-tema"
+                    onclick="alternarTema()"
+                    title="Ativar modo noturno"
                 >
-                    <i class="bi bi-bar-chart-fill"></i>
-                    Mapa das Dezenas
-                </h1>
+                    <i class="bi bi-moon-stars-fill"></i>
+                </button>
+
                 <a href="index.html" class="btn-voltar" title="Voltar">
                     <i class="bi bi-arrow-left"></i>
                 </a>
             </div>
-        </header>
+        </div>
 
         <div class="container">
             <!-- Controles -->
@@ -864,18 +1025,45 @@
                     });
                 });
 
-            // ✅ Verificar autenticação ao carregar página
-            window.addEventListener("DOMContentLoaded", () => {
-                verificarAutenticacao();
-            });
+            function aplicarTema(tema) {
+                document.documentElement.setAttribute("data-theme", tema);
+
+                const btnTema = document.getElementById("btn-tema");
+                if (btnTema) {
+                    if (tema === "dark") {
+                        btnTema.innerHTML = `<i class="bi bi-sun-fill"></i>`;
+                        btnTema.title = "Ativar modo claro";
+                    } else {
+                        btnTema.innerHTML = `<i class="bi bi-moon-stars-fill"></i>`;
+                        btnTema.title = "Ativar modo noturno";
+                    }
+                }
+
+                localStorage.setItem("temaMapaDezenas", tema);
+            }
+
+            function alternarTema() {
+                const temaAtual =
+                    document.documentElement.getAttribute("data-theme") ||
+                    "light";
+                const novoTema = temaAtual === "dark" ? "light" : "dark";
+                aplicarTema(novoTema);
+            }
         </script>
         <script src="js/auth-check.js"></script>
         <script>
-            // Autenticação básica
-            if (verificarAutenticacao()) {
-                // 🚫 Verificação do plano
-                verificarPlanoPro();
-            }
+            window.addEventListener("DOMContentLoaded", () => {
+                const temaSalvo = localStorage.getItem("temaMapaDezenas");
+                const prefereEscuro = window.matchMedia(
+                    "(prefers-color-scheme: dark)",
+                ).matches;
+
+                aplicarTema(temaSalvo || (prefereEscuro ? "dark" : "light"));
+
+                if (verificarAutenticacao()) {
+                    verificarPlanoPro();
+                }
+            });
         </script>
     </body>
 </html>
