@@ -27,7 +27,7 @@
 
             :root {
                 --cor-loteria: #667eea;
-
+                --titulo-loteria-cor: var(--cor-loteria);
                 --bg-body: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 --bg-header: #f5f5f5;
                 --card-bg: #ffffff;
@@ -69,6 +69,8 @@
                 --bg-header: #111827;
                 --card-bg: #111827;
                 --card-border: rgba(255, 255, 255, 0.08);
+
+                --titulo-loteria-cor: #ffffff;
 
                 --text-primary: #f3f4f6;
                 --text-secondary: #d1d5db;
@@ -185,7 +187,7 @@
 
             h1 {
                 font-size: 2rem;
-                color: var(--cor-loteria, #667eea);
+                color: var(--cor-loteria-cor);
                 margin: 0;
             }
 
@@ -339,6 +341,13 @@
             tbody td:first-child {
                 font-weight: 600;
                 color: var(--cor-loteria, #667eea);
+            }
+
+            html[data-theme="dark"]
+                #tbody-mapa
+                tr:not(.linha-estatistica)
+                td:first-child {
+                color: #f78100;
             }
 
             .numero-cell {
@@ -667,24 +676,17 @@
             function mudarLoteria() {
                 const select = document.getElementById("loteria-select");
                 const loteriaId = select.value;
-                const titulo = document.getElementById("titulo-loteria");
 
                 if (!loteriaId) {
+                    loteriaAtual = null;
                     document.getElementById("btn-atualizar").disabled = true;
                     document.getElementById("tabela-container").style.display =
                         "none";
-
-                    if (titulo) {
-                        titulo.innerHTML = `
-        <i class="bi bi-bar-chart-fill" style="color:#667eea;"></i>
-        Mapa das Dezenas
-      `;
-                    }
-
                     document.documentElement.style.setProperty(
                         "--cor-loteria",
                         "#667eea",
                     );
+                    atualizarTituloLoteria();
                     return;
                 }
 
@@ -695,14 +697,64 @@
                     loteriaAtual.cor,
                 );
 
-                if (titulo) {
-                    titulo.innerHTML = `
-      <i class="bi bi-bar-chart-fill" style="color:${loteriaAtual.cor};"></i>
-      Mapa das Dezenas - ${loteriaAtual.nome}
-    `;
-                }
+                atualizarTituloLoteria();
 
                 document.getElementById("btn-atualizar").disabled = false;
+            }
+
+            function aplicarTema(tema) {
+                document.documentElement.setAttribute("data-theme", tema);
+
+                const btnTema = document.getElementById("btn-tema");
+                if (btnTema) {
+                    if (tema === "dark") {
+                        btnTema.innerHTML = `<i class="bi bi-sun-fill"></i>`;
+                        btnTema.title = "Ativar modo claro";
+                    } else {
+                        btnTema.innerHTML = `<i class="bi bi-moon-stars-fill"></i>`;
+                        btnTema.title = "Ativar modo noturno";
+                    }
+                }
+
+                localStorage.setItem("temaMapaDezenas", tema);
+
+                atualizarTituloLoteria();
+            }
+
+            function alternarTema() {
+                const temaAtual =
+                    document.documentElement.getAttribute("data-theme") ||
+                    "light";
+                const novoTema = temaAtual === "dark" ? "light" : "dark";
+                aplicarTema(novoTema);
+            }
+
+            function atualizarTituloLoteria() {
+                const titulo = document.getElementById("titulo-loteria");
+                const temaAtual =
+                    document.documentElement.getAttribute("data-theme") ||
+                    "light";
+
+                if (!titulo) return;
+
+                if (!loteriaAtual) {
+                    const corTexto =
+                        temaAtual === "dark" ? "#ffffff" : "#667eea";
+
+                    titulo.innerHTML = `
+            <i class="bi bi-bar-chart-fill" style="color:#667eea;"></i>
+            <span style="color:${corTexto};">Mapa das Dezenas</span>
+        `;
+                    return;
+                }
+
+                const corTexto =
+                    temaAtual === "dark" ? "#ffffff" : loteriaAtual.cor;
+
+                titulo.innerHTML = `
+        <i class="bi bi-bar-chart-fill" style="color:${loteriaAtual.cor};"></i>
+        <span style="color:${corTexto};">Mapa das Dezenas - ${loteriaAtual.nome}</span>
+    `;
             }
 
             async function carregarTabela() {
@@ -1024,23 +1076,6 @@
                         }
                     });
                 });
-
-            function aplicarTema(tema) {
-                document.documentElement.setAttribute("data-theme", tema);
-
-                const btnTema = document.getElementById("btn-tema");
-                if (btnTema) {
-                    if (tema === "dark") {
-                        btnTema.innerHTML = `<i class="bi bi-sun-fill"></i>`;
-                        btnTema.title = "Ativar modo claro";
-                    } else {
-                        btnTema.innerHTML = `<i class="bi bi-moon-stars-fill"></i>`;
-                        btnTema.title = "Ativar modo noturno";
-                    }
-                }
-
-                localStorage.setItem("temaMapaDezenas", tema);
-            }
 
             function alternarTema() {
                 const temaAtual =
