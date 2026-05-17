@@ -526,21 +526,34 @@
                 <div class="controles-grid">
                     <div class="form-group">
                         <label for="loteria-select">Loteria:</label>
-                        <select id="loteria-select" onchange="mudarLoteria()">
-                            <option value="">
-                                -- Selecione uma loteria --
-                            </option>
-                            <option value="lotofacil">🎯 Lotofácil</option>
-                            <option value="megasena">🍀 Mega-Sena</option>
-                            <option value="quina">🌟 Quina</option>
-                            <option value="lotomania">🎲 Lotomania</option>
-                            <option value="duplasena">🎭 Dupla-Sena</option>
-                            <option value="timemania">⚽ Timemania</option>
-                            <option value="diadasorte">🍀 Dia de Sorte</option>
-                            <option value="maismilionaria">
-                                💰 +Milionária
-                            </option>
-                        </select>
+
+                        <div class="select-com-icone">
+                            <img
+                                id="icone-loteria"
+                                src="image/favicon-lf-32.png"
+                                alt="Loteria"
+                            />
+
+                            <select
+                                id="loteria-select"
+                                onchange="mudarLoteria()"
+                            >
+                                <option value="">
+                                    -- Selecione uma loteria --
+                                </option>
+
+                                <option value="lotofacil">Lotofácil</option>
+                                <option value="megasena">Mega-Sena</option>
+                                <option value="quina">Quina</option>
+                                <option value="lotomania">Lotomania</option>
+                                <option value="duplasena">Dupla-Sena</option>
+                                <option value="timemania">Timemania</option>
+                                <option value="diadasorte">Dia de Sorte</option>
+                                <option value="maismilionaria">
+                                    +Milionária
+                                </option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -680,25 +693,55 @@
                 const select = document.getElementById("loteria-select");
                 const loteriaId = select.value;
 
+                // Ícones das loterias
+                const icones = {
+                    lotofacil: "image/favicon-lf-32.png",
+                    megasena: "image/favicon-ms-32.png",
+                    quina: "image/favicon-qu-32.png",
+                    lotomania: "image/favicon-lm-32.png",
+                    duplasena: "image/favicon-ds-32.png",
+                    timemania: "image/favicon-tm-32.png",
+                    diadasorte: "image/favicon-di-32.png",
+                    maismilionaria: "image/favicon-mm-32.png",
+                };
+
+                const iconeLoteria = document.getElementById("icone-loteria");
+
+                // Nenhuma loteria selecionada
                 if (!loteriaId) {
                     loteriaAtual = null;
+
                     document.getElementById("btn-atualizar").disabled = true;
+
                     document.getElementById("tabela-container").style.display =
                         "none";
+
                     document.documentElement.style.setProperty(
                         "--cor-loteria",
                         "#667eea",
                     );
+
+                    // Ícone padrão
+                    iconeLoteria.src = "image/favicon-lf-32.png";
+
                     atualizarTituloLoteria();
+
                     return;
                 }
 
+                // Atualiza loteria atual
                 loteriaAtual = LOTERIAS_CONFIG[loteriaId];
 
+                // Atualiza cor do tema
                 document.documentElement.style.setProperty(
                     "--cor-loteria",
                     loteriaAtual.cor,
                 );
+
+                // Atualiza favicon do select
+                if (icones[loteriaId]) {
+                    iconeLoteria.src = icones[loteriaId];
+                }
 
                 atualizarTituloLoteria();
 
